@@ -9,28 +9,39 @@ function createService(manager, serviceId, serviceConfig) {
 }
 */
 
+exports.manager = function () {
 
-let serviceDefinitions = {};
+  let serviceDefinitions = {};
+  let instantiatedServices = {};
 
-exports.manager = {
+  function getEndpointConfiguration(serviceId, endpointId) {
+    return serviceDefinitions[serviceId].endpoints[endpointId];
+  }
 
-	declareServices: function (sDefs) {
-		serviceDefinitions = sDefs;
-	},
+  let manager = {
+    instantiateService: function (serviceId, factory) {
+      let service = factory(manager, serviceId, {});
+      instantiatedServices[serviceId] = service;
+      return service;
+    },
 
-	getServiceConfiguration: function (serviceId) {
-		return serviceDefinitions[serviceId];
-	},
+    declareServices: function (sDefs) {
+      serviceDefinitions = sDefs;
+    },
 
-	getEndpointConfiguration: function (serviceId, endpointId) {
-		return serviceDefinitions[serviceId].endpoints[endpointId];
-	},
+    getServiceConfiguration: function (serviceId) {
+      return serviceDefinitions[serviceId].config;
+    },
 
-	/*
-	   service interface used by a service
-	*/
-	getEndpoint: function (serviceId, endpointId) {
-		return serviceDefinitions[serviceId].endpoints[endpointId];
-	}
+    getEndpointConfiguration: getEndpointConfiguration,
 
+    /*
+		   service interface used by a service
+		*/
+    getEndpoint: function (serviceId, endpointId) {
+      return getEndpointConfiguration(serviceId, endpointId);
+    }
+  };
+
+  return manager;
 };
