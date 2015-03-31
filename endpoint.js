@@ -9,24 +9,29 @@ let url = require('url');
 
 exports.stdin = function (endpointConfiguration) {
 
-	/*
-	 * stdin endpoint delivers one stdin stream
-	 */
-	return function* () {
-		yield {
-			info: {
-				name: 'stdin'
-			},
-			stream: process.stdin
-		};
-	};
+  /*
+   * stdin endpoint delivers one stdin stream
+   */
+  return function* () {
+    yield {
+      info: {
+        name: 'stdin'
+      },
+      stream: process.stdin
+    };
+  };
 };
 
 exports.stdout = function (endpointConfiguration) {
-	return function (info, stream, cb) {
-		stream.pipe(process.stdout);
-		cb(undefined);
-	};
+  return function* () {
+    do {
+      let connection =
+        yield;
+      connection.stream.pipe(process.stdin);
+      console.log(`stdout info: ${JSON.stringify(connection.info)}`);
+    }
+    while (true);
+  };
 };
 
 /*
@@ -66,28 +71,5 @@ function createEndpoint(endpointDefinition) {
 		};
 	}
 }
-
-
-const endpointByName = {
-	"in1": {
-		"type": "stdin"
-	},
-	"out1": {
-		"direction": "push",
-		"type": "http_post",
-		"url": "http://localhost:12345/service1"
-	},
-};
-
-module.exports.get = function(endpointId) {
-
-	let ed = endpointByName[endpointId];
-	if (ed) {
-		ed.id = endpointId;
-		return createEndpoint(ed);
-	}
-
-	return undefined;
-};
 
 */

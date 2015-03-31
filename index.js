@@ -4,7 +4,7 @@
 
 
 /*
-function createService(manager, serviceId, serviceConfig) {
+function createService(manager, serviceId, serviceConfig, service) {
 
 }
 */
