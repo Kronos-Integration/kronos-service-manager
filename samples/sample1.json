@@ -1,0 +1,38 @@
+{
+	"steps": {
+		"s1": {
+			"module": "scp",
+			"config": {
+				"host": "aaa"
+			},
+			"endpoints": {
+				"out": "s2/in"
+			}
+		},
+		"s2": {
+			"module": "fastfetch",
+			"endpoints": {
+				"out1": "s3/in"
+			}
+		},
+		"s3": {
+			"module": "tee",
+			"endpoints": {
+				"out1": "s4/in",
+				"out2": "s5/in"
+			}
+		},
+		"s4": {
+			"module": "tar",
+			"endpoints": {
+				"out": "s6/in"
+			}
+		},
+		"s5": {
+			"module": "archive"
+		},
+		"s6": {
+			"module": "log"
+		}
+	}
+}
