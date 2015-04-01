@@ -3,30 +3,31 @@
 "use strict";
 
 let endpoints = require("./endpoint");
+let flow = require("./lib/flow");
 
 /*
 function createService(manager, serviceId, serviceConfig, service) {
-
 }
 */
+
 
 exports.manager = function () {
 
 	let endpointTypes = {};
-	let serviceDefinitions = {};
+	let flowDefinitions = {};
 
-	function getService(serviceId) {
-		return serviceDefinitions[serviceId];
+	function getFlow(flowId) {
+		return flowDefinitions[flowId];
 	}
 
 	function getServiceConfiguration(serviceId) {
 		return getService(serviceId).config;
 	}
 
-	function getEndpointConfiguration(serviceId, endpointId) {
-		const service = getService(serviceId);
-		if (service) {
-			return service.endpoints[endpointId];
+	function getEndpointConfiguration(flowId, stepId, endpointId) {
+		const flow = getFlow(flowId);
+		if (flow) {
+			return flow.endpoints[endpointId];
 		}
 		return undefined;
 	}
@@ -39,31 +40,19 @@ exports.manager = function () {
 			}
 		},
 
-		declareServices: function (sDefs) {
-			for (let sid in sDefs) {
-				const sd = sDefs[sid];
-
-				sd.id = sid;
-				if (sd.config === undefined) {
-					sd.config = {};
-				}
-				if (sd.endpoints === undefined) {
-					sd.endpoints = {};
-				}
-
-				serviceDefinitions[sid] = sd;
-			}
+		declareFlow: function (sDefs) {
+			const f = flow.create(this, sDefs);
+			flowDefinitions[f.name] = f;
 		},
 
-		instantiateService: function (serviceId, factory) {
-			let sd = getService(serviceId);
+		instantiateService: function (flowId, serviceId, factory) {
+			let flow = getFlow(flowId);
 			let service = factory(manager, serviceId, sd.config);
 			sd.instance = service;
 			return service;
 		},
 
-		getServiceConfiguration: getServiceConfiguration,
-		getService: getService,
+		getFlow: getFlow,
 
 		/*
 		   service interface used by a service
