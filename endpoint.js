@@ -2,36 +2,50 @@
 
 "use strict";
 
-let request = require('request');
-let http = require('http');
-let url = require('url');
+//let request = require('request');
+//let http = require('http');
+//let url = require('url');
 
 
-exports.stdin = function (endpointConfiguration) {
+exports.defineEndpointTypes = function (manager) {
+	manager.defineEndpointTypes({
+		"stdin": function (endpointConfiguration) {
 
-  /*
-   * stdin endpoint delivers one stdin stream
-   */
-  return function* () {
-    yield {
-      info: {
-        name: 'stdin'
-      },
-      stream: process.stdin
-    };
-  };
-};
-
-exports.stdout = function (endpointConfiguration) {
-  return function* () {
-    do {
-      let connection =
-        yield;
-      connection.stream.pipe(process.stdin);
-      console.log(`stdout info: ${JSON.stringify(connection.info)}`);
-    }
-    while (true);
-  };
+			/*
+			 * stdin endpoint delivers one stdin stream
+			 */
+			return function* () {
+				yield {
+					info: {
+						name: 'stdin'
+					},
+					stream: process.stdin
+				};
+			};
+		},
+		"stdout": function (endpointConfiguration) {
+			return function* () {
+				do {
+					let connection =
+						yield;
+					connection.stream.pipe(process.stdin);
+					console.log(`stdout info: ${JSON.stringify(connection.info)}`);
+				}
+				while (true);
+			};
+		},
+		"stderr": function (endpointConfiguration) {
+			return function* () {
+				do {
+					let connection =
+						yield;
+					connection.stream.pipe(process.stderr);
+					console.log(`stderr info: ${JSON.stringify(connection.info)}`);
+				}
+				while (true);
+			};
+		}
+	});
 };
 
 /*
