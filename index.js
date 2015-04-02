@@ -2,18 +2,20 @@
 
 "use strict";
 
-let endpoints = require("./endpoint");
-let flow = require("./lib/flow");
+const fs = require("fs");
+const path = require("path");
+const flow = require("./lib/flow");
 
 /*
 function createService(manager, serviceId, serviceConfig, service) {
 }
 */
 
+const endpointsSubdir = 'lib/endpoints';
 
 exports.manager = function () {
 
-	let endpointTypes = {};
+	let endpointImplementations = {};
 	let flowDefinitions = {};
 
 	function getFlow(flowId) {
@@ -33,11 +35,14 @@ exports.manager = function () {
 	}
 
 	let manager = {
-		defineEndpointTypes: function (types) {
-			for (let tid in types) {
-				const td = types[tid];
-				endpointTypes[tid] = td;
+		defineEndpointImplementations: function (implementations) {
+			for (let ein in implementations) {
+				const ei = implementations[ein];
+				endpointImplementations[ein] = ei;
 			}
+		},
+		endpointImplementation: function (name) {
+			return endpointImplementations[name];
 		},
 
 		declareFlow: function (sDefs) {
@@ -62,7 +67,13 @@ exports.manager = function () {
 		}
 	};
 
-	endpoints.defineEndpointTypes(manager);
+	fs.readdirSync(path.join(__dirname, endpointsSubdir)).forEach(function (
+		filename) {
+		if (!/\.js$/.test(filename)) return;
+		let endpointModule = require('./' + path.join(endpointsSubdir, filename));
+
+		endpointModule.defineEndpointImplementations(manager);
+	});
 
 	return manager;
 };
