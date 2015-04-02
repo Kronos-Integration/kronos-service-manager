@@ -6,10 +6,25 @@ const fs = require("fs");
 const path = require("path");
 const flow = require("./lib/flow");
 
-/*
-function createService(manager, serviceId, serviceConfig, service) {
-}
-*/
+const stepImplementations = {};
+
+exports.registerStepImplementation = function (si) {
+	stepImplementations[si.name] = si;
+};
+
+
+const stepsSubdir = 'lib/steps';
+
+
+fs.readdirSync(path.join(__dirname, stepsSubdir)).forEach(function (
+	filename) {
+	if (!/\.js$/.test(filename)) return;
+	const stepModule = require('./' + path.join(stepsSubdir, filename));
+
+	console.log("register step: " + stepModule.stepImplementation.name);
+	exports.registerStepImplementation(stepModule.stepImplementation);
+});
+
 
 const endpointsSubdir = 'lib/endpoints';
 
@@ -20,10 +35,6 @@ exports.manager = function () {
 
 	function getFlow(flowId) {
 		return flowDefinitions[flowId];
-	}
-
-	function getServiceConfiguration(serviceId) {
-		return getService(serviceId).config;
 	}
 
 	function getEndpointConfiguration(flowId, stepId, endpointId) {
@@ -45,16 +56,13 @@ exports.manager = function () {
 			return endpointImplementations[name];
 		},
 
+		stepImplementation: function (name) {
+			return stepImplementations[name];
+		},
+
 		declareFlow: function (sDefs) {
 			const f = flow.create(this, sDefs);
 			flowDefinitions[f.name] = f;
-		},
-
-		instantiateService: function (flowId, serviceId, factory) {
-			let flow = getFlow(flowId);
-			let service = factory(manager, serviceId, sd.config);
-			sd.instance = service;
-			return service;
 		},
 
 		getFlow: getFlow,
@@ -74,6 +82,7 @@ exports.manager = function () {
 
 		endpointModule.defineEndpointImplementations(manager);
 	});
+
 
 	return manager;
 };
