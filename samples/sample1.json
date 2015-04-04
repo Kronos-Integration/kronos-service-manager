@@ -1,38 +1,40 @@
 {
-	"steps": {
-		"s1": {
-			"module": "scp",
-			"config": {
-				"host": "aaa"
-			},
-			"endpoints": {
-				"out": "s2/in"
-			}
-		},
-		"s2": {
-			"module": "fastfetch",
-			"endpoints": {
-				"out1": "s3/in"
-			}
-		},
-		"s3": {
-			"module": "tee",
-			"endpoints": {
-				"out1": "s4/in",
-				"out2": "s5/in"
-			}
-		},
-		"s4": {
-			"module": "tar",
-			"endpoints": {
-				"out": "s6/in"
-			}
-		},
-		"s5": {
-			"module": "archive"
-		},
-		"s6": {
-			"module": "log"
-		}
-	}
+  "name": "flow1",
+
+  "steps": {
+    "s1": {
+      "type": "scp",
+      "config": {
+        "host": "somehost.com"
+      },
+      "endpoints": {
+        "out": "step:s2/in"
+      }
+    },
+    "s2": {
+      "type": "fastfetch",
+      "endpoints": {
+        "out1": "step:s3/in"
+      }
+    },
+    "s3": {
+      "type": "tee",
+      "endpoints": {
+        "out1": "step:s4/in",
+        "out2": "step:s5/in"
+      }
+    },
+    "s4": {
+      "type": "untar",
+      "endpoints": {
+        "out": "step:s6/in"
+      }
+    },
+    "s5": {
+      "type": "archive"
+    },
+    "s6": {
+      "type": "log"
+    }
+  }
 }
