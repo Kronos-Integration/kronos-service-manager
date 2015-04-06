@@ -35,7 +35,7 @@ Endpoint attributes
 - description
 - mandatory defaults to true
 - direction one of
-  * in input only
-  * out output only
-  * inout bi diretional
+  * in input only requests can only bes send
+  * out output only requsts only come in
+  * inout bi directional request arebeeing sand and come back
 - uti  see https://en.wikipedia.org/wiki/Uniform_Type_Identifier
