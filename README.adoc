@@ -1,6 +1,6 @@
 
 Overview
-image:docs/Overview.svg[]
+image:docs/Overview.svg[Overview]
 
 
 [source,json]
@@ -33,9 +33,9 @@ Endpoint attributes
 
 - name
 - description
-- mandatory defaults to true
+- mandatory defaults to _true_
 - direction one of
-  * in input only requests can only bes send
-  * out output only requsts only come in
-  * inout bi directional request arebeeing sand and come back
+  * _in_ input only requests can only bes send
+  * _out_ output only requsts only come in
+  * _inout_ bi directional request arebeeing sand and come back
 - uti  see https://en.wikipedia.org/wiki/Uniform_Type_Identifier
