@@ -3,6 +3,7 @@ Overview
 image:docs/Overview.svg[Overview]
 
 
+Sample flow definition
 [source,json]
 ----
 {
@@ -29,13 +30,33 @@ image:docs/Overview.svg[Overview]
 ----
 
 
-Endpoint attributes
+Endpoint attributes as defined by the implementation
 
 - name
 - description
-- mandatory defaults to _true_
+- mandatory
+  * _true_ endpoint must be connected - default value
+  * _false_ endpoint my be connected
+
 - direction one of
   * _in_ input only requests can only bes send
   * _out_ output only requsts only come in
   * _inout_ bi directional request arebeeing sand and come back
 - uti  see https://en.wikipedia.org/wiki/Uniform_Type_Identifier
+
+[source,json]
+----
+"the-step-name": {
+  "description": "copies incoming (in) requests into output (out)",
+  "endpoints": {
+    "in": {
+      "direction": "in"
+    },
+    "out": {
+      "direction": "out"
+    }
+  },
+  "initialize": function (manager, step) {
+    ... code comes here ...
+  }
+----
