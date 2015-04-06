@@ -1,0 +1,41 @@
+
+Overview
+image:docs/Overview.svg[]
+
+
+[source,json]
+----
+{
+"name": "myFlow",
+"steps": {
+  "s1": {
+    "type": "copy",
+    "config": {
+      "port": 77
+    },
+    "endpoints": {
+      "in": "stdin",
+      "out": "step:s2/in"
+    }
+  },
+  "s2": {
+    "type": "copy",
+    "endpoints": {
+      "out": "file:/tmp/sample1.txt"
+    }
+  }
+}
+}
+----
+
+
+Endpoint attributes
+
+- name
+- description
+- mandatory defaults to true
+- direction one of
+  * in input only
+  * out output only
+  * inout bi diretional
+- uti  see https://en.wikipedia.org/wiki/Uniform_Type_Identifier
