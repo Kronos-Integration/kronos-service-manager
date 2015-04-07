@@ -2,6 +2,10 @@
 Overview
 image:docs/Overview.svg[Overview]
 
+Channel timing
+image:docs/channelTiming.svg[Timing]
+As you can see the 2nd. request starts before
+the whole stream of the 1st. request is completely processed
 
 Sample flow definition
 [source,json]
