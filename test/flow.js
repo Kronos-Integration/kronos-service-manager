@@ -70,27 +70,27 @@ describe('flow declaration', function () {
     }
   });
 
-  it('flow name shoud be present', function () {
+  it('flow name should be present', function () {
     assert(myFlow.name === "myFlow");
   });
 
-  it('steps shoud be present', function () {
+  it('steps should be present', function () {
     assert(myFlow.steps.s1.name === "s1");
   });
 
-  it('steps shoud have a implementation', function () {
+  it('steps should have a implementation', function () {
     assert(myFlow.steps.s1.implementation.name === "copy");
   });
 
-  it('steps config shoud be present', function () {
+  it('steps config should be present', function () {
     assert(myFlow.steps.s1.config.port === 77);
   });
 
-  it('endpoints shoud be present', function () {
+  it('endpoints should be present', function () {
     assert(myFlow.steps.s1.endpoints.out.name === "out");
   });
 
-  it('endpoints counterparts shoud be linked', function () {
+  it('endpoints counterparts should be linked', function () {
     assert(myFlow.steps.s1.endpoints.out.counterpart.name === 'in');
     assert(myFlow.steps.s2.endpoints.in.counterpart.name === 'out');
 
