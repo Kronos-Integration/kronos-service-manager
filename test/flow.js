@@ -35,6 +35,8 @@ describe('flow declaration error handling', function () {
     assert(progressEntries.length !== 0);
     const pe = progressEntries[0];
     assert(pe.severity === 'error');
+    assert(pe.properties.type === 'copy2');
+    assert(pe.message === 'Step ${type} implementation not found');
   });
 
   it('error entry should have scope', function () {
