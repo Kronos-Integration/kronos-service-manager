@@ -1,3 +1,4 @@
+/* global describe, it*/
 /* jslint node: true, esnext: true */
 
 "use strict";
@@ -10,22 +11,26 @@ const endpointImpl = require('../lib/endpointImplementation');
 
 describe('file endpoint implementation', function () {
 
-  const fileImpl = endpointImpl.implementations.file;
+	const fileImpl = endpointImpl.implementations.file;
 
-  const myEndpoint = Object.create(endpointImpl.defaultEndpoint,{
-    value: { value: "file:" + path.join(__dirname, 'fixtures', 'file1.txt') },
-    direction: { value: 'in' }
-  });
+	const myEndpoint = Object.create(endpointImpl.defaultEndpoint, {
+		value: {
+			value: "file:" + path.join(__dirname, 'fixtures', 'file1.txt')
+		},
+		direction: {
+			value: 'in'
+		}
+	});
 
-  const in1 = fileImpl.implementation(myEndpoint)();
+	const in1 = fileImpl.implementation(myEndpoint)();
 
-  console.log(`in1: ${in1}`);
+	console.log(`in1: ${in1}`);
 
-  for (let request of in1) {
-    console.log(`request: ${request}`);
-  }
+	for (let request of in1) {
+		console.log(`request: ${request}`);
+	}
 
-  let request = in1.next();
-  assert(request.stream !== undefined);
+	let request = in1.next();
+	assert(request.stream !== undefined);
 
 });
