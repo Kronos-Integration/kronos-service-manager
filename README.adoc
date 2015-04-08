@@ -47,6 +47,7 @@ Endpoint attributes as defined by the implementation
   * _out_ output only requsts only come in
   * _inout_ bi directional request arebeeing sand and come back
 - uti  see https://en.wikipedia.org/wiki/Uniform_Type_Identifier
+- contentInfo meta attributes provided from the content origin as file names,...
 
 [source,json]
 ----
@@ -55,6 +56,17 @@ Endpoint attributes as defined by the implementation
   "endpoints": {
     "in": {
       "direction": "in"
+      "contentInfo" : {
+        "name" : {
+          "description" : "required name of the content",
+          "mandatory" : true
+        },
+        "encoding" : {
+          "description" : "char set encoding",
+          "mandatory" : true,
+          "defaultValue" : "utf-8"
+        }
+      }
     },
     "out": {
       "direction": "out"
