@@ -24,6 +24,13 @@ describe('flow declaration', function () {
 				},
 				"endpoints": {
 					"in": "stdin",
+					"out": "step:s2/in"
+				}
+			},
+			"s2": {
+				"type": "copy",
+				"endpoints": {
+					"in": "step:s1/out",
 					"out": "stdout"
 				}
 			}
@@ -79,21 +86,6 @@ describe('flow declaration', function () {
 
 	it('endpoints should be present', function () {
 		assert(myFlow.steps.s1.endpoints.out.name === "out");
-	});
-
-	it('endpoints counterparts should be linked', function () {
-		assert(myFlow.steps.s1.endpoints.out.counterpart.name === 'in');
-		assert(myFlow.steps.s2.endpoints.in.counterpart.name === 'out');
-
-		/*	assert(myFlow.steps.s1.endpoints.out.counterpart === myFlow.steps.s2
-			.endpoints.in);
-    console.log("myFlow.steps.s2.endpoints.in.counterpart : " + myFlow.steps
-      .s2.endpoints.in.counterpart);
-    console.log("myFlow.steps.s2.endpoints.in.value : " + myFlow.steps
-      .s2.endpoints.in.value);
-    assert(myFlow.steps.s2.endpoints.in.counterpart === myFlow.steps.s1
-      .endpoints.out);
-			*/
 	});
 
 });
