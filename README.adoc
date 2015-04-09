@@ -24,7 +24,7 @@ Sample flow definition
     }
   },
   "s2": {
-    "type": "copy",
+    "type": "copy",      // The reference to the step implementation
     "endpoints": {
       "out": "file:/tmp/sample1.txt"
     }
