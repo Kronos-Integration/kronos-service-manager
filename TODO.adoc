@@ -1,4 +1,7 @@
 
+- name für das micro service framework
+- neue name für donkey
+
 - find better name for step "type"
   * stepImplementationName
   * impl
