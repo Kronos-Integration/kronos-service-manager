@@ -41,8 +41,8 @@ describe('flow declaration', function () {
 		myFlow.initialize();
 		assert(myFlow);
 	});
-
 });
+
 
 describe('flow declaration', function () {
 	let myFlow = flow.create({
@@ -87,5 +87,4 @@ describe('flow declaration', function () {
 	it('endpoints should be present', function () {
 		assert(myFlow.steps.s1.endpoints.out.name === "out");
 	});
-
 });
