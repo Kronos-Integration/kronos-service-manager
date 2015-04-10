@@ -9,6 +9,7 @@
 - Die meta informationen aus einer Step implementaion sollen bei der Ausführung des Steps wieder abrufbar sein.
 Nachfolgend ein Auszug aus einer implementierung.
 
+[source,javascript]
 ----
 exports.stepImplementations = {
 	"file-write": {
@@ -26,7 +27,7 @@ exports.stepImplementations = {
 				}
 			},
 		},
-		"configDefinition": {
+		"config": {
 			"fileName": {
 				"description": "The file name of the file to write",
 				"mandatory": false,
@@ -37,8 +38,8 @@ exports.stepImplementations = {
 		"initialize": function (manager, step) {
 			// get the endpoint
 			const in1 = step.endpoints.in.implementation();
-			const in1ParamDef = step.endpoints.in.contentInfo;
-			const stepParamDef = step.configDefinition;
+			const in1ParamDef = step.endpoints.in.contentInfo; // step.meta.endpoints.in.info ??
+			const stepParamDef = step.meta.config;
 			const stepConfig = step.config;
 
 
@@ -53,14 +54,14 @@ exports.stepImplementations = {
 				const myConfig = validator(in1ParamDef, [stepConfig, info]);
 				const fileName = myConfig.fileName;
 
-				var destionationStream = fs.createWriteStream(fileName);
+				var destinationStream = fs.createWriteStream(fileName);
 
-				inStream.pipe(destionationStream);
+				inStream.pipe(destinationStream);
 			}
 		}
 	}
 };
-
 ----
+
 * Alles was unter 'file-write' definiert ist sollte über 'step.metainfo' erreichbar sein.
 über den Namen des keys können wir noch diskutieren.
