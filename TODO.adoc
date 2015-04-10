@@ -2,3 +2,6 @@
 - find better name for step "type"
   * stepImplementationName
   * impl
+
+- rename stepImplementation.js -> stepImplementations.js
+- rename endpointImplementation.js -> endpointImplementations.js
