@@ -3,6 +3,8 @@
   * stepImplementationName
   * impl
 
+  - rename stepImplementation.js -> stepImplementations.js
+  - rename endpointImplementation.js -> endpointImplementations.js
 
 - Die meta informationen aus einer Step implementaion sollen bei der Ausführung des Steps wieder abrufbar sein.
 Nachfolgend ein Auszug aus einer implementierung.
