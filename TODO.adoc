@@ -1,6 +1,9 @@
 
 - name für das micro service framework
-- neue name für donkey
+  * Kronos - Der vater von Zeus
+  * Appollon - Ist der Gott der Poesie, der Heilung, des Frühlings und des Lichts.
+- neuer name für donkey
+  * Heimdall - ist in der nordischen Mythologie ein Gott aus dem Göttergeschlecht der Asen, der als Wächter der Götter dargestellt wird.
 
 - find better name for step "type"
   * stepImplementationName
