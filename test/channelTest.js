@@ -10,36 +10,36 @@ const assert = require('assert');
 describe('channel creation', function () {
 	const es = endpointImpls.createEndpointsFromDefinition({
 		"input": {
-			"implementation": function () {
-				return function* () {
-					do {
-						const request =
+			/*	"implementation": function () {
+					return function* () {
+						do {
 							yield {
 								info: {
 									name: "input"
 								},
 								stream: "a stream"
 							};
-					}
-					while (true);
-				};
-			}
+							console.log(`input delivered`);
+						}
+						while (true);
+					};
+				}*/
 		},
 		"output": {
-			"implementation": function () {
-				return function* () {
-					do {
-						const request =
-							yield;
-						console.log(`output got: ${JSON.stringify(request)}`);
-					}
-					while (true);
-				};
-			}
+			/*	"implementation": function () {
+					return function* () {
+						do {
+							const request =
+								yield;
+							console.log(`output got: ${JSON.stringify(request)}`);
+						}
+						while (true);
+					};
+				}*/
 		}
 	});
 
-	const ecs = channel.create(es.output, es.input);
+	const ecs = channel.create(es.input, es.output);
 
 	it('endpoints created', function () {
 		assert(ecs.length === 2);
@@ -48,12 +48,24 @@ describe('channel creation', function () {
 
 	it('input connected', function () {
 
-		const input = ecs[0].implementation();
+		const output = ecs[0].implementation();
 
-		const request = input.next();
+		output.next();
+
+		output.next({
+			info: {
+				name: "send from output"
+			},
+			stream: "a stream"
+		});
+
+		const input = ecs[1].implementation();
+
+		const value = input.next();
+		const request = value.value;
 		console.log(`got: ${JSON.stringify(request)}`);
 
-		assert(request);
+		assert(request.info.name === "send from output");
 	});
 
 });
