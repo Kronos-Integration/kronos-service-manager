@@ -49,7 +49,7 @@ Endpoint attributes as defined by the implementation
 - uti  see https://en.wikipedia.org/wiki/Uniform_Type_Identifier
 - contentInfo meta attributes provided from the content origin as file names,...
 
-[source,json]
+[source,javascript]
 ----
 "the-step-name": {
   "description": "copies incoming (in) requests into output (out)",
@@ -72,7 +72,19 @@ Endpoint attributes as defined by the implementation
       "direction": "out"
     }
   },
+  "config" : {
+      "attribute1" : {
+        "description" : "char set encoding",
+        "mandatory" : true,
+        "defaultValue" : "utf-8"
+      }
+  },
   "initialize": function (manager, step) {
-    ... code comes here ...
+    // ... code comes here ...
+
+    step.meta.config.attribute1;
+    step.meta.endpoints.in.contentInfo.encoding.defaultValue;
+
+    let input = step.endpoints.in();
   }
 ----
