@@ -8,9 +8,9 @@ const endpointImpls = require('../lib/endpointImplementation');
 const assert = require('assert');
 
 describe('channel creation', function () {
-	const es = endpointImpls.createEndpointsFromDefinition({
-		"input": {
-			/*	"implementation": function () {
+  const es = endpointImpls.createEndpointsFromDefinition({
+    "input": {
+      /*	"implementation": function () {
 					return function* () {
 						do {
 							yield {
@@ -24,9 +24,9 @@ describe('channel creation', function () {
 						while (true);
 					};
 				}*/
-		},
-		"output": {
-			/*	"implementation": function () {
+    },
+    "output": {
+      /*	"implementation": function () {
 					return function* () {
 						do {
 							const request =
@@ -36,36 +36,44 @@ describe('channel creation', function () {
 						while (true);
 					};
 				}*/
-		}
-	});
+    }
+  });
 
-	const ecs = channel.create(es.input, es.output);
+  const ecs = channel.create(es.input, es.output);
 
-	it('endpoints created', function () {
-		assert(ecs.length === 2);
-	});
+  it('endpoints created', function () {
+    assert(ecs.length === 2);
+  });
 
 
-	it('input connected', function () {
+  it('request passes through channel', function () {
+    const output = ecs[0].implementation();
 
-		const output = ecs[0].implementation();
+    output.next();
 
-		output.next();
+    output.next({
+      info: {
+        name: "send from output #1"
+      },
+      stream: "a stream 1"
+    });
 
-		output.next({
-			info: {
-				name: "send from output"
-			},
-			stream: "a stream"
-		});
+    /*
+        output.next({
+          info: {
+            name: "send from output #2"
+          },
+          stream: "a stream 2"
+        });
+    */
 
-		const input = ecs[1].implementation();
+    const input = ecs[1].implementation();
 
-		const value = input.next();
-		const request = value.value;
-		console.log(`got: ${JSON.stringify(request)}`);
+    const value = input.next();
+    const request = value.value;
+    console.log(`got: ${JSON.stringify(request)}`);
 
-		assert(request.info.name === "send from output");
-	});
+    assert(request.info.name === "send from output #1");
+  });
 
 });
