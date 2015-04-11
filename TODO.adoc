@@ -4,6 +4,7 @@
   * Appollon - Ist der Gott der Poesie, der Heilung, des Frühlings und des Lichts.
 - neuer name für donkey
   * Heimdall - ist in der nordischen Mythologie ein Gott aus dem Göttergeschlecht der Asen, der als Wächter der Götter dargestellt wird.
+  * Prokyon	 - Alpha Canis Minoris Der Name eines Sternes
 
 - find better name for step "type"
   * stepImplementationName
