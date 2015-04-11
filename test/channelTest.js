@@ -46,7 +46,7 @@ describe('channel creation', function () {
   });
 
 
-  it('request passes through channel', function () {
+  it('requests passing through channel', function () {
     const output = ecs[0].implementation();
 
     output.next();
@@ -58,22 +58,26 @@ describe('channel creation', function () {
       stream: "a stream 1"
     });
 
-    /*
-        output.next({
-          info: {
-            name: "send from output #2"
-          },
-          stream: "a stream 2"
-        });
-    */
+    output.next({
+      info: {
+        name: "send from output #2"
+      },
+      stream: "a stream 2"
+    });
 
     const input = ecs[1].implementation();
 
-    const value = input.next();
-    const request = value.value;
+    let value = input.next();
+    let request = value.value;
     console.log(`got: ${JSON.stringify(request)}`);
 
     assert(request.info.name === "send from output #1");
+
+    value = input.next();
+    request = value.value;
+    console.log(`got: ${JSON.stringify(request)}`);
+
+    assert(request.info.name === "send from output #2");
   });
 
 });
