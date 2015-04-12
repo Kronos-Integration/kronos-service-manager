@@ -7,7 +7,7 @@
 
   * Prokyon	 - Alpha Canis Minoris Der Name eines Sternes
 
-- find better name for step "type"
+- find better name for step implementation "type"
   * stepImplementationName
   * impl
 
