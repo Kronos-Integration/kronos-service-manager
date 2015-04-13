@@ -1,6 +1,41 @@
 {
 	"name": "accountImport",
 
+	"flows": {
+		"fileParser" {
+			"parallel": 10 "steps": {
+				"csv_reader": {
+					"type": "csv-parse",
+					"endpoints": {
+						"out1": "step:fileChecker/in"
+					}
+				},
+				"fileChecker": {
+					"type": "file-check",
+					"endpoints": {
+						"out": "step:fileErrorCollector/in",
+						"out": "step:fileContentCollector/in"
+					}
+				},
+				"fileErrorCollector": {
+					"type": "file-error-log",
+					"endpoints": {
+						"out": "step:fileContentCollector/minSeverity"
+					}
+				},
+				"fileContentCollector": {
+					"type": "file-error-log",
+					"endpoints": {
+						"out": "step:databaseInsert/in"
+					}
+				},
+				"databaseInsert": {
+					"type": "database_accounts"
+				}
+			}
+		}
+	}
+
 	"steps": {
 		"copyTarBall": {
 			"type": "scp",
@@ -18,50 +53,11 @@
 		"untar": {
 			"type": "untar",
 			"endpoints": {
-
-				Durch neu definition des endpoints
-					"out1": {
-						"target": "step:s3/in",
-						"parallel": 10
-					}
-
-
+				"out1": "flow:fileParser:step:csv_reader/in"
 			}
 		},
 
 
-		"csv reader": {
-			"type": "csv-parse",
-			"endpoints": {
-				"out1": "step:fileChecker/in"
-			}
-		},
-		"fileChecker": {
-			"type": "file-check",
-			"endpoints": {
-				"out": "step:fileErrorCollector/in",
-				"out": "step:fileContentCollector/in"
-			}
-		},
-
-		"fileErrorCollector": {
-			"type": "file-error-log",
-			"endpoints": {
-				"out": "step:fileContentCollector/minSeverity"
-			}
-		},
-
-		"fileContentCollector": {
-			"type": "file-error-log",
-			"endpoints": {
-				"out": "step:databaseInsert/in"
-			}
-		},
-
-
-		"databaseInsert": {
-			"type": "database_accounts"
-		}
 
 	}
 }
