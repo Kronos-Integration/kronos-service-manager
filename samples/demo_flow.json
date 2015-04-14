@@ -2,150 +2,123 @@
 // Step decription
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 "file-write": {
-	"description": "Opens a file for reading",
-	"endpoints": {
-		"in": {
-			"direction": "in",
-			"uti": "public.data",
-			"contentInfo": {
-				"fileName": {
-					"description": "The file name of the file to write",
-					"mandatory": false,
-					"type": "string"
-				},
-				"connect": "step:untar/in"
-			},
-			"out": {
-				"direction": "out",
-				"uti": "public.data",
-				"contentInfo": {
-					"fileName": {
-						"description": "The file name of the file to write",
-						"mandatory": false,
-						"type": "string"
-					}
-				},
-				"connect": "step:untar2/out"
-			},
-		},
-		"config": {
-			"fileName": {
-				"description": "The file name of the file to write",
-				"mandatory": false,
-				"type": "string"
-			}
-		},
+  "description": "Opens a file for reading",
+  "endpoints": {
+    "in": {
+      "direction": "in",
+      "uti": "public.data",
+      "contentInfo": {
+        "fileName": {
+          "description": "The file name of the file to write",
+          "mandatory": false,
+          "type": "string"
+        },
+        // connects the outer entpoints to the endpopints of the steps wraped by this step
+        "connect": "step:untar/in"
+      },
+      "out": {
+        "direction": "out",
+        "uti": "public.data",
+        "contentInfo": {
+          "fileName": {
+            "description": "The file name of the file to write",
+            "mandatory": false,
+            "type": "string"
+          }
+        },
+        "connect": "step:untar2/out"
+      },
+    },
+    "config": {
+      "fileName": {
+        "description": "The file name of the file to write",
+        "mandatory": false,
+        "type": "string"
+      }
+    },
 
-		// entweder initialize
-		"initialize": "function (manager, step)",
+    // entweder initialize
+    "initialize": "function (manager, step)",
 
-		// oder weitere Steps
-		"steps": {
-			"untar": {
-				"type": "untar",
-				"endpoints": {
-					"out1": "step:untar2/in"
-				}
-			},
-			"other": {
-				"type": "untar2",
-				"endpoints": {
-					"out1": "flow:fileParser:step:csv_reader/in"
-				}
-			}
+    // oder weitere Steps
+    "steps": {
+      "untar": {
+        "type": "untar",
+        "endpoints": {
+          "out1": "step:untar2/in"
+        }
+      },
+      "other": {
+        "type": "untar2",
+        "endpoints": {
+          "out1": "flow:fileParser:step:csv_reader/in"
+        }
+      }
 
-		}
-	}
-
-
-	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
-	// Flow decription
-	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
-
-	{
-		"name": "<flow name>",
-		"description": "<any description>",
-		"endpoints": {
-			"in": {
-				"direction": "in",
-				"uti": "public.data",
-				"contentInfo": {
-					"fileName": {
-						"description": "The file name of the file to write",
-						"mandatory": false,
-						"type": "string"
-					}
-				}
-			},
-		},
-		"config": {
-			"fileName": {
-				"description": "The file name of the file to write",
-				"mandatory": false,
-				"type": "string"
-			}
-		},
-	}
+    }
+  }
 
 
-	{
-		"name": "accountImport",
+  // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+  // Flow decription
+  // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
 
-		"flows": {
-			"fileParser" {
-				"parallel": 10,
-				"steps": {
-					"csv_reader": {
-						"type": "csv-parse",
-						"endpoints": {
-							"out1": "step:fileChecker/in"
-						}
-					},
-					"fileChecker": {
-						"type": "file-check",
-						"endpoints": {
-							"out": "step:fileErrorCollector/in",
-							"out": "step:fileContentCollector/in"
-						}
-					},
-					"fileErrorCollector": {
-						"type": "file-error-log",
-						"endpoints": {
-							"out": "step:fileContentCollector/minSeverity"
-						}
-					},
-					"fileContentCollector": {
-						"type": "file-error-log",
-						"endpoints": {
-							"out": "step:databaseInsert/in"
-						}
-					},
-					"databaseInsert": {
-						"type": "database_accounts"
-					}
-				}
-			}
-		},
 
-		"steps": {
-			"copyTarBall": {
-				"type": "scp",
-				"config": {
-					"host": "somehost.com",
-					"port": 22,
-					"keyFile": "/path/to/key/file",
-					"targetFileName": "/path/toTarget"
-				},
-				"endpoints": {
-					"out": "step:untar/in"
-				}
-			},
+  "<flow name>": {
+    "description": "<any description>",
 
-			"untar": {
-				"type": "untar",
-				"endpoints": {
-					"out1": "flow:fileParser:step:csv_reader/in"
-				}
-			}
-		}
-	}
+    // Defines if this flow could be executed directly
+    "isExecutable": "<true, false>",
+
+
+    "endpoints": {
+      "in": {
+        "direction": "in",
+        "uti": "public.data",
+        "contentInfo": {
+          "fileName": {
+            "description": "The file name of the file to write",
+            "mandatory": false,
+            "type": "string"
+          }
+        },
+        // connects the outer entpoints to the endpopints of the steps wraped by this flow
+        "connect": "step:untar/in"
+      },
+    },
+    "config": {
+      "fileName": {
+        "description": "The file name of the file to write",
+        "mandatory": false,
+        "type": "string"
+      }
+    },
+
+    "steps": {
+      "copyTarBall": {
+        "type": "scp",
+        "config": {
+          "host": "somehost.com",
+          "port": 22,
+          "keyFile": "/path/to/key/file",
+          "targetFileName": "/path/toTarget"
+        },
+        "endpoints": {
+          "out": "step:untar/in"
+        }
+      },
+
+      "untar": {
+        "type": "untar",
+        "endpoints": {
+          "out1": "flow:fileParser:step:csv_reader/in"
+        }
+      }
+    },
+
+
+    "flows": {
+      // could contain sub flow definitions
+    },
+
+  }
