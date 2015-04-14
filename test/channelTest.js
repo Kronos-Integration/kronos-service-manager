@@ -8,56 +8,61 @@ const endpointImpls = require('../lib/endpointImplementation');
 const assert = require('assert');
 
 describe('channel creation', function () {
-  let es;
-  let ecs;
+	let es;
+	let chl;
 
-  beforeEach(function () {
-    es = endpointImpls.createEndpointsFromDefinition({
-      "input": {},
-      "output": {}
-    });
+	beforeEach(function () {
+		es = endpointImpls.createEndpointsFromDefinition({
+			"input": {},
+			"output": {}
+		});
 
-    ecs = channel.create(es.input, es.output);
-  });
+		chl = channel.create(es.input, es.output);
+	});
 
-  it('endpoints created', function () {
-    assert(ecs.length === 2);
-  });
+	it('endpoints created', function () {
+		assert(chl.endpointA);
+		assert(chl.endpointB);
+	});
 
-  it('requests passing through channel', function () {
-    const output = ecs[0].implementation();
+	it('has a name', function () {
+		assert(chl.name === 'input-output');
+	});
 
-    output.next();
+	it('requests passing through channel', function () {
+		const output = chl.endpointA.implementation();
 
-    output.next({
-      info: {
-        name: "send from output #1"
-      },
-      stream: "a stream 1"
-    });
+		output.next();
 
-    output.next({
-      info: {
-        name: "send from output #2"
-      },
-      stream: "a stream 2"
-    });
+		output.next({
+			info: {
+				name: "send from output #1"
+			},
+			stream: "a stream 1"
+		});
 
-    const input = ecs[1].implementation();
+		output.next({
+			info: {
+				name: "send from output #2"
+			},
+			stream: "a stream 2"
+		});
 
-    let value = input.next();
-    let request = value.value;
-    //console.log(`got: ${JSON.stringify(request)}`);
+		const input = chl.endpointB.implementation();
 
-    assert(request.info.name === "send from output #1");
-    assert(request.stream === "a stream 1");
+		let value = input.next();
+		let request = value.value;
+		//console.log(`got: ${JSON.stringify(request)}`);
 
-    value = input.next();
-    request = value.value;
-    //console.log(`got: ${JSON.stringify(request)}`);
+		assert(request.info.name === "send from output #1");
+		assert(request.stream === "a stream 1");
 
-    assert(request.info.name === "send from output #2");
-    assert(request.stream === "a stream 2");
-  });
+		value = input.next();
+		request = value.value;
+		//console.log(`got: ${JSON.stringify(request)}`);
+
+		assert(request.info.name === "send from output #2");
+		assert(request.stream === "a stream 2");
+	});
 
 });
