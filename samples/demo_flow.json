@@ -1,63 +1,151 @@
-{
-	"name": "accountImport",
+// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+// Step decription
+// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+"file-write": {
+	"description": "Opens a file for reading",
+	"endpoints": {
+		"in": {
+			"direction": "in",
+			"uti": "public.data",
+			"contentInfo": {
+				"fileName": {
+					"description": "The file name of the file to write",
+					"mandatory": false,
+					"type": "string"
+				},
+				"connect": "step:untar/in"
+			},
+			"out": {
+				"direction": "out",
+				"uti": "public.data",
+				"contentInfo": {
+					"fileName": {
+						"description": "The file name of the file to write",
+						"mandatory": false,
+						"type": "string"
+					}
+				},
+				"connect": "step:untar2/out"
+			},
+		},
+		"config": {
+			"fileName": {
+				"description": "The file name of the file to write",
+				"mandatory": false,
+				"type": "string"
+			}
+		},
 
-	"flows": {
-		"fileParser" {
-			"parallel": 10 "steps": {
-				"csv_reader": {
-					"type": "csv-parse",
-					"endpoints": {
-						"out1": "step:fileChecker/in"
+		// entweder initialize
+		"initialize": "function (manager, step)",
+
+		// oder weitere Steps
+		"steps": {
+			"untar": {
+				"type": "untar",
+				"endpoints": {
+					"out1": "step:untar2/in"
+				}
+			},
+			"other": {
+				"type": "untar2",
+				"endpoints": {
+					"out1": "flow:fileParser:step:csv_reader/in"
+				}
+			}
+
+		}
+	}
+
+
+	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+	// Flow decription
+	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+
+	{
+		"name": "<flow name>",
+		"description": "<any description>",
+		"endpoints": {
+			"in": {
+				"direction": "in",
+				"uti": "public.data",
+				"contentInfo": {
+					"fileName": {
+						"description": "The file name of the file to write",
+						"mandatory": false,
+						"type": "string"
 					}
-				},
-				"fileChecker": {
-					"type": "file-check",
-					"endpoints": {
-						"out": "step:fileErrorCollector/in",
-						"out": "step:fileContentCollector/in"
+				}
+			},
+		},
+		"config": {
+			"fileName": {
+				"description": "The file name of the file to write",
+				"mandatory": false,
+				"type": "string"
+			}
+		},
+	}
+
+
+	{
+		"name": "accountImport",
+
+		"flows": {
+			"fileParser" {
+				"parallel": 10,
+				"steps": {
+					"csv_reader": {
+						"type": "csv-parse",
+						"endpoints": {
+							"out1": "step:fileChecker/in"
+						}
+					},
+					"fileChecker": {
+						"type": "file-check",
+						"endpoints": {
+							"out": "step:fileErrorCollector/in",
+							"out": "step:fileContentCollector/in"
+						}
+					},
+					"fileErrorCollector": {
+						"type": "file-error-log",
+						"endpoints": {
+							"out": "step:fileContentCollector/minSeverity"
+						}
+					},
+					"fileContentCollector": {
+						"type": "file-error-log",
+						"endpoints": {
+							"out": "step:databaseInsert/in"
+						}
+					},
+					"databaseInsert": {
+						"type": "database_accounts"
 					}
+				}
+			}
+		},
+
+		"steps": {
+			"copyTarBall": {
+				"type": "scp",
+				"config": {
+					"host": "somehost.com",
+					"port": 22,
+					"keyFile": "/path/to/key/file",
+					"targetFileName": "/path/toTarget"
 				},
-				"fileErrorCollector": {
-					"type": "file-error-log",
-					"endpoints": {
-						"out": "step:fileContentCollector/minSeverity"
-					}
-				},
-				"fileContentCollector": {
-					"type": "file-error-log",
-					"endpoints": {
-						"out": "step:databaseInsert/in"
-					}
-				},
-				"databaseInsert": {
-					"type": "database_accounts"
+				"endpoints": {
+					"out": "step:untar/in"
+				}
+			},
+
+			"untar": {
+				"type": "untar",
+				"endpoints": {
+					"out1": "flow:fileParser:step:csv_reader/in"
 				}
 			}
 		}
 	}
-
-	"steps": {
-		"copyTarBall": {
-			"type": "scp",
-			"config": {
-				"host": "somehost.com",
-				"port": 22,
-				"keyFile": "/path/to/key/file",
-				"targetFileName": "/path/toTarget"
-			},
-			"endpoints": {
-				"out": "step:untar/in"
-			}
-		},
-
-		"untar": {
-			"type": "untar",
-			"endpoints": {
-				"out1": "flow:fileParser:step:csv_reader/in"
-			}
-		},
-
-
-
-	}
-}
