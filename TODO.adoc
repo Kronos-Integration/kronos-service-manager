@@ -1,6 +1,7 @@
 
 - name für das micro service framework
-  * Kronos - Der vater von Zeus
+  * Kronos - Der vater von Zeus ok - service-manager -> kronos-manager
+
   * Appollon - Ist der Gott der Poesie, der Heilung, des Frühlings und des Lichts.
 - neuer name für donkey
   * Heimdall - ist in der nordischen Mythologie ein Gott aus dem Göttergeschlecht der Asen, der als Wächter der Götter dargestellt wird. Wird gereits für eine weit verbreitete Kerberos implementierung benutzt
