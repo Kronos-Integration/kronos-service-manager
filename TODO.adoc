@@ -14,7 +14,7 @@ Für GIF 2.0 ist noch kein Name entschieden worden. Hier ein paar möglichkeiten
   ** Der Gott der Poesie, der Heilung, des Frühlings und des Lichts.
 
   * Heimdall
-    ** Der nordischen Mythologie ein Gott aus dem Göttergeschlecht der Asen, der als Wächter der Götter dargestellt wird. Wird gereits für eine weit verbreitete Kerberos implementierung benutzt
+    ** Aus der nordischen Mythologie ein Gott aus dem Göttergeschlecht der Asen, der als Wächter der Götter dargestellt wird. Wird gereits für eine weit verbreitete Kerberos implementierung benutzt
   * Prokyon
     ** Auch "Alpha Canis Minoris" (Der Klein Hund), der Name eines Sternes
 
