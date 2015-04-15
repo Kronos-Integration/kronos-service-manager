@@ -114,12 +114,17 @@ Common Functions für jeden Step
 /**
  * log - Used to write any log messages
  *
- * @param  {json} data a JSON object whith the data to be logged
+ * @param  {json} data a JSON object with the data to be logged
  * @param  {number} loglevel Optional: (default info) The loglevel for this log
- * @param  {funtion} fomater Optional: A formater to format the data to a string.
+ * @param  {funtion} formater Optional: A formater to format the data to a string.
  * @return nothing
  */
-function log(data, loglevel, fomater) {};
+function log(data, loglevel, formater) {};
+
+// oder noch mehr convenience
+function info(data, formater);
+function warn(data, formater);
+function error(data, formater);
 
 /**
  * statisticLog - logs statistic information about a step. The idea is t call this when a step will be initialized.
