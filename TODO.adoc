@@ -174,15 +174,15 @@ exports.stepImplementations = {
       "in": {                                         // <3>
         "direction": "in",                            // <4>
         "uti": "public.data",                         // <5>
-        "contentInfo": {
-          "fileName": {
+        "contentInfo": {                              // <6>
+          "fileName": {                               // <7>
             "description": "The file name of the file to write",
-            "mandatory": false,
-            "type": "string"
+            "mandatory": false,                       // <8>
+            "type": "string"                          // <9>
           }
         }
       },
-      "out": {
+      "out": {                                        // <10>
         "direction": "out",
         "uti": "public.data",
         "contentInfo": {
@@ -192,10 +192,9 @@ exports.stepImplementations = {
             "type": "string"
           }
         },
-        "connect": "step:untar2/out"
       }
     },
-    "config": {
+    "config": {                                       // <11>
       "fileName": {
         "description": "The file name of the file to write",
         "mandatory": false,
@@ -203,7 +202,7 @@ exports.stepImplementations = {
       }
     },
     "initialize": function (manager, step) {
-      console.log("very complicated code");
+      console.log("very complicated code");           // <12>
     }
   }
 };
@@ -213,9 +212,15 @@ exports.stepImplementations = {
 <2> This Hash contains all the endpoints available for this step
 <3> The name of this endpoint
 <3> The direction of this endpoint {in, out, inout}
-<5> Defines the data type of this endpoint
-
-hier gehts weiter
+<5> Defines the data type of this endpoint (Uniform Type Identifiers) see in google 'apple uti'
+<6> Defines the necessary parameters for this endpoint
+<7> The name of the expected parameter
+<8> Is the parameter mandatory?
+<9> The type of the expected value for this parameter
+<10> An other endpoint.
+<11> A step global definition of expected parameter The global definition may overwrite the
+the parameters given by the endpoint. This depends on the implementation of the step.
+<12> The code which implements the step logic.
 
 
 
