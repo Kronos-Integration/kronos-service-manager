@@ -1,19 +1,234 @@
 
-- name für das micro service framework
-  * Kronos - Der vater von Zeus ok - service-manager -> kronos-manager
+Namenssuche
+-----------
+Framework
+~~~~~~~~~
+Das Framework heist jetzt "Kronos".
+Das ist der Vater von Zeus.
 
-  * Appollon - Ist der Gott der Poesie, der Heilung, des Frühlings und des Lichts.
-- neuer name für donkey
-  * Heimdall - ist in der nordischen Mythologie ein Gott aus dem Göttergeschlecht der Asen, der als Wächter der Götter dargestellt wird. Wird gereits für eine weit verbreitete Kerberos implementierung benutzt
+GIF 2.0
+~~~~~~~
+Für GIF 2.0 ist noch kein Name entschieden worden. Hier ein paar möglichkeiten
 
-  * Prokyon	 - Alpha Canis Minoris Der Name eines Sternes
+  * Appollon
+  ** Der Gott der Poesie, der Heilung, des Frühlings und des Lichts.
 
-- find better name for step implementation "type"
-  * stepImplementationName
-  * impl
+  * Heimdall
+    ** Der nordischen Mythologie ein Gott aus dem Göttergeschlecht der Asen, der als Wächter der Götter dargestellt wird. Wird gereits für eine weit verbreitete Kerberos implementierung benutzt
+  * Prokyon
+    ** Auch "Alpha Canis Minoris" (Der Klein Hund), der Name eines Sternes
 
+Allgemeines zur Ausführung
+--------------------------
+Request ID
+~~~~~~~~~
+
+Für jeden request der in einem Step erzeugt wird wird eine ID erzeugt.
+Diese ID beginnt immer mit dem hostname und dann mit weiteren IDs:
+
+----
+hugo.kronos.de:/flow:gumbo/1
+<hostname>:/<flowId>/<requestId_1>
+----
+
+Oder etwas ähnliches. Wenn in einem Step der request gesplitted wird (zum Beipiel beim 'untar')
+dann wird eine weitere ID angehängt. Diese ID wird in jedem Step gelogged. Somit ist es möglich
+eine Nachricht durch das System zu verfolgen.
+
+Contexte
+~~~~~~~~
+
+* FlowContext
+    - Dieser Context ist für die gesamte Laufzeit des Flows gültig. Steps können ihn lesen und
+    können dort eigene properties pushen und auch diese wieder löschen/überschreiben.
+    Außerdem enthält er auch die Konfigurations daten des Flows. Die Ursprüngliche Flow Konfiguration
+    kann NICHT überschrieben werden.
+  * StepContext
+    - Dieser Context existiert pro Step. Er ist auch gültig solange der Step 'lebt'. Der Step kann
+    ihn auslesen und auch dort können properties geschrieben und gelesen werden.
+    Er enthält auch die Konfigurations daten des Steps. Die Ursprüngliche Flow Konfiguration
+    kann NICHT überschrieben werden.
+  * RequestContext
+    - Dieser Context wird mit dem Request weiter transportiert. Jeder Step kann alle Daten
+    in dem Context überschreiben und neue hinzu fügen.
+
+Aufräumen im Code
+-----------------
+Rename
+~~~~~~
   - rename stepImplementation.js -> stepImplementations.js
   - rename endpointImplementation.js -> endpointImplementations.js
+  - rename der Framework module in
+
+----
+Kronos-<module-name>
+----
+
+Convienence Functions für den Manager
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----
+/**
+ * registerStep function - Registers a new step.
+ * It will check if there is already a step with the given name.
+ *
+ * @param  {object} stepDefinition   The step definition (not the implementation)
+ * @param  {string} stepName Optional: A new name under which the step should be registered
+ * @param  {string} config Optional: A new config to overwrite the existing config in the step definition
+ * @param  {boolean} overwrite Optional: If set to true, an exsiting step with the same name will be overwritten
+ * @return {boolean} true if the step could be registered. False if there is a step with the same name
+ */
+
+/**
+ * registerFlow function - Registers a new flow.
+ * It will check if there is already a flow with the given name.
+ *
+ * @param  {type} flowDefinition   The flow definition (JSON object)
+ * @param  {string} flowName Optional: A new name under which the flow should be registered
+ * @param  {string} config Optional: A new config to overwrite the existing config in the flow definition
+ * @param  {boolean} overwrite Optional: If set to true, an exsiting flow with the same name will be overwritten
+ * @return {boolean} true if the step could be registered. False if there is a step with the same name
+ */
+
+/**
+ * execute function - Executes an existing flow
+ *
+ * @param  {string} flowName   The name the flow was registered
+ * @param  {object} config Optional: The config for executing the flow
+ * @param  {callback} A callback function with the result object as parameter
+ * @return {object}
+ */
+
+
+/**
+ * getConfiguration function - Returns the global configuration the framework was started with
+ *
+ * @param  {callback} A callback function with the result object as parameter
+ * @return {object} The configuration
+ */
+
+----
+
+Common Functions für jeden Step
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----
+/**
+ * log - Used to write any log messages
+ *
+ * @param  {json} data a JSON object whith the data to be logged
+ * @param  {number} loglevel Optional: (default info) The loglevel for this log
+ * @param  {funtion} fomater Optional: A formater to format the data to a string.
+ * @return nothing
+ */
+function log(data, loglevel, fomater) {};
+
+/**
+ * statisticLog - logs statistic information about a step. The idea is t call this when a step will be initialized.
+ * Or every time a new call was made on an endpoint. So it was possible to monitor which load is on which steps.
+ * Mayby this could be already done from the manager. So that the user only needs to call it for additional information
+ *
+ * @param  {string} stepName      The name of the step
+ * @param  {string} subIdentifier Optional: Any sub identifier if there are different parts to be loged
+ * @param  {number} value         Optional: a number to be used for the log. Default is 1
+ * @return nothing
+ */
+function statisticLog(stepName, subIdentifier, value) {};
+
+/**
+ * pause - Pauses the current step. If the step is paused, it will block any new request (it will not start reading for new request on endpoints).
+ * The current request will be finished.
+ *
+ * @return nothing
+ */
+function pause() {};
+
+/**
+ * resume - Resumes a paused step
+ *
+ * @return nothing
+ */
+function resume() {};
+
+/**
+ * abort - Aborts the surrent step immediately, even if the step is in processing.
+ *
+ * @return nothing
+ */
+function abort() {};
+----
+
+Step definition
+---------------
+Eine Step definition ist eine JavaScript datei. Diese definiert einen Step.
+Ein Step ist entweder eine Implementiereung eines Steps oder ober eine zusammenfassung
+mehrerer Steps die dann wieder wie ein einzelner Step aussehen.
+Eine Step für sich ist nicht ausführbar. Um einen Step ausführen zu können muss dieser immer
+einen Flow zugeordnet werden.
+
+.Example Step definition with implementation
+[source,javascript,numbered]
+----------------------------------------------------------------
+exports.stepImplementations = {
+  "file-write": {                                     // <1>
+    "description": "Opens a file for reading",
+    "endpoints": {                                    // <2>
+      "in": {                                         // <3>
+        "direction": "in",                            // <4>
+        "uti": "public.data",                         // <5>
+        "contentInfo": {
+          "fileName": {
+            "description": "The file name of the file to write",
+            "mandatory": false,
+            "type": "string"
+          }
+        }
+      },
+      "out": {
+        "direction": "out",
+        "uti": "public.data",
+        "contentInfo": {
+          "fileName": {
+            "description": "The file name of the file to write",
+            "mandatory": false,
+            "type": "string"
+          }
+        },
+        "connect": "step:untar2/out"
+      }
+    },
+    "config": {
+      "fileName": {
+        "description": "The file name of the file to write",
+        "mandatory": false,
+        "type": "string"
+      }
+    },
+    "initialize": function (manager, step) {
+      console.log("very complicated code");
+    }
+  }
+};
+----------------------------------------------------------------
+
+<1> The name unter which the Step should be registered
+<2> This Hash contains all the endpoints available for this step
+<3> The name of this endpoint
+<3> The direction of this endpoint {in, out, inout}
+<5> Defines the data type of this endpoint
+
+hier gehts weiter
+
+
+
+
+
+Der Rest muss noch sauber aufgeschrieben werden
+-----------------------------------------------
+
+
+
+
+
+
 
 - Die meta informationen aus einer Step implementaion sollen bei der Ausführung des Steps wieder abrufbar sein.
 Nachfolgend ein Auszug aus einer implementierung.
