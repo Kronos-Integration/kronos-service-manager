@@ -66,7 +66,10 @@ Kronos-<module-name>
 
 Convienence Functions für den Manager
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.registerStep
 ----
+
 /**
  * registerStep function - Registers a new step.
  * It will check if there is already a step with the given name.
@@ -77,7 +80,10 @@ Convienence Functions für den Manager
  * @param  {boolean} overwrite Optional: If set to true, an exsiting step with the same name will be overwritten
  * @return {boolean} true if the step could be registered. False if there is a step with the same name
  */
+----
 
+.registerFlow
+----
 /**
  * registerFlow function - Registers a new flow.
  * It will check if there is already a flow with the given name.
@@ -88,7 +94,10 @@ Convienence Functions für den Manager
  * @param  {boolean} overwrite Optional: If set to true, an exsiting flow with the same name will be overwritten
  * @return {boolean} true if the step could be registered. False if there is a step with the same name
  */
+----
 
+.execute
+----
 /**
  * execute function - Executes an existing flow
  *
@@ -97,8 +106,10 @@ Convienence Functions für den Manager
  * @param  {callback} A callback function with the result object as parameter
  * @return {object}
  */
+----
 
-
+.getConfiguration
+----
 /**
  * getConfiguration function - Returns the global configuration the framework was started with
  *
@@ -110,6 +121,21 @@ Convienence Functions für den Manager
 
 Common Functions für jeden Step
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.getEndpoint
+----
+/**
+ * getEndpoint - Returns the endpoint with the given name
+ *
+ * @param  {string} The name of the endpoint
+ * @return {object} The endpoint with the given name or undefined if no endpoint
+ * exists with this name
+ */
+function getEndpoint(endpointName) {};
+----
+
+
+.log
 ----
 /**
  * log - Used to write any log messages
@@ -120,7 +146,10 @@ Common Functions für jeden Step
  * @return nothing
  */
 function log(data, loglevel, fomater) {};
+----
 
+.statisticLog
+----
 /**
  * statisticLog - logs statistic information about a step. The idea is t call this when a step will be initialized.
  * Or every time a new call was made on an endpoint. So it was possible to monitor which load is on which steps.
@@ -132,7 +161,10 @@ function log(data, loglevel, fomater) {};
  * @return nothing
  */
 function statisticLog(stepName, subIdentifier, value) {};
+----
 
+.pause
+----
 /**
  * pause - Pauses the current step. If the step is paused, it will block any new request (it will not start reading for new request on endpoints).
  * The current request will be finished.
@@ -140,14 +172,20 @@ function statisticLog(stepName, subIdentifier, value) {};
  * @return nothing
  */
 function pause() {};
+----
 
+.resume
+----
 /**
  * resume - Resumes a paused step
  *
  * @return nothing
  */
 function resume() {};
+----
 
+.abort
+----
 /**
  * abort - Aborts the surrent step immediately, even if the step is in processing.
  *
