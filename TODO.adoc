@@ -40,7 +40,7 @@ eine Nachricht durch das System zu verfolgen.
 Contexte
 ~~~~~~~~
 
-* FlowContext
+  * FlowContext
     - Dieser Context ist für die gesamte Laufzeit des Flows gültig. Steps können ihn lesen und
     können dort eigene properties pushen und auch diese wieder löschen/überschreiben.
     Außerdem enthält er auch die Konfigurations daten des Flows. Die Ursprüngliche Flow Konfiguration
