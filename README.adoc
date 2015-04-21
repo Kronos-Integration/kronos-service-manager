@@ -1,6 +1,6 @@
 
 Overview
-image:docs/Overview.svg[Overview]
+image:doc/images/Overview.svg[Overview]
 
 Process Separation
 image:docs/ProcessSeparation.svg[ProcessSeparation]

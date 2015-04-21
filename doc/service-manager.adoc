@@ -1,0 +1,4 @@
+Service Manager
+===============
+
+The service manager is the heart of the framework.

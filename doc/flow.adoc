@@ -1,0 +1,54 @@
+Flow
+====
+
+The flow defines how the steps are connected to each other and which steps will participate in this flow.
+
+
+Flow definition
+~~~~~~~~~~~~~~~
+
+.Sample flow definition
+[source,json]
+--------------------------------------------
+{
+ "myFlow" : {                <1>
+   "steps": {
+     "s1": {                 <2>
+       "type": "copy",
+       "config": {           <3>
+         "port": 77
+       },
+       "endpoints": {        <4>
+         "in": "stdin",
+         "out": "step:s2/in"
+       }
+     },
+     "s2": {
+       "type": "copy",       <5>
+       "endpoints": {
+         "out": "file:/tmp/sample1.txt"
+       }
+     }
+   }
+ }
+}
+--------------------------------------------
+<1> The name of the flow
+<2> The name of the step in this flow
+<3> A configuration for this step
+<4> The endpoints of this step by name. A step may have as much endpoints as needed.
+<5> the reference to the step implementation. This is the name under the step is registered
+
+
+Flow Source
+~~~~~~~~~~~
+
+[source,js]
+/**
+ * anonymous function - Creates flows from the JSON object
+ *
+ * @param  {object} flowDefinitions The Json object describing the flows
+ * @param  {object} pr              The progress reporter
+ * @return {array}                  The created flows
+ */
+exports.create = function (flowDefinitions, pr) {...}
