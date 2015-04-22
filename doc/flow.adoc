@@ -1,6 +1,12 @@
 Flow
 ====
 
+Overview
+image:images/Overview.svg[Overview]
+
+Process Separation
+image:images/ProcessSeparation.svg[ProcessSeparation]
+
 The flow defines how the steps are connected to each other and which steps will participate in this flow.
 
 
@@ -28,6 +34,23 @@ Flow definition
        "endpoints": {
          "out": "file:/tmp/sample1.txt"
        }
+     },
+     "s3": {
+       "endpoints": {
+         "in": "step:steps/s1/in",  <6>
+         "out": "step:steps/s2/out"
+       },
+      "steps": {
+         "s1": {
+           "endpoints": {
+             "out": "step:s2/in"
+           },
+           "type": "copy"
+         },
+         "s2": {
+           "type": "copy"
+         }
+       }
      }
    }
  }
@@ -38,7 +61,7 @@ Flow definition
 <3> A configuration for this step
 <4> The endpoints of this step by name. A step may have as much endpoints as needed.
 <5> the reference to the step implementation. This is the name under the step is registered
-
+<6> mapping connection from outer to inner world
 
 Flow Source
 ~~~~~~~~~~~
