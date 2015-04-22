@@ -3,10 +3,10 @@ Overview
 image:doc/images/Overview.svg[Overview]
 
 Process Separation
-image:docs/ProcessSeparation.svg[ProcessSeparation]
+image:doc/images/ProcessSeparation.svg[ProcessSeparation]
 
 Channel timing
-image:docs/channelTiming.svg[Timing]
+image:doc/images/channelTiming.svg[Timing]
 As you can see the 2nd. request starts before
 the whole stream of the 1st. request is completely processed
 

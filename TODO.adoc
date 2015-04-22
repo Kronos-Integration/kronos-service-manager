@@ -1,4 +1,5 @@
-image:doc/Kronos.png[Overview]
+image:doc/images/
+Kronos.png[Overview]
 
 Namenssuche
 -----------
