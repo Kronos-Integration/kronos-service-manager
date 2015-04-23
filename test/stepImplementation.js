@@ -3,42 +3,50 @@
 
 "use strict";
 
-let stepImpl = require('../lib/stepImplementation');
+const chai = require('chai');
+chai.use(require("chai-as-promised"));
+const assert = chai.assert;
+const expect = chai.expect;
 
-var assert = require('assert');
+const path = require("path");
 
-describe('step implementation', function () {
+const stepImplementation = require('../lib/stepImplementation');
 
-	const si = stepImpl.implementations.copy;
+describe('step implementations', function () {
 
-	it('buildin copy step present', function () {
-		assert(si.name === "copy");
-	});
+  const buildinStepDir = path.join(__dirname, '..', 'lib', 'steps');
 
-	it('endpoint definition - in', function () {
-		assert(si.endpoints.in.name === "in");
-	});
+  describe('register from directory', function () {
+    it('should resolve to some registered implementations', function (done) {
+      stepImplementation.registerStepsFromDirs(buildinStepDir).then(
+        function (regs) {
+          assert(regs.length > 1);
+          done();
+        });
+    });
+    it('should have registered copy step implementation', function (done) {
+      stepImplementation.registerStepsFromDirs(buildinStepDir).then(
+        function () {
+          const si = stepImplementation.implementations.copy;
+          assert(si.name === "copy");
+          assert(si.endpoints.in.name === "in");
 
-	it('endpoint definition defaults - in', function () {
-		assert(si.endpoints.in.mandatory);
-		assert(si.endpoints.in.uti === 'public.data');
-		assert(si.endpoints.in.direction === 'in');
-	});
+          assert(si.endpoints.in.mandatory);
+          assert(si.endpoints.in.uti === 'public.data');
+          assert(si.endpoints.in.direction === 'in');
 
-	it('endpoint definition - out', function () {
-		assert(si.endpoints.out.name === "out");
-		assert(si.endpoints.out.direction === 'out');
-	});
+          assert(si.endpoints.out.name === "out");
+          assert(si.endpoints.out.direction === 'out');
 
-	it('endpoint definition defaults - out', function () {
-		assert(si.endpoints.out.uti === 'public.data');
-		assert(si.endpoints.out.mandatory);
-		assert(si.endpoints.out.contentInfo);
-	});
+          assert(si.endpoints.out.uti === 'public.data');
+          assert(si.endpoints.out.mandatory);
+          assert(si.endpoints.out.contentInfo);
 
-	it('predefined endpoint log is present', function () {
-		assert(si.endpoints.log.name === "log");
-		assert(si.endpoints.log.mandatory);
-		assert(si.endpoints.log.direction === 'out');
-	});
+          assert(si.endpoints.log.name === "log");
+          assert(si.endpoints.log.mandatory);
+          assert(si.endpoints.log.direction === 'out');
+          done();
+        });
+    });
+  });
 });
