@@ -9,38 +9,43 @@ iojs test/stdin_to_stdout.js <test/stdin_to_stdout.js
 
 "use strict";
 
-const flow = require('../lib/flow');
+const kronos = require('../lib/manager.js');
 
-const myFlow = flow.create({
-  "myFlow": {
-    "steps": {
-      "s1": {
-        "type": "copy",
-        "endpoints": {
-          "in": "stdin",
-          "out": "step:s2/in"
-        }
-      },
-      "s2": {
-        "type": "copy",
-        "endpoints": {
-          "out": "step:s3/in"
-        }
-      },
-      "s3": {
-        "type": "copy",
-        "endpoints": {
-          "out": "step:s4/in"
-        }
-      },
-      "s4": {
-        "type": "copy",
-        "endpoints": {
-          "out": "stdout"
-        }
-      }
-    }
-  }
-}).myFlow;
+const floDecls = {
+	"flow1": {
+		"steps": {
+			"s1": {
+				"type": "copy",
+				"endpoints": {
+					"in": "stdin",
+					"out": "step:s2/in"
+				}
+			},
+			"s2": {
+				"type": "copy",
+				"endpoints": {
+					"out": "step:s3/in"
+				}
+			},
+			"s3": {
+				"type": "copy",
+				"endpoints": {
+					"out": "step:s4/in"
+				}
+			},
+			"s4": {
+				"type": "copy",
+				"endpoints": {
+					"out": "stdout"
+				}
+			}
+		}
+	}
+};
 
-myFlow.initialize();
+kronos.manager({
+	flows: floDecls
+}).then(function (manager) {
+	const flow = manager.getFlow('flow1');
+	flow.inititalize();
+});
