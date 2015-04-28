@@ -12,40 +12,40 @@ iojs test/stdin_to_stdout.js <test/stdin_to_stdout.js
 const kronos = require('../lib/manager.js');
 
 const floDecls = {
-	"flow1": {
-		"steps": {
-			"s1": {
-				"type": "copy",
-				"endpoints": {
-					"in": "stdin",
-					"out": "step:s2/in"
-				}
-			},
-			"s2": {
-				"type": "copy",
-				"endpoints": {
-					"out": "step:s3/in"
-				}
-			},
-			"s3": {
-				"type": "copy",
-				"endpoints": {
-					"out": "step:s4/in"
-				}
-			},
-			"s4": {
-				"type": "copy",
-				"endpoints": {
-					"out": "stdout"
-				}
-			}
-		}
-	}
+  "flow1": {
+    "steps": {
+      "s1": {
+        "type": "copy",
+        "endpoints": {
+          "in": "stdin",
+          "out": "step:s2/in"
+        }
+      },
+      "s2": {
+        "type": "copy",
+        "endpoints": {
+          "out": "step:s3/in"
+        }
+      },
+      "s3": {
+        "type": "copy",
+        "endpoints": {
+          "out": "step:s4/in"
+        }
+      },
+      "s4": {
+        "type": "copy",
+        "endpoints": {
+          "out": "stdout"
+        }
+      }
+    }
+  }
 };
 
 kronos.manager({
-	flows: floDecls
+  flows: floDecls
 }).then(function (manager) {
-	const flow = manager.getFlow('flow1');
-	flow.inititalize();
+  const flow = manager.flowDefinitions.flow1;
+  flow.inititalize();
 });
