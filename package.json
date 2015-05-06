@@ -8,6 +8,9 @@
     "test": "mocha test/*.js",
     "cover": "istanbul cover ./node_modules/.bin/_mocha -- --recursive"
   },
+  "engines": {
+    "iojs": "2.0.0"
+  },
   "author": "Markus Felten <markus.felten@gmx.de>",
   "license": "ISC",
   "devDependencies": {
@@ -19,7 +22,6 @@
   "dependencies": {
     "fifo": "^2.0.0",
     "request": "^2.54.0",
-    "promise": "^7.0.1",
     "promisify-node": "^0.1.5"
   },
   "repository": {
