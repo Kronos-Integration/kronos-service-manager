@@ -13,33 +13,50 @@ const endpointImpl = require('../lib/endpointImplementation');
 
 describe('endpoint definition', function () {
 
-  describe('should have correct direction', function () {
+	describe('with implementation function', function () {
+		it('implementation present', function () {
+			function myImplementation() {}
+			const endpoint = endpointImpl.createEndpoint('e1', {
+				implementation: myImplementation
+			});
+			assert(endpoint.implementation === myImplementation);
+		});
+	});
 
-    it('for in', function () {
-      const endpoint = endpointImpl.createEndpoint('e1', {
-        direction: 'in'
-      });
-      assert(endpoint.direction === 'in');
-      assert(endpoint.isIn, "isIn when in");
-    });
+	describe('with target', function () {
+		it('target present', function () {
+			const endpoint = endpointImpl.createEndpoint('e1', {
+				target: "myTarget"
+			});
+			assert(endpoint.target === 'myTarget');
+		});
+	});
 
-    it('for out', function () {
-      const endpoint = endpointImpl.createEndpoint('e1', {
-        direction: 'out'
-      });
-      assert(endpoint.direction === 'out');
-      assert(endpoint.isOut, "isOut when out");
-    });
+	describe('should have correct direction', function () {
+		it('for in', function () {
+			const endpoint = endpointImpl.createEndpoint('e1', {
+				direction: 'in'
+			});
+			assert(endpoint.direction === 'in');
+			assert(endpoint.isIn, "isIn when in");
+		});
 
-    it('for inout', function () {
-      const endpoint = endpointImpl.createEndpoint('e1', {
-        direction: 'inout'
-      });
-      assert(endpoint.direction === 'inout');
-      assert(endpoint.isOut, "isOut when inout");
-      assert(endpoint.isIn, "isOut when inout");
-    });
+		it('for out', function () {
+			const endpoint = endpointImpl.createEndpoint('e1', {
+				direction: 'out'
+			});
+			assert(endpoint.direction === 'out');
+			assert(endpoint.isOut, "isOut when out");
+		});
 
-  });
+		it('for inout', function () {
+			const endpoint = endpointImpl.createEndpoint('e1', {
+				direction: 'inout'
+			});
+			assert(endpoint.direction === 'inout');
+			assert(endpoint.isOut, "isOut when inout");
+			assert(endpoint.isIn, "isIn when inout");
+		});
+	});
 
 });
