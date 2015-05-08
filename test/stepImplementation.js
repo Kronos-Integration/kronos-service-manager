@@ -15,42 +15,44 @@ const stepImplementation = require('../lib/stepImplementation');
 
 describe('step implementations', function () {
 
-  const buildinStepDir = path.join(__dirname, '..', 'lib', 'steps');
+	const buildinStepDir = path.join(__dirname, '..', 'lib', 'steps');
 
-  describe('register from directory', function () {
-    it('should resolve to some registered implementations', function (done) {
-      let all = {};
-      stepImplementation.registerStepsFromDirs(all, buildinStepDir).then(
-        function (regs) {
-          assert(regs.length > 1);
-          done();
-        });
-    });
-    it('should have registered copy step implementation', function (done) {
-      let all = {};
+	describe('register from directory', function () {
+		it('should resolve to some registered implementations', function (done) {
+			let all = {};
+			stepImplementation.registerStepsFromDirs(all, buildinStepDir).then(
+				function (regs) {
+					assert(regs.length > 1);
+					done();
+				});
+		});
+		it('should have registered copy step implementation', function (done) {
+			let all = {};
 
-      stepImplementation.registerStepsFromDirs(all, buildinStepDir).then(
-        function () {
-          const si = all.copy;
-          assert(si.name === "copy");
-          assert(si.endpoints.in.name === "in");
+			stepImplementation.registerStepsFromDirs(all, buildinStepDir).then(
+				function () {
+					const si = all.copy;
+					assert(si.name === "copy");
+					assert(si.endpoints.in.name === "in");
 
-          assert(si.endpoints.in.mandatory);
-          assert(si.endpoints.in.uti === 'public.data');
-          assert(si.endpoints.in.direction === 'in');
+					assert(si.endpoints.in.mandatory);
+					assert(si.endpoints.in.uti === 'public.data');
+					assert(si.endpoints.in.direction === 'in');
 
-          assert(si.endpoints.out.name === "out");
-          assert(si.endpoints.out.direction === 'out');
+					assert(si.endpoints.out.name === "out");
 
-          assert(si.endpoints.out.uti === 'public.data');
-          assert(si.endpoints.out.mandatory);
-          assert(si.endpoints.out.contentInfo);
+					assert(si.endpoints.out.direction === 'out', "out should have out direction");
 
-          assert(si.endpoints.log.name === "log");
-          assert(si.endpoints.log.mandatory);
-          assert(si.endpoints.log.direction === 'out');
-          done();
-        });
-    });
-  });
+					assert(si.endpoints.out.uti === 'public.data');
+					assert(si.endpoints.out.mandatory);
+					assert(si.endpoints.out.contentInfo);
+
+					assert(si.endpoints.log.name === "log");
+					assert(si.endpoints.log.mandatory);
+					assert(si.endpoints.log.direction === 'out');
+
+					done();
+				});
+		});
+	});
 });
