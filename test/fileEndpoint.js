@@ -13,7 +13,7 @@ const streamEqual = require('stream-equal');
 
 const endpointImpl = require('../lib/endpointImplementation');
 
-describe('file endpoint implementation', function () {
+describe('file endpoint implementation in', function () {
 
 	const fileImpl = endpointImpl.implementations.file;
 	const fileName = path.join(__dirname, 'fixtures', 'file1.txt');
@@ -28,7 +28,7 @@ describe('file endpoint implementation', function () {
 		assert(endpoint.implementation === fileImpl.implementation, "file endpoint implementation");
 	});
 
-	let g = endpoint.initialize({}, {
+	let requests = endpoint.initialize({}, {
 		name: "myStep"
 	})();
 
@@ -40,7 +40,7 @@ describe('file endpoint implementation', function () {
 			done();
 		}
 
-		for (let request of g) {
+		for (let request of requests) {
 			number++;
 			assert(request.info.name === fileName, "file name is " + fileName);
 

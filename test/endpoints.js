@@ -1,4 +1,4 @@
-/* global describe, it*/
+/* global describe, it, xit */
 /* jslint node: true, esnext: true */
 
 "use strict";
@@ -12,6 +12,13 @@ const should = chai.should();
 const endpointImpl = require('../lib/endpointImplementation');
 
 describe('endpoint definition', function () {
+
+	describe('name', function () {
+		it('given name present', function () {
+			const endpoint = endpointImpl.createEndpoint('e1', {});
+			assert(endpoint.name === 'e1');
+		});
+	});
 
 	describe('with implementation function', function () {
 		function myImplementation() {}
@@ -89,12 +96,12 @@ describe('endpoint definition', function () {
 			}
 		});
 
-		let g = endpoint.initialize({}, {
+		let requests = endpoint.initialize({}, {
 			name: "myStep"
 		});
 
 		let number = 0;
-		for (let request of g) {
+		for (let request of requests) {
 			number++;
 			it('should have info from endpoint coming from <this>', function () {
 				assert(request.info.name === '<e1>');
