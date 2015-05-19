@@ -48,4 +48,6 @@ kronos.manager({
 	flows: floDecls
 }).then(function (manager) {
 	manager.intializeFlow('flow1');
+}, function (error) {
+	console.log(error);
 });
