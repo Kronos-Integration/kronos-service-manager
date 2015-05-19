@@ -13,13 +13,12 @@ const streamEqual = require('stream-equal');
 
 const endpointImpl = require('../lib/endpointImplementation');
 
-describe('file endpoint implementation in', function () {
+const fileImpl = endpointImpl.implementations.file;
+const inFileName = path.join(__dirname, 'fixtures', 'file1.txt');
 
-	const fileImpl = endpointImpl.implementations.file;
-	const fileName = path.join(__dirname, 'fixtures', 'file1.txt');
-
+describe('in file endpoint', function () {
 	const endpoint = endpointImpl.createEndpoint('e1', {
-		target: "file:" + fileName,
+		target: "file:" + inFileName,
 		direction: 'in'
 	}, fileImpl);
 
@@ -30,7 +29,7 @@ describe('file endpoint implementation in', function () {
 
 	let requests = endpoint.initialize({}, {
 		name: "myStep"
-	})();
+	});
 
 	it("should have a request", function (done) {
 		let number = 0;
@@ -42,10 +41,35 @@ describe('file endpoint implementation in', function () {
 
 		for (let request of requests) {
 			number++;
-			assert(request.info.name === fileName, "file name is " + fileName);
+			assert(request.info.name === inFileName, "file name is " + inFileName);
 
-			streamEqual(request.stream, fs.createReadStream(fileName), equalizer);
+			streamEqual(request.stream, fs.createReadStream(inFileName), equalizer);
 		}
 		assert(number === 1, "exactly one request");
+	});
+});
+
+describe('out file endpoint', function () {
+
+	const outFileName = path.join(__dirname, 'fixtures', 'file2.txt');
+
+	const endpoint = endpointImpl.createEndpoint('e1', {
+		target: "file:" + outFileName,
+		direction: 'out'
+	}, fileImpl);
+
+	let out = endpoint.initialize({}, {
+		name: "myStep"
+	});
+
+	it("should consume a request", function (done) {
+		out.next({
+			info: {
+				name: "aName"
+			},
+			stream: fs.createReadStream(inFileName)
+		});
+
+		done();
 	});
 });
