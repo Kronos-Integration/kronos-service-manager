@@ -54,6 +54,18 @@ describe('endpoint definition', function () {
 				assert(endpoint.target === 'myTarget');
 			});
 		});
+
+		describe('from prototype endpoint', function () {
+			it('target present', function () {
+				function myImplementation() {}
+
+				const endpoint1 = endpointImpl.createEndpoint('e1', "file:myTarget");
+				const endpoint2 = endpointImpl.createEndpoint('e1', myImplementation, endpoint1);
+				assert(endpoint2.target === 'file:myTarget');
+				assert(endpoint2.implementation === myImplementation);
+			});
+		});
+
 	});
 
 	describe('should have correct direction', function () {

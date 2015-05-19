@@ -35,7 +35,7 @@ describe('declaration', function () {
           "s2": {
             "type": "copy",
             "endpoints": {
-              "out": "file:/somefile",
+              "out": "file:/tmp/somefile",
               "log": "stderr"
             }
           }
