@@ -35,7 +35,7 @@ describe('declaration', function () {
           "s2": {
             "type": "copy",
             "endpoints": {
-              "out": "stdout",
+              "out": "file:/somefile",
               "log": "stderr"
             }
           }
@@ -46,8 +46,12 @@ describe('declaration', function () {
     makePromise(flowDecls).then(function (manager) {
       const flow1 = manager.flowDefinitions.flow1;
       flow1.initialize();
-      assert(flow1);
+      assert(flow1, "flow object missing");
 
+      done();
+    }, function (error) {
+      console.log("**** " + error);
+      //assert(false, "error during initialization: " + error);
       done();
     });
   });
