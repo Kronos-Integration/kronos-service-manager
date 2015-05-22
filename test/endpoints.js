@@ -120,11 +120,7 @@ describe('endpoint definition', function () {
 			}
 		});
 
-		let requests = endpoint.initialize({}, {
-			name: "myStep"
-		});
-
-		console.log(`requests: ${JSON.stringify(requests)}`);
+		let requests = endpoint.initialize();
 
 		let number = 0;
 		for (let request of requests) {
