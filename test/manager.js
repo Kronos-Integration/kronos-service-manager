@@ -61,7 +61,11 @@ describe('service manager', function () {
             console.log(`Error: ${error}`);
             assert(true);
             done();
-          });
+          }).catch(function (error) {
+          console.log(`catch: ${error}`);
+          assert(true);
+          done();
+        });
       } catch (e) {
         console.log(e);
         done();
