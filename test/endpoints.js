@@ -74,7 +74,39 @@ describe('endpoint definition', function () {
 				direction: 'in'
 			});
 			assert(endpoint.direction === 'in');
+			assert(endpoint.isIn, "isIn");
+			assert(!endpoint.canPull, "!canPull in(push,pull)");
+			assert(!endpoint.canPush, "!canPush in(push,pull)");
+		});
+
+		it('for in(pull)', function () {
+			const endpoint = endpointImpl.createEndpoint('e1', {
+				direction: 'in(pull)'
+			});
+			assert(endpoint.direction === 'in(pull)');
 			assert(endpoint.isIn, "isIn when in");
+			assert(endpoint.canPull, "canPull");
+			assert(!endpoint.canPush, "!canPush");
+		});
+
+		it('for in(push)', function () {
+			const endpoint = endpointImpl.createEndpoint('e1', {
+				direction: 'in(push)'
+			});
+			assert(endpoint.direction === 'in(push)');
+			assert(endpoint.isIn, "isIn when in");
+			assert(!endpoint.canPull, "!canPull");
+			assert(endpoint.canPush, "canPush");
+		});
+
+		it('for in(push,pull)', function () {
+			const endpoint = endpointImpl.createEndpoint('e1', {
+				direction: 'in(push,pull)'
+			});
+			assert(endpoint.direction === 'in(push,pull)');
+			assert(endpoint.isIn, "isIn when in");
+			assert(endpoint.canPull, "canPull");
+			assert(endpoint.canPush, "canPush");
 		});
 
 		it('for out', function () {
