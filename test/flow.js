@@ -159,8 +159,8 @@ describe('declaration', function () {
         assert(flow2.steps.s2.endpoints.in.target === 'step:steps/s2_1/in', 'target present');
         assert(flow2.steps.s2.endpoints.in.transform.element === 'fileName', 'transform present');
         assert(flow2.steps.s2.endpoints.out.name === 'out');
-        //console.log(`${JSON.stringify(flow2.steps.s2.endpoints.out)}`);
-        assert(flow2.steps.s2.endpoints.out.direction === 'out');
+        console.log(`${JSON.stringify(flow2.steps.s2.endpoints.out.direction)}`);
+        assert(flow2.steps.s2.endpoints.out.direction === 'out(pull,push)');
         done();
       });
     });
