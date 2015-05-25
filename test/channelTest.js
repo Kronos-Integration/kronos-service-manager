@@ -16,8 +16,12 @@ describe('channel creation', function () {
 
 	beforeEach(function () {
 		es = {
-			"input": endpointImpls.createEndpoint("input", {}),
-			"output": endpointImpls.createEndpoint("output", {})
+			"input": endpointImpls.createEndpoint("input", {
+				direction: "in(push)"
+			}),
+			"output": endpointImpls.createEndpoint("output", {
+				direction: "out(pull,push)"
+			})
 		};
 
 		chl = channel.create({
@@ -58,7 +62,7 @@ describe('channel creation', function () {
 
 		let value = input.next();
 		let request = value.value;
-		console.log(`got: ${JSON.stringify(request)}`);
+		console.log(`xgot: ${JSON.stringify(request)}`);
 
 		assert(request.info.name === "send from output #1", "#1 info attributes present");
 		assert(request.stream === "a stream 1", "stream present");
