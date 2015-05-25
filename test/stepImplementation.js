@@ -37,7 +37,7 @@ describe('step implementations', function () {
 
           assert(si.endpoints.in.mandatory);
           assert(si.endpoints.in.uti === 'public.data');
-          assert(si.endpoints.in.direction === 'in');
+          assert(si.endpoints.in.direction === 'in(pull)');
 
           assert(si.endpoints.out.name === "out");
 

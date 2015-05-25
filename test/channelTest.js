@@ -37,9 +37,7 @@ describe('channel creation', function () {
 	});
 
 	it('requests passing through channel', function () {
-		const output = chl.endpointA.initialize({}, {
-			name: "s1"
-		});
+		const output = chl.endpointA.initialize();
 		output.next();
 
 		output.next({
@@ -56,9 +54,7 @@ describe('channel creation', function () {
 			stream: "a stream 2"
 		});
 
-		const input = chl.endpointB.initialize({}, {
-			name: "s1"
-		});
+		const input = chl.endpointB.initialize();
 
 		let value = input.next();
 		let request = value.value;
