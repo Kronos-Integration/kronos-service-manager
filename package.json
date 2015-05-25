@@ -12,7 +12,7 @@
     "iojs": "2.0.0"
   },
   "author": "Markus Felten <markus.felten@gmx.de>",
-  "license": "ISC",
+  "license": "BSD-2-Clause",
   "devDependencies": {
     "chai": "^2.2.0",
     "chai-as-promised": "^5.0.0",
