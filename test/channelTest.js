@@ -10,17 +10,17 @@ const assert = chai.assert;
 const expect = chai.expect;
 const should = chai.should();
 
-describe('channel creation', function () {
+describe('pull/pull channel creation', function () {
 	let es;
 	let chl;
 
 	beforeEach(function () {
 		es = {
 			"input": endpointImpls.createEndpoint("input", {
-				direction: "in(push)"
+				direction: "in(pull)"
 			}),
 			"output": endpointImpls.createEndpoint("output", {
-				direction: "out(pull,push)"
+				direction: "out(pull)"
 			})
 		};
 
@@ -40,39 +40,33 @@ describe('channel creation', function () {
 		assert(chl.name === 'a/input->b/output');
 	});
 
-	it('requests passing through channel', function () {
-		const output = chl.endpointA.initialize();
-		output.next();
-
-		output.next({
-			info: {
-				name: "send from output #1"
-			},
-			stream: "a stream 1"
-		});
-
-		output.next({
-			info: {
-				name: "send from output #2"
-			},
-			stream: "a stream 2"
+	it('requests passing through', function () {
+		const output = chl.endpointA.initialize(function* () {
+			for (let i = 1;; i++) {
+				yield {
+					info: {
+						name: `send from output #${i}`
+					},
+					stream: `a stream ${i}`
+				};
+			}
 		});
 
 		const input = chl.endpointB.initialize();
 
 		let value = input.next();
 		let request = value.value;
-		console.log(`xgot: ${JSON.stringify(request)}`);
+		//console.log(`got: ${JSON.stringify(request)}`);
 
 		assert(request.info.name === "send from output #1", "#1 info attributes present");
-		assert(request.stream === "a stream 1", "stream present");
+		assert(request.stream === "a stream 1", "stream 1 present");
 
 		value = input.next();
 		request = value.value;
 		//console.log(`got: ${JSON.stringify(request)}`);
 
 		assert(request.info.name === "send from output #2", "#2 info attributes present");
-		assert(request.stream === "a stream 2", "stream present");
+		assert(request.stream === "a stream 2", "stream 2 present");
 	});
 
 });
