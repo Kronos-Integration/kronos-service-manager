@@ -10,6 +10,17 @@ const assert = chai.assert;
 const expect = chai.expect;
 const should = chai.should();
 
+const requestGenerator = function* () {
+	for (let i = 1;; i++) {
+		yield {
+			info: {
+				name: `send from output #${i}`
+			},
+			stream: `a stream ${i}`
+		};
+	}
+};
+
 describe('pull/pull channel creation', function () {
 	let es;
 	let chl;
@@ -41,17 +52,7 @@ describe('pull/pull channel creation', function () {
 	});
 
 	it('requests passing through', function () {
-		const output = chl.endpointA.initialize(function* () {
-			for (let i = 1;; i++) {
-				yield {
-					info: {
-						name: `send from output #${i}`
-					},
-					stream: `a stream ${i}`
-				};
-			}
-		});
-
+		const output = chl.endpointA.initialize(requestGenerator);
 		const input = chl.endpointB.initialize();
 
 		let value = input.next();
