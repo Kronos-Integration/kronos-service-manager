@@ -17,9 +17,7 @@ describe('stdin endpoint', function () {
     target: "stdin"
   }, endpointImpl.implementations.stdin);
 
-  let in1 = endpoint.initialize({}, {
-    name: "myStep"
-  });
+  let in1 = endpoint.initialize();
 
   it("should produce a request", function () {
     let gen = in1.next();
@@ -34,9 +32,7 @@ describe('stdout endpoint', function () {
     target: "stdout"
   }, endpointImpl.implementations.stdout);
 
-  let out = endpoint.initialize({}, {
-    name: "myStep"
-  });
+  let out = endpoint.initialize();
 
   it("should consume a request", function () {
     const fileName = path.join(__dirname, 'fixtures', 'file1.txt');
