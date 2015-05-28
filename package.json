@@ -18,7 +18,8 @@
     "chai-as-promised": "^5.0.0",
     "istanbul": "^0.3.8",
     "mocha": "^2.2.1",
-    "stream-equal": "^0.1.5"
+    "stream-equal": "^0.1.5",
+    "tmp": "0.0.26"
   },
   "dependencies": {
     "fifo": "^2.0.0",
