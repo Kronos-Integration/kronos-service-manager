@@ -56,28 +56,27 @@ describe('out file endpoint', function () {
 				direction: 'out(push)'
 			}, fileImpl);
 
-			let out = endpoint.initialize();
-
-			out.next({
-				info: {
-					name: "aName"
-				},
-				stream: fs.createReadStream(inFileName)
+			let out = endpoint.initialize(function* () {
+				yield {
+					info: {
+						name: "aName"
+					},
+					stream: fs.createReadStream(inFileName)
+				};
 			});
 
 			setTimeout(function () {
-				fs.stat(outFileName, function (err, stat) {
+				/*fs.stat(outFileName, function (err, stat) {
 					console.log(`${err} size: ${stat.size}`);
-				});
+				});*/
 
 				function equalizer(err, equal) {
-					console.log(`equal: ${equal}`);
 					assert(equal, "stream is equal to file content");
 					done();
 				}
 
 				streamEqual(fs.createReadStream(outFileName), fs.createReadStream(inFileName), equalizer);
-			}, 100);
+			}, 10);
 		});
 	});
 });
