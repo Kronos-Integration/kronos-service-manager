@@ -5,7 +5,7 @@
   "main": "lib/manager.js",
   "homepage": "http://kronos.io/",
   "scripts": {
-    "test": "mocha test/*.js",
+    "test": "mocha --harmony_shipping test/*.js",
     "cover": "istanbul cover ./node_modules/.bin/_mocha -- --recursive"
   },
   "engines": {
@@ -14,21 +14,21 @@
   "author": "Markus Felten <markus.felten@gmx.de>",
   "license": "BSD-2-Clause",
   "devDependencies": {
-    "chai": "^2.2.0",
+    "chai": "2.3.0",
     "chai-as-promised": "^5.0.0",
-    "istanbul": "^0.3.8",
-    "mocha": "^2.2.1",
+    "istanbul": "0.3.14",
+    "mocha": "2.2.5",
     "stream-equal": "^0.1.5",
     "tmp": "0.0.26"
   },
   "dependencies": {
-    "fifo": "^2.0.0",
+    "fifo": "2.1.0",
     "kronos-flow": "git+ssh://donkey@mfelten.de/Groups/donkey/git/kronos-flow.git",
     "kronos-step": "git+ssh://donkey@mfelten.de/Groups/donkey/git/kronos-step.git",
-    "lodash": "^3.8.0",
-    "log4js": "^0.6.24",
+    "lodash": "3.9.3",
+    "log4js": "0.6.25",
     "promisify-node": "^0.1.5",
-    "request": "^2.54.0"
+    "request": "2.56.0"
   },
   "repository": {
     "type": "git",
