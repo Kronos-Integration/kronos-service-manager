@@ -32,16 +32,32 @@ describe('stdout endpoint', function () {
     target: "stdout"
   }, endpointImpl.implementations.stdout);
 
-  let out = endpoint.initialize();
+  describe('with generator arg', function () {
+    it("should consume a request", function () {
+      let out = endpoint.initialize(function* () {
+        const fileName = path.join(__dirname, 'fixtures', 'file1.txt');
+        yield {
+          info: {
+            name: "aName"
+          },
+          stream: fs.createReadStream(fileName)
+        };
+      });
+    });
+  });
 
-  it("should consume a request", function () {
-    const fileName = path.join(__dirname, 'fixtures', 'file1.txt');
+  describe('without generator arg', function () {
+    let out = endpoint.initialize();
 
-    out.next({
-      info: {
-        name: "aName"
-      },
-      stream: fs.createReadStream(fileName)
+    it("should consume a request", function () {
+      const fileName = path.join(__dirname, 'fixtures', 'file1.txt');
+
+      out.next({
+        info: {
+          name: "aName"
+        },
+        stream: fs.createReadStream(fileName)
+      });
     });
   });
 });
