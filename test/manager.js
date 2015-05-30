@@ -46,30 +46,25 @@ describe('service manager', function () {
   });
 
   describe('step registration', function () {
-    xit('should fail with bad step dir', function (done) {
-      try {
-        const promise = kronos.manager({
-          stepDirectories: 'some missing dir'
-        });
+    it('should fail with bad step dir', function (done) {
+      const promise = kronos.manager({
+        stepDirectories: 'some missing dir'
+      });
 
-        promise.then(function (result) {
-            console.log(`Result: ${result}`);
-            assert(false);
-            done();
-          },
-          function (error) {
-            console.log(`Error: ${error}`);
-            assert(true);
-            done();
-          }).catch(function (error) {
-          console.log(`catch: ${error}`);
+      promise.then(function (result) {
+          console.log(`resolved: ${result}`);
+          assert(false);
+          done();
+        },
+        function (error) {
+          console.log(`rejected: ${error}`);
           assert(true);
           done();
-        });
-      } catch (e) {
-        console.log(e);
+        }).catch(function (error) {
+        console.log(`catch: ${error}`);
+        assert(true);
         done();
-      }
+      });
     });
   });
 
