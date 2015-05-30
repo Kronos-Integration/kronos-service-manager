@@ -189,4 +189,12 @@ describe('endpoint definition', function () {
 		});
 	});
 
+	describe('json', function () {
+		it('given name present', function () {
+			const endpoint = endpointImpl.createEndpoint('e1', {});
+			const json = endpoint.toJSON();
+			assert(json.name === 'e1');
+		});
+	});
+
 });
