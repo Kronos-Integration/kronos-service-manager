@@ -52,19 +52,14 @@ describe('service manager', function () {
       });
 
       promise.then(function (result) {
-          console.log(`resolved: ${result}`);
           assert(false);
           done();
         },
         function (error) {
-          console.log(`rejected: ${error}`);
-          assert(true);
+          // expect Error: ENOENT: no such file or directory, scandir 'some missing dir'
+          assert(error.toString().match(/ENOENT/));
           done();
-        }).catch(function (error) {
-        console.log(`catch: ${error}`);
-        assert(true);
-        done();
-      });
+        });
     });
   });
 
