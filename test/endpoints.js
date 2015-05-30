@@ -18,6 +18,28 @@ describe('endpoint definition', function () {
 			const endpoint = endpointImpl.createEndpoint('e1', {});
 			assert(endpoint.name === 'e1');
 		});
+		it('toString() is name', function () {
+			const endpoint = endpointImpl.createEndpoint('e1', {});
+			assert(endpoint.toString() === 'e1');
+		});
+	});
+
+	describe('UTI', function () {
+		it('given UTI present', function () {
+			const endpoint = endpointImpl.createEndpoint('e1', {
+				"uti": "public.database"
+			});
+			assert(endpoint.uti === 'public.database');
+		});
+	});
+
+	describe('mandatority', function () {
+		it('given mandatority present', function () {
+			const endpoint = endpointImpl.createEndpoint('e1', {
+				"mandatory": false
+			});
+			assert(endpoint.mandatory === false);
+		});
 	});
 
 	describe('with implementation function', function () {
