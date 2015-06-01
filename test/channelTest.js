@@ -55,19 +55,16 @@ describe('pull/pull channel creation', function () {
 		const output = chl.endpointA.initialize(requestGenerator);
 		const input = chl.endpointB.initialize();
 
-		let value = input.next();
-		let request = value.value;
-		//console.log(`got: ${JSON.stringify(request)}`);
+		let i = 1;
 
-		assert(request.info.name === "send from output #1", "#1 info attributes present");
-		assert(request.stream === "a stream 1", "stream 1 present");
+		for (let request of input) {
+			//console.log(`got: ${JSON.stringify(request)}`);
 
-		value = input.next();
-		request = value.value;
-		//console.log(`got: ${JSON.stringify(request)}`);
-
-		assert(request.info.name === "send from output #2", "#2 info attributes present");
-		assert(request.stream === "a stream 2", "stream 2 present");
+			assert(request.info.name === `send from output #${i}`, `#${i} info attributes present`);
+			assert(request.stream === `a stream ${i}`, `stream ${i} present`);
+			i++;
+			if (i > 5) break;
+		}
 	});
 
 });
