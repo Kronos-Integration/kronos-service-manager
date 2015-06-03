@@ -28,7 +28,7 @@
     "lodash": "3.9.3",
     "log4js": "0.6.25",
     "promisify-node": "^0.1.5",
-    "request": "2.56.0"
+    "request": "2.57.0"
   },
   "repository": {
     "type": "git",
