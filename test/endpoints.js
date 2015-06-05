@@ -163,7 +163,7 @@ describe('endpoint definition', function () {
 			direction: 'in',
 			implementation: function () {
 				const name = this.name;
-				return function* () {
+				const myGen = function* () {
 					yield {
 						info: {
 							name: "<" + name + ">"
@@ -171,6 +171,7 @@ describe('endpoint definition', function () {
 						stream: "body"
 					};
 				};
+				return myGen();
 			}
 		});
 

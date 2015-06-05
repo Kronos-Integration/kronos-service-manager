@@ -105,9 +105,6 @@ describe('push/pull channel creation', function () {
 
 		let i;
 
-		// TODO where goes this request ?
-		input.next();
-
 		for (i = 1; i < 10; i++) {
 
 			input.next({
