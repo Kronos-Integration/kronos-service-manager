@@ -121,6 +121,11 @@ describe('declaration', function () {
       makePromise(flowDecls).then(function (manager) {
         const flow2 = manager.flowDefinitions.flow2;
         assert(flow2.steps.s1.meta.name === "copy");
+
+        assert(`${flow2.steps.s1}` === "s1");
+
+        const json = flow2.steps.s1.toJSON();
+        assert(json.name === "s1");
         done();
       });
     });
