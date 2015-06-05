@@ -27,8 +27,6 @@ describe('in file endpoint', function () {
 		assert(endpoint.implementation === fileImpl.implementation, "file endpoint implementation");
 	});
 
-	let requests = endpoint.initialize();
-
 	it("should have a request", function (done) {
 		let number = 0;
 
@@ -37,7 +35,7 @@ describe('in file endpoint', function () {
 			done();
 		}
 
-		for (let request of requests) {
+		for (let request of endpoint.initialize()) {
 			number++;
 			assert(request.info.name === inFileName, "file name is " + inFileName);
 
@@ -56,27 +54,25 @@ describe('out file endpoint', function () {
 				direction: 'out(push)'
 			}, fileImpl);
 
+			let myStream;
 			let out = endpoint.initialize(function* () {
+				myStream = fs.createReadStream(inFileName);
 				yield {
 					info: {
 						name: "aName"
 					},
-					stream: fs.createReadStream(inFileName)
+					stream: myStream
 				};
 			});
 
-			setTimeout(function () {
-				/*fs.stat(outFileName, function (err, stat) {
-					console.log(`${err} size: ${stat.size}`);
-				});*/
-
+			myStream.on('end', function () {
 				function equalizer(err, equal) {
 					assert(equal, "stream is equal to file content");
 					done();
 				}
 
 				streamEqual(fs.createReadStream(outFileName), fs.createReadStream(inFileName), equalizer);
-			}, 10);
+			});
 		});
 	});
 });
