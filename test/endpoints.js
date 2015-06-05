@@ -97,6 +97,7 @@ describe('endpoint definition', function () {
 			});
 			assert(endpoint.direction === 'in');
 			assert(endpoint.isIn, "isIn");
+			assert(!endpoint.isOut, "!isOut");
 			assert(!endpoint.canPull, "!canPull in(push,pull)");
 			assert(!endpoint.canPush, "!canPush in(push,pull)");
 		});
@@ -155,6 +156,7 @@ describe('endpoint definition', function () {
 			}, endpointImpl.implementations.file);
 			assert(endpoint.direction === 'out');
 			assert(endpoint.isOut, "isOut when out");
+			assert(!endpoint.isIn, "!isIn");
 		});
 	});
 
