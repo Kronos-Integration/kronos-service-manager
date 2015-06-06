@@ -9,6 +9,8 @@ const assert = chai.assert;
 const expect = chai.expect;
 const should = chai.should();
 
+const path = require('path');
+
 const kronos = require('../lib/manager.js');
 
 describe('service manager', function () {
@@ -46,6 +48,19 @@ describe('service manager', function () {
   });
 
   describe('step registration', function () {
+    it('should register from additional dirs', function (done) {
+      const promise = kronos.manager({
+        stepDirectories: [path.join(__dirname, 'fixtures', 'steps1'), path.join(__dirname, 'fixtures',
+          'steps2')]
+      });
+
+      promise.then(function (manager) {
+        assert(manager.stepImplementations.someStep.name == 'someStep');
+        assert(manager.stepImplementations.anotherStep.name == 'anotherStep');
+        done();
+      });
+    });
+
     it('should fail with bad step dir', function (done) {
       const promise = kronos.manager({
         stepDirectories: 'some missing dir'
