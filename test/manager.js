@@ -26,8 +26,7 @@ describe('service manager', function () {
             "in": "stdin",
             "out": function* () {
               do {
-                let request =
-                  yield;
+                let request = yield;
               } while (true);
             }
           }
