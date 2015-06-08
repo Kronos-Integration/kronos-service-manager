@@ -1,0 +1,14 @@
+{
+	"flow1": {
+		"steps": {
+			"s1": {
+				"type": "copy",
+				"endpoints": {
+					"in": "stdin",
+					"out": "file:/tmp/c",
+					"out1": "stdout"
+				}
+			}
+		}
+	}
+}
