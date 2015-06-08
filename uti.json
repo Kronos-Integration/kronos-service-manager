@@ -1,6 +1,5 @@
-{
-"org.kronos.flow": {
+[{
+  "name": "org.kronos.flow",
   "conformsTo": "public.json",
   "fileNameExtension": ".flow",
-}
-}
+}]
