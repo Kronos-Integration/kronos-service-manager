@@ -18,27 +18,37 @@ describe('http endpoint', function () {
   const url = "http://localhost:12345/";
 
   const endpoint = endpointImpl.createEndpoint('e1', {
-    target: url
-  }, endpointImpl.implementations.stdin);
-
-  let in1 = endpoint.initialize();
+    target: url,
+    direction: 'in'
+  }, endpointImpl.implementations.http);
 
   const flowStream = fs.createReadStream(path.join(__dirname,'fixtures','sample.flow'),{ encoding: 'utf8' });
 
-  request.post({
-      url: url,
-      formData: {
-        content: flowStream,
-      }
-    },
-    function optionalCallback(err, httpResponse, body) {
-      console.log(`http post done: ${err}`);
-    });
+  setTimeout(function() {
+    request.post({
+        url: url,
+        formData: {
+          content: flowStream,
+        }
+      },
+      function optionalCallback(err, httpResponse, body) {
+      //console.log(`http post done: ${body}`);
+      });
+    },10);
 
-  it("should produce a request", function () {
+  it("should produce a request", function (done) {
+
+    let in1 = endpoint.initialize(function *() {
+      const r = yield;
+//      console.log(`request: ${JSON.stringify(r.info)}`);
+      assert(r.info.host === 'localhost:12345');
+      done();
+      });
+/*
     let gen = in1.next();
     let request = gen.value;
     assert(request.info.name === 'stdin');
     assert(request.stream !== undefined);
+    */
   });
 });
