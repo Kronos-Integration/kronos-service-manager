@@ -4,6 +4,7 @@
 
 exports.stepImplementations = {
 	"someStep": {
+		"config" : { "attribute1" : { } },
 		initialize(manager, stepDef) {}
 	}
 };
