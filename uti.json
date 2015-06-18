@@ -1,5 +1,5 @@
 [{
   "name": "org.kronos.flow",
   "conformsTo": "public.json",
-  "fileNameExtension": ".flow",
+  "fileNameExtension": ".flow"
 }]
