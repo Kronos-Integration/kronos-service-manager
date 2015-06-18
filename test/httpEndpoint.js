@@ -32,9 +32,9 @@ describe('http endpoint', function () {
         }
       },
       function optionalCallback(err, httpResponse, body) {
-        console.log(`http post done: ${body}`);
+        //console.log(`http post done: ${body}`);
       });
-    },300);
+    },200);
 
   it("should produce a request", function (done) {
     let in1 = endpoint.initialize(function *() {
