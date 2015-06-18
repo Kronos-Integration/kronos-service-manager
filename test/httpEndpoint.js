@@ -15,7 +15,7 @@ const should = chai.should();
 const endpointImpl = require('../lib/endpointImplementation');
 
 describe('http endpoint', function () {
-  const url = "http://localhost:12345/";
+  const url = "http://localhost:12346/";
 
   const endpoint = endpointImpl.createEndpoint('e1', {
     target: url,
@@ -32,23 +32,16 @@ describe('http endpoint', function () {
         }
       },
       function optionalCallback(err, httpResponse, body) {
-      //console.log(`http post done: ${body}`);
+        console.log(`http post done: ${body}`);
       });
-    },10);
+    },300);
 
   it("should produce a request", function (done) {
-
     let in1 = endpoint.initialize(function *() {
       const r = yield;
-//      console.log(`request: ${JSON.stringify(r.info)}`);
-      assert(r.info.host === 'localhost:12345');
+      console.log(`request: ${JSON.stringify(r.info)}`);
+      assert(r.info.host === 'localhost:12346');
       done();
       });
-/*
-    let gen = in1.next();
-    let request = gen.value;
-    assert(request.info.name === 'stdin');
-    assert(request.stream !== undefined);
-    */
   });
 });
