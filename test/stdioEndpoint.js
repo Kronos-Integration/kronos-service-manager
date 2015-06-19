@@ -12,12 +12,14 @@ const should = chai.should();
 
 const endpointImpl = require('../lib/endpointImplementation');
 
+const manager = {};
+
 describe('stdin endpoint', function () {
   const endpoint = endpointImpl.createEndpoint('e1', {
     target: "stdin"
   }, endpointImpl.implementations.stdin);
 
-  let in1 = endpoint.initialize();
+  let in1 = endpoint.initialize(manager);
 
   it("should produce a request", function () {
     let gen = in1.next();
@@ -34,7 +36,7 @@ describe('stdout endpoint', function () {
 
   describe('with generator arg', function () {
     it("should consume a request", function () {
-      let out = endpoint.initialize(function* () {
+      let out = endpoint.initialize(manager,function* () {
         const fileName = path.join(__dirname, 'fixtures', 'file1.txt');
         yield {
           info: {
@@ -47,7 +49,7 @@ describe('stdout endpoint', function () {
   });
 
   describe('without generator arg', function () {
-    let out = endpoint.initialize();
+    let out = endpoint.initialize(manager);
 
     it("should consume a request", function () {
       const fileName = path.join(__dirname, 'fixtures', 'file1.txt');

@@ -14,6 +14,8 @@ const should = chai.should();
 
 const endpointImpl = require('../lib/endpointImplementation');
 
+const manager = {};
+
 describe('http endpoint', function () {
   const url = "http://localhost:12346/";
 
@@ -37,7 +39,7 @@ describe('http endpoint', function () {
     },200);
 
   it("should produce a request", function (done) {
-    let in1 = endpoint.initialize(function *() {
+    let in1 = endpoint.initialize(manager,function *() {
       const r = yield;
       console.log(`request: ${JSON.stringify(r.info)}`);
       assert(r.info.host === 'localhost:12346');
