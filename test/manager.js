@@ -35,6 +35,16 @@ describe('service manager', function () {
     }
   };
 
+  describe('uti definitions', function () {
+    it('should be present', function (done) {
+      kronos.manager().then(function (manager) {
+        //console.log(`** ${manager.uti.conformsTo('org.kronos.flow','public.json')}`);
+        assert(manager.uti.conformsTo('org.kronos.flow','public.json'), 'org.kronos.flow conformsTo public.json');
+        done();
+      });
+    });
+  });
+
   describe('buildin step implementations', function () {
     it('should be present', function (done) {
       kronos.manager().then(function (manager) {
