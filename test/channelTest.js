@@ -21,6 +21,8 @@ const requestGenerator = function* () {
 	}
 };
 
+const manager = {};
+
 describe('pull/pull channel creation', function () {
 	let es;
 	let chl;
@@ -52,8 +54,8 @@ describe('pull/pull channel creation', function () {
 	});
 
 	it('requests passing through generator', function () {
-		chl.endpointA.initialize(requestGenerator);
-		const input = chl.endpointB.initialize();
+		chl.endpointA.initialize(manager,requestGenerator);
+		const input = chl.endpointB.initialize(manager);
 
 		let i = 1;
 
@@ -99,7 +101,7 @@ describe('push/pull channel creation', function () {
 	});
 
 	it('requests passing through generator', function () {
-		const input = chl.endpointA.initialize();
+		const input = chl.endpointA.initialize(manager);
 
 		//console.log(`input: ${input}`);
 
@@ -115,7 +117,7 @@ describe('push/pull channel creation', function () {
 			});
 		}
 
-		const output = chl.endpointB.initialize();
+		const output = chl.endpointB.initialize(manager);
 
 		i = 1;
 

@@ -11,6 +11,8 @@ const should = chai.should();
 
 const endpointImpl = require('../lib/endpointImplementation');
 
+const manager = {};
+
 describe('endpoint definition', function () {
 
 	describe('name', function () {
@@ -163,7 +165,7 @@ describe('endpoint definition', function () {
 	describe('initialize', function () {
 		const endpoint = endpointImpl.createEndpoint('e1', {
 			direction: 'in',
-			implementation: function () {
+			implementation: function (manager) {
 				const name = this.name;
 				const myGen = function* () {
 					yield {
@@ -177,7 +179,7 @@ describe('endpoint definition', function () {
 			}
 		});
 
-		let requests = endpoint.initialize();
+		let requests = endpoint.initialize(manager);
 
 		let number = 0;
 		for (let request of requests) {

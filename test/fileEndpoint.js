@@ -16,6 +16,8 @@ const endpointImpl = require('../lib/endpointImplementation');
 const fileImpl = endpointImpl.implementations.file;
 const inFileName = path.join(__dirname, 'fixtures', 'file1.txt');
 
+const manager = { uti: { getUTIsForFileName(file) { return ['public.plain-text']; } }};
+
 describe('in file endpoint', function () {
 	const endpoint = endpointImpl.createEndpoint('e1', {
 		target: "file:" + inFileName,
@@ -35,9 +37,12 @@ describe('in file endpoint', function () {
 			done();
 		}
 
-		for (let request of endpoint.initialize()) {
+		for (let request of endpoint.initialize(manager)) {
 			number++;
 			assert(request.info.name === inFileName, "file name is " + inFileName);
+
+			//console.log(`*** UTI ${request.info.uti}`);
+			assert(request.info.uti.toString() === 'public.plain-text');
 
 			streamEqual(request.stream, fs.createReadStream(inFileName), equalizer);
 		}
@@ -55,7 +60,7 @@ describe('out file endpoint', function () {
 			}, fileImpl);
 
 			let myStream;
-			let out = endpoint.initialize(function* () {
+			let out = endpoint.initialize(manager,function* () {
 				myStream = fs.createReadStream(inFileName);
 				yield {
 					info: {
