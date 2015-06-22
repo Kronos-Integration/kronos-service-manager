@@ -41,7 +41,7 @@ describe('http endpoint', function () {
   it("should produce a request", function (done) {
     let in1 = endpoint.initialize(manager,function *() {
       const r = yield;
-      console.log(`request: ${JSON.stringify(r.info)}`);
+      //console.log(`request: ${JSON.stringify(r.info)}`);
       assert(r.info.host === 'localhost:12346');
       done();
       });
