@@ -10,6 +10,7 @@ const expect = chai.expect;
 const should = chai.should();
 
 const path = require('path');
+const uti = require('uti');
 
 const kronos = require('../lib/manager.js');
 
@@ -39,7 +40,7 @@ describe('service manager', function () {
     it('should be present', function (done) {
       kronos.manager().then(function (manager) {
         //console.log(`** ${manager.uti.conformsTo('org.kronos.flow','public.json')}`);
-        assert(manager.uti.conformsTo('org.kronos.flow','public.json'), 'org.kronos.flow conformsTo public.json');
+        assert(uti.conformsTo('org.kronos.flow','public.json'), 'org.kronos.flow conformsTo public.json');
         done();
       });
     });
