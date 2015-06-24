@@ -30,7 +30,7 @@ describe('flow declaration with errors', function () {
         "description": "Test",
         "steps": {
           "s1": {
-            "type": "copy"
+            "type": "kronos-copy"
           }
         }
       }

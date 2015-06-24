@@ -31,8 +31,8 @@ describe('step implementations', function () {
 
       stepImplementation.registerStepsFromDirs(all, buildinStepDir).then(
         function () {
-          const si = all.copy;
-          assert(si.name === "copy");
+          const si = all['kronos-copy'];
+          assert(si.name === "kronos-copy");
           assert(si.endpoints.in.name === "in");
 
           assert(si.endpoints.in.mandatory);

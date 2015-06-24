@@ -25,7 +25,7 @@ describe('declaration', function () {
         "description": "Test",
         "steps": {
           "s1": {
-            "type": "copy",
+            "type": "kronos-copy",
             "endpoints": {
               "in": "stdin",
               "out": "step:s2/in",
@@ -33,7 +33,7 @@ describe('declaration', function () {
             }
           },
           "s2": {
-            "type": "copy",
+            "type": "kronos-copy",
             "endpoints": {
               "out": "file:/tmp/somefile",
               "log": "stderr"
@@ -62,7 +62,7 @@ describe('declaration', function () {
         "description": "Test",
         "steps": {
           "s1": {
-            "type": "copy",
+            "type": "kronos-copy",
             "config": {
               "port": 77
             },
@@ -73,7 +73,7 @@ describe('declaration', function () {
             }
           },
           "s2": {
-            "type": "group",
+            "type": "kronos-group",
             "endpoints": {
               "in": {
                 "connect": {
@@ -95,10 +95,10 @@ describe('declaration', function () {
                   "out": "step:s2_2/in",
                   "log": "stderr"
                 },
-                "type": "copy"
+                "type": "kronos-copy"
               },
               "s2_2": {
-                "type": "copy",
+                "type": "kronos-copy",
                 "endpoints": {
                   "log": "stderr"
                 }
@@ -120,7 +120,7 @@ describe('declaration', function () {
     it('steps should have a mata object', function (done) {
       makePromise(flowDecls).then(function (manager) {
         const flow2 = manager.flowDefinitions.flow2;
-        assert(flow2.steps.s1.meta.name === "copy");
+        assert(flow2.steps.s1.meta.name === "kronos-copy");
 
         assert(`${flow2.steps.s1}` === "s1");
 

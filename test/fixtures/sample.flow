@@ -2,7 +2,7 @@
 	"sample": {
 		"steps": {
 			"s1": {
-				"type": "copy",
+				"type": "kronos-copy",
 				"endpoints": {
 					"in": "stdin",
 					"out1": "stdout"

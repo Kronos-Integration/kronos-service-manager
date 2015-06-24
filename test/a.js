@@ -1,4 +1,4 @@
-/* global describe, it */
+/* global describe, it*/
 /* jslint node: true, esnext: true */
 
 /*
@@ -13,31 +13,13 @@ const kronos = require('../lib/manager.js');
 
 const floDecls = {
 	"flow1": {
-		"description": "Test",
 		"steps": {
 			"s1": {
 				"type": "kronos-copy",
 				"endpoints": {
 					"in": "stdin",
-					"out": "step:s2/in"
-				}
-			},
-			"s2": {
-				"type": "kronos-copy",
-				"endpoints": {
-					"out": "step:s3/in"
-				}
-			},
-			"s3": {
-				"type": "kronos-copy",
-				"endpoints": {
-					"out": "step:s4/in"
-				}
-			},
-			"s4": {
-				"type": "kronos-copy",
-				"endpoints": {
-					"out": "stdout"
+					"out": "file:/tmp/c",
+					"out1": "stdout"
 				}
 			}
 		}
