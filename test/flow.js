@@ -19,39 +19,48 @@ function makePromise(flowDecls) {
 }
 
 describe('declaration', function () {
-  it('can be initialized', function (done) {
-    const flowDecls = {
-      "flow1": {
-        "description": "Test",
-        "steps": {
-          "s1": {
-            "type": "kronos-copy",
-            "endpoints": {
-              "in": "stdin",
-              "out": "step:s2/in",
-              "log": "stderr"
-            }
-          },
-          "s2": {
-            "type": "kronos-copy",
-            "endpoints": {
-              "out": "file:/tmp/somefile",
-              "log": "stderr"
-            }
+  const flowDecls = {
+    "flow1": {
+      "description": "the flow description",
+      "steps": {
+        "s1": {
+          "type": "kronos-copy",
+          "endpoints": {
+            "in": "stdin",
+            "out": "step:s2/in",
+            "log": "stderr"
+          }
+        },
+        "s2": {
+          "type": "kronos-copy",
+          "endpoints": {
+            "out": "file:/tmp/somefile",
+            "log": "stderr"
           }
         }
       }
-    };
+    }
+  };
 
+  it('can be initialized', function (done) {
     makePromise(flowDecls).then(function (manager) {
       const flow1 = manager.flowDefinitions.flow1;
       flow1.initialize();
       assert(flow1, "flow object missing");
-
       done();
     }, function (error) {
       console.log("**** " + error);
       //assert(false, "error during initialization: " + error);
+      done();
+    });
+  });
+
+  it('common attributes', function (done) {
+    makePromise(flowDecls).then(function (manager) {
+      const flow1 = manager.flowDefinitions.flow1;
+      console.log(`description: ${flow1.description}`);
+      assert(flow1.description === 'the flow description');
+
       done();
     });
   });
