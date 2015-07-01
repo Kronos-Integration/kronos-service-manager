@@ -1,5 +1,4 @@
-Flow
-====
+== Flow
 
 Overview
 image:images/Overview.svg[Overview]
@@ -10,8 +9,8 @@ image:images/ProcessSeparation.svg[ProcessSeparation]
 The flow defines how the steps are connected to each other and which steps will participate in this flow.
 
 
-Flow definition
-~~~~~~~~~~~~~~~
+=== Flow definition
+
 
 .Sample flow definition
 [source,json]
@@ -63,8 +62,8 @@ Flow definition
 <5> the reference to the step implementation. This is the name under the step is registered
 <6> mapping connection from outer to inner world
 
-Flow Source
-~~~~~~~~~~~
+=== Flow Source
+
 
 [source,js]
 /**
