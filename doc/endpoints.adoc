@@ -24,7 +24,23 @@ myOutEndpoint.initialize(manager,function* () {
 
 === in
 active::
-	This means that the 'in' endpoint will activly request the connected 'out' endpoint to send the next chunk of data.
+	This means that the 'in' endpoint will actively request the connected 'out' endpoint to send the next chunk of data.
++
+[source,js]
+----
+ep = myInEndpoint.initialize(manager);
+for(request of ep) {
+	// handle request
+}
+----
+
 
 passive::
 	This means the 'in' endpoint will wait until the next chunk of data will be sended.
++
+[source,js]
+----
+myInEndpoint.initialize(manager,function* () {
+	myRequest = yield
+});
+----
