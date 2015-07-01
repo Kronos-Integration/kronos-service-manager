@@ -1,2 +1,15 @@
-Endpoints
-===============
+
+== Endpoints
+
+=== out
+active::
+	This means that the 'out' endpoint could activly pusch data to the receiving 'in' endpoint.
+passive::
+	This means that the 'out' endpoint waits until it will be requested to send the next data chunk.
+
+=== in
+active::
+	This means that the 'in' endpoint will activly request the connected 'out' endpoint to send the next chunk of data.
+
+passive::
+	This means the 'in' endpoint will wait until the next chunk of data will be sended.
