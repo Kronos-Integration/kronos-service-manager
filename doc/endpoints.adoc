@@ -3,9 +3,19 @@
 
 === out
 active::
-	This means that the 'out' endpoint could activly pusch data to the receiving 'in' endpoint.
+	This means that the 'out' endpoint could actively push data to the receiving 'in' endpoint.
+
+[source,js]
+	ep = myOutEndpoint.initialize(manager);
+	ep.next(<<request>>);
+
 passive::
 	This means that the 'out' endpoint waits until it will be requested to send the next data chunk.
+
+[source,js]
+	myOutEndpoint.initialize(manager,function* () {
+		yield  <<request comes here>>;
+	});
 
 === in
 active::
