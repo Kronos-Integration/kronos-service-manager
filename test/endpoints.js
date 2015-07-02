@@ -93,45 +93,49 @@ describe('endpoint definition', function () {
 	});
 
 	describe('should have correct direction', function () {
-		it('for in', function () {
+		const name1 = 'in';
+		it(`for ${name1}`, function () {
 			const endpoint = endpointImpl.createEndpoint('e1', {
-				direction: 'in'
+				direction: name1
 			});
-			assert(endpoint.direction === 'in');
+			assert(endpoint.direction === name1);
 			assert(endpoint.isIn, "isIn");
 			assert(!endpoint.isOut, "!isOut");
-			assert(!endpoint.canPull, "!canPull in(push,pull)");
-			assert(!endpoint.canPush, "!canPush in(push,pull)");
+			assert(!endpoint.canBeActive, "!canBeActive");
+			assert(!endpoint.canBePassive, "!canBePassive");
 		});
 
-		it('for in(pull)', function () {
+		const name2 = "in(active)";
+		it(`for ${name2}`, function () {
 			const endpoint = endpointImpl.createEndpoint('e1', {
-				direction: 'in(pull)'
+				direction: name2
 			});
-			assert(endpoint.direction === 'in(pull)');
+			assert(endpoint.direction === name2);
 			assert(endpoint.isIn, "isIn when in");
-			assert(endpoint.canPull, "canPull");
-			assert(!endpoint.canPush, "!canPush");
+			assert(endpoint.canBeActive, "canBeActive");
+			assert(!endpoint.canBePassive, "!canBePassive");
 		});
 
-		it('for in(push)', function () {
+		const name3 = "in(passive)";
+		it(`for ${name3}`, function () {
 			const endpoint = endpointImpl.createEndpoint('e1', {
-				direction: 'in(push)'
+				direction: name3
 			});
-			assert(endpoint.direction === 'in(push)');
+			assert(endpoint.direction === name3);
 			assert(endpoint.isIn, "isIn when in");
-			assert(!endpoint.canPull, "!canPull");
-			assert(endpoint.canPush, "canPush");
+			assert(!endpoint.canBeActive, "!canBeActive");
+			assert(endpoint.canBePassive, "canBePassive");
 		});
 
-		it('for in(push,pull)', function () {
+		const name4 = "in(active,passive)";
+		it(`for ${name4}`, function () {
 			const endpoint = endpointImpl.createEndpoint('e1', {
-				direction: 'in(push,pull)'
+				direction: name4
 			});
-			assert(endpoint.direction === 'in(push,pull)');
+			assert(endpoint.direction === name4);
 			assert(endpoint.isIn, "isIn when in");
-			assert(endpoint.canPull, "canPull");
-			assert(endpoint.canPush, "canPush");
+			assert(endpoint.canBeActive, "canBeActive");
+			assert(endpoint.canBePassive, "canBePassive");
 		});
 
 		it('for out', function () {
