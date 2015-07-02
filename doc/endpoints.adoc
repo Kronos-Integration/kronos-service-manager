@@ -1,6 +1,8 @@
 
 == Endpoints
 
+Endpoint characteristics from a step viewpoint.
+
 === out
 active::
 	This means that the 'out' endpoint could actively push data to the receiving 'in' endpoint.
@@ -9,7 +11,7 @@ active::
 [source,js]
 ----
 ep = myOutEndpoint.initialize(manager);
-ep.next(<<request>>);
+ep.next(myNewRequest);
 ----
 passive::
 	This means that the 'out' endpoint waits until it will be requested to send the next data chunk.
@@ -18,7 +20,7 @@ passive::
 [source,js]
 ----
 myOutEndpoint.initialize(manager,function* () {
-	yield  <<request comes here>>;
+	yield myNewRequest;
 });
 ----
 
@@ -29,7 +31,7 @@ active::
 [source,js]
 ----
 ep = myInEndpoint.initialize(manager);
-for(request of ep) {
+for(let request of ep) {
 	// handle request
 }
 ----
