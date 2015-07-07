@@ -37,11 +37,11 @@ describe('step implementations', function () {
 
           assert(si.endpoints.in.mandatory);
           assert(si.endpoints.in.uti === 'public.data');
-          assert(si.endpoints.in.direction === 'in(pull)');
+          assert(si.endpoints.in.direction === 'in(active)');
 
           assert(si.endpoints.out.name === "out");
 
-          assert(si.endpoints.out.direction === 'out(pull,push)',
+          assert(si.endpoints.out.direction === 'out(active,passive)',
             "out should have out direction");
 
           assert(si.endpoints.out.uti === 'public.data');
@@ -50,7 +50,7 @@ describe('step implementations', function () {
 
           assert(si.endpoints.log.name === "log");
           assert(si.endpoints.log.mandatory);
-          assert(si.endpoints.log.direction === 'out(push)');
+          assert(si.endpoints.log.direction === 'out(active)');
           done();
         });
     });

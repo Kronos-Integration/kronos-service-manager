@@ -174,7 +174,7 @@ describe('declaration', function () {
         assert(flow2.steps.s2.endpoints.in.transform.element === 'fileName', 'transform present');
         assert(flow2.steps.s2.endpoints.out.name === 'out');
         console.log(`${JSON.stringify(flow2.steps.s2.endpoints.out.direction)}`);
-        assert(flow2.steps.s2.endpoints.out.direction === 'out(pull,push)');
+        assert(flow2.steps.s2.endpoints.out.direction === 'out(active,passive)');
         done();
       });
     });

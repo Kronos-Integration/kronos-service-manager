@@ -40,7 +40,8 @@ describe('service manager', function () {
     it('should be present', function (done) {
       kronos.manager().then(function (manager) {
         //console.log(`** ${manager.uti.conformsTo('org.kronos.flow','public.json')}`);
-        assert(uti.conformsTo('org.kronos.flow','public.json'), 'org.kronos.flow conformsTo public.json');
+        assert(uti.conformsTo('org.kronos.flow', 'public.json'),
+          'org.kronos.flow conformsTo public.json');
         done();
       });
     });
@@ -107,5 +108,19 @@ describe('service manager', function () {
         done();
       });
     });
+
+/*
+    it('can be removed again', function (done) {
+      kronos.manager().then(function (myManager) {
+        myManager.declareFlows(flowDecl);
+        myManager.deleteFlow('flow1').then(function () {
+          console.log(`flow: ${myManager.flowDefinitions[flowName]}`);
+          assert(myManager.flowDefinitions[flowName] === undefined);
+          //expect(myManager.flowDefinitions[flowName]).to.beUndefined();
+          done();
+        });
+      });
+    });
+    */
   });
 });
