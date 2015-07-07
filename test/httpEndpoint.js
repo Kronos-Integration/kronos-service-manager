@@ -21,7 +21,6 @@ describe('http endpoint', function () {
 
   const endpoint = endpointImpl.createEndpoint('e1', {
     target: url,
-    direction: 'in'
   }, endpointImpl.implementations.http);
 
   const flowStream = fs.createReadStream(path.join(__dirname,'fixtures','sample.flow'),{ encoding: 'utf8' });

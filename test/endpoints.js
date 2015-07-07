@@ -138,19 +138,21 @@ describe('endpoint definition', function () {
 			assert(endpoint.canBePassive, "canBePassive");
 		});
 
-		it('for out', function () {
+		const name5 = "out";
+		it(`for ${name5}`, function () {
 			const endpoint = endpointImpl.createEndpoint('e1', {
-				direction: 'out'
+				direction: name5
 			});
-			assert(endpoint.direction === 'out');
+			assert(endpoint.direction === name5);
 			assert(endpoint.isOut, "isOut when out");
 		});
 
-		it('for inout', function () {
+		const name6 = "in(active),out(passive)";
+		it(`for ${name6}`, function () {
 			const endpoint = endpointImpl.createEndpoint('e1', {
-				direction: 'inout'
+				direction: name6
 			});
-			assert(endpoint.direction === 'inout');
+			assert(endpoint.direction === name6);
 			assert(endpoint.isOut, "isOut when inout");
 			assert(endpoint.isIn, "isIn when inout");
 		});
