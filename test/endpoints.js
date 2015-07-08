@@ -92,6 +92,7 @@ describe('endpoint definition', function () {
 
 	});
 
+
 	describe('should have correct direction', function () {
 		const name1 = 'in';
 		it(`for ${name1}`, function () {
@@ -100,9 +101,11 @@ describe('endpoint definition', function () {
 			});
 			assert(endpoint.direction === name1);
 			assert(endpoint.isIn, "isIn");
+			assert(!endpoint.isInAndCanBeActive, "!isInAndCanBeActive");
+			assert(!endpoint.isInAndCanBePassive, "!isInAndCanBePassive");
 			assert(!endpoint.isOut, "!isOut");
-			assert(!endpoint.canBeActive, "!canBeActive");
-			assert(!endpoint.canBePassive, "!canBePassive");
+			assert(!endpoint.isOutAndCanBeActive, "!isOutAndCanBeActive");
+			assert(!endpoint.isOutAndCanBePassive, "!isOutAndCanBePassive");
 		});
 
 		const name2 = "in(active)";
@@ -111,9 +114,12 @@ describe('endpoint definition', function () {
 				direction: name2
 			});
 			assert(endpoint.direction === name2);
-			assert(endpoint.isIn, "isIn when in");
-			assert(endpoint.canBeActive, "canBeActive");
-			assert(!endpoint.canBePassive, "!canBePassive");
+			assert(endpoint.isIn, "isIn");
+			assert(endpoint.isInAndCanBeActive, "isInAndCanBeActive");
+			assert(!endpoint.isInAndCanBePassive, "!isInAndCanBePassive");
+			assert(!endpoint.isOut, "!isOut");
+			assert(!endpoint.isOutAndCanBeActive, "!isOutAndCanBeActive");
+			assert(!endpoint.isOutAndCanBePassive, "!isOutAndCanBePassive");
 		});
 
 		const name3 = "in(passive)";
@@ -122,9 +128,12 @@ describe('endpoint definition', function () {
 				direction: name3
 			});
 			assert(endpoint.direction === name3);
-			assert(endpoint.isIn, "isIn when in");
-			assert(!endpoint.canBeActive, "!canBeActive");
-			assert(endpoint.canBePassive, "canBePassive");
+			assert(endpoint.isIn, "isIn");
+			assert(!endpoint.isInAndCanBeActive, "!isInAndCanBeActive");
+			assert(endpoint.isInAndCanBePassive, "isInAndCanBePassive");
+			assert(!endpoint.isOut, "!isOut");
+			assert(!endpoint.isOutAndCanBeActive, "!isOutAndCanBeActive");
+			assert(!endpoint.isOutAndCanBePassive, "!isOutAndCanBePassive");
 		});
 
 		const name4 = "in(active,passive)";
@@ -133,9 +142,12 @@ describe('endpoint definition', function () {
 				direction: name4
 			});
 			assert(endpoint.direction === name4);
-			assert(endpoint.isIn, "isIn when in");
-			assert(endpoint.canBeActive, "canBeActive");
-			assert(endpoint.canBePassive, "canBePassive");
+			assert(endpoint.isIn, "isIn");
+			assert(endpoint.isInAndCanBeActive, "isInAndCanBeActive");
+			assert(endpoint.isInAndCanBePassive, "isInAndCanBePassive");
+			assert(!endpoint.isOut, "!isOut");
+			assert(!endpoint.isOutAndCanBeActive, "!isOutAndCanBeActive");
+			assert(!endpoint.isOutAndCanBePassive, "!isOutAndCanBePassive");
 		});
 
 		const name5 = "out";
