@@ -127,6 +127,8 @@ describe('endpoint definition', function () {
 			const endpoint = endpointImpl.createEndpoint('e1', {
 				direction: name3
 			});
+
+			console.log(`${endpoint.direction} : ${endpoint.isIn} ${endpoint.isInAndCanBeActive} ${endpoint.isInAndCanBePassive}`);
 			assert(endpoint.direction === name3);
 			assert(endpoint.isIn, "isIn");
 			assert(!endpoint.isInAndCanBeActive, "!isInAndCanBeActive");

@@ -23,111 +23,112 @@ const requestGenerator = function* () {
 
 const manager = {};
 
-describe('pull/pull channel creation', function () {
-	let es;
-	let chl;
+describe('channel', function () {
+	describe('in(passive) -> out(active)', function () {
+		let es;
+		let chl;
 
-	beforeEach(function () {
-		es = {
-			"input": endpointImpls.createEndpoint("input", {
-				direction: "in(pull)"
-			}),
-			"output": endpointImpls.createEndpoint("output", {
-				direction: "out(pull)"
-			})
-		};
+		beforeEach(function () {
+			es = {
+				"input": endpointImpls.createEndpoint("input", {
+					direction: "in(passive)"
+				}),
+				"output": endpointImpls.createEndpoint("output", {
+					direction: "out(active)"
+				})
+			};
 
-		chl = channel.create({
-			name: "a"
-		}, es.input, {
-			name: "b"
-		}, es.output);
+			chl = channel.create({
+				name: "a"
+			}, es.input, {
+				name: "b"
+			}, es.output);
+		});
+
+		it('endpoints created', function () {
+			assert(chl.endpointA);
+			assert(chl.endpointB);
+		});
+
+		it('has a name', function () {
+			assert(chl.name === 'a/input->b/output');
+		});
+
+		it('requests passing through generator', function () {
+			chl.endpointA.initialize(manager, requestGenerator);
+			const input = chl.endpointB.initialize(manager);
+
+			let i = 1;
+
+			for (let request of input) {
+				//console.log(`got: ${JSON.stringify(request)}`);
+
+				assert(request.info.name === `send from output #${i}`, `#${i} info attributes present`);
+				assert(request.stream === `a stream ${i}`, `stream ${i} present`);
+				i++;
+				if (i > 5) break;
+			}
+		});
 	});
 
-	it('endpoints created', function () {
-		assert(chl.endpointA);
-		assert(chl.endpointB);
-	});
+	describe('in(passive) -> out(passive)', function () {
+		let es;
+		let chl;
 
-	it('has a name', function () {
-		assert(chl.name === 'a/input->b/output');
-	});
+		beforeEach(function () {
+			es = {
+				"input": endpointImpls.createEndpoint("input", {
+					direction: "in(passive)"
+				}),
+				"output": endpointImpls.createEndpoint("output", {
+					direction: "out(passive)"
+				})
+			};
 
-	it('requests passing through generator', function () {
-		chl.endpointA.initialize(manager,requestGenerator);
-		const input = chl.endpointB.initialize(manager);
+			chl = channel.create({
+				name: "a"
+			}, es.input, {
+				name: "b"
+			}, es.output);
+		});
 
-		let i = 1;
+		it('endpoints created', function () {
+			assert(chl.endpointA);
+			assert(chl.endpointB);
+		});
 
-		for (let request of input) {
-			//console.log(`got: ${JSON.stringify(request)}`);
+		it('has a name', function () {
+			assert(chl.name === 'a/input->b/output');
+		});
 
-			assert(request.info.name === `send from output #${i}`, `#${i} info attributes present`);
-			assert(request.stream === `a stream ${i}`, `stream ${i} present`);
-			i++;
-			if (i > 5) break;
-		}
-	});
-});
+		it('requests passing through generator', function () {
+			const input = chl.endpointA.initialize(manager);
 
-describe('push/pull channel creation', function () {
-	let es;
-	let chl;
+			//console.log(`input: ${input}`);
 
-	beforeEach(function () {
-		es = {
-			"input": endpointImpls.createEndpoint("input", {
-				direction: "in(push)"
-			}),
-			"output": endpointImpls.createEndpoint("output", {
-				direction: "out(pull)"
-			})
-		};
+			let i;
 
-		chl = channel.create({
-			name: "a"
-		}, es.input, {
-			name: "b"
-		}, es.output);
-	});
+			for (i = 1; i < 10; i++) {
+				input.next({
+					info: {
+						name: `send from output #${i}`
+					},
+					stream: `a stream ${i}`
+				});
+			}
 
-	it('endpoints created', function () {
-		assert(chl.endpointA);
-		assert(chl.endpointB);
-	});
+			const output = chl.endpointB.initialize(manager);
 
-	it('has a name', function () {
-		assert(chl.name === 'a/input->b/output');
-	});
+			i = 1;
 
-	it('requests passing through generator', function () {
-		const input = chl.endpointA.initialize(manager);
+			for (let request of output) {
+				//console.log(`got: ${JSON.stringify(request)}`);
 
-		//console.log(`input: ${input}`);
-
-		let i;
-
-		for (i = 1; i < 10; i++) {
-
-			input.next({
-				info: {
-					name: `send from output #${i}`
-				},
-				stream: `a stream ${i}`
-			});
-		}
-
-		const output = chl.endpointB.initialize(manager);
-
-		i = 1;
-
-		for (let request of output) {
-			//console.log(`got: ${JSON.stringify(request)}`);
-
-			assert(request.info.name === `send from output #${i}`, `#${i} info attributes present`);
-			assert(request.stream === `a stream ${i}`, `stream ${i} present`);
-			i++;
-			if (i > 5) break;
-		}
+				assert(request.info.name === `send from output #${i}`, `#${i} info attributes present`);
+				assert(request.stream === `a stream ${i}`, `stream ${i} present`);
+				i++;
+				if (i > 5) break;
+			}
+		});
 	});
 });
