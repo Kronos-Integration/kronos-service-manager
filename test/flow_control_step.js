@@ -15,7 +15,9 @@ const fs = require('fs');
 const kronos = require('../lib/manager.js');
 
 describe('kronos-flow-control', function () {
-  const flowStream = fs.createReadStream(path.join(__dirname,'fixtures','sample.flow'),{ encoding: 'utf8' });
+  const flowStream = fs.createReadStream(path.join(__dirname, 'fixtures', 'sample.flow'), {
+    encoding: 'utf8'
+  });
   const flowDecl = {
     "flow1": {
       "steps": {
@@ -23,7 +25,12 @@ describe('kronos-flow-control', function () {
           "type": "kronos-flow-control",
           "endpoints": {
             "in": function* () {
-                yield { info : { name : "myFlow" }, stream: flowStream }
+              yield {
+                info: {
+                  name: "myFlow"
+                },
+                stream: flowStream
+              };
             }
           }
         }
