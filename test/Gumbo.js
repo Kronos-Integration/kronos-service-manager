@@ -11,7 +11,6 @@ function* g4() {
 			console.log("GUMBO");
 		}
 	}
-
 	return "foo";
 }
 
@@ -23,9 +22,14 @@ function* g5() {
 	yield "End";
 }
 
-var iterator = g5();
+function* g6() {
+	let request = yield "val";
+	console.log("### " + request);
+}
+var iterator = g6();
 
 console.log(iterator.next());
+console.log(iterator.next("dd"));
 console.log(iterator.next());
 console.log(iterator.next("ha"));
 console.log(iterator.next());
