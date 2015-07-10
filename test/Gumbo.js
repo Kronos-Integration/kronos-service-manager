@@ -23,7 +23,7 @@ function* g5() {
 }
 
 function* g6() {
-	let request = yield "val";
+	let request = yield;
 	console.log("### " + request);
 }
 var iterator = g6();
