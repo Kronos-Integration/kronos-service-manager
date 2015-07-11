@@ -3,8 +3,10 @@
 
 "use strict";
 
+const kronosStep = require('kronos-step');
+const endpointImpls = kronosStep.endpointImplementation;
+
 const channel = require('../lib/channel');
-const endpointImpls = require('../lib/endpointImplementation');
 const chai = require('chai');
 const assert = chai.assert;
 const expect = chai.expect;
