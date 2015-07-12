@@ -32,7 +32,7 @@
     "log4js": "0.6.26",
     "promisify-node": "^0.1.5",
     "request": "2.58.0",
-    "uti": "git+https://github.com/arlac77/uti.git"
+    "uti": "^1.5.0"
   },
   "repository": {
     "type": "git",
