@@ -60,13 +60,13 @@ describe('service manager', function () {
   describe('step registration', function () {
     it('can register additional steps', function (done) {
       kronos.manager().then(function (manager) {
-        manager.registerStep('step1',require('./fixtures/steps1/someStep'));
+        manager.registerStep('step1', require('./fixtures/steps1/someStep'));
 
         const c = manager.stepImplementations['step1'];
         expect(c.name, 'step name').to.equal('step1');
 
         done();
-        });
+      });
     });
   });
 
@@ -82,6 +82,7 @@ describe('service manager', function () {
       });
     });
 
+
     it('should be the returned one', function (done) {
       kronos.manager().then(function (myManager) {
         const f = myManager.declareFlows(flowDecl).flow1;
@@ -90,18 +91,18 @@ describe('service manager', function () {
       });
     });
 
-/*
-    it('can be removed again', function (done) {
-      kronos.manager().then(function (myManager) {
-        myManager.declareFlows(flowDecl);
-        myManager.deleteFlow('flow1').then(function () {
-          console.log(`flow: ${myManager.flowDefinitions[flowName]}`);
-          assert(myManager.flowDefinitions[flowName] === undefined);
-          //expect(myManager.flowDefinitions[flowName]).to.beUndefined();
-          done();
+    /*
+        it('can be removed again', function (done) {
+          kronos.manager().then(function (myManager) {
+            myManager.declareFlows(flowDecl);
+            myManager.deleteFlow('flow1').then(function () {
+              console.log(`flow: ${myManager.flowDefinitions[flowName]}`);
+              assert(myManager.flowDefinitions[flowName] === undefined);
+              //expect(myManager.flowDefinitions[flowName]).to.beUndefined();
+              done();
+            });
+          });
         });
-      });
-    });
-    */
+        */
   });
 });
