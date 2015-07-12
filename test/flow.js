@@ -44,6 +44,8 @@ describe('declaration', function () {
 
   it('can be initialized', function (done) {
     makePromise(flowDecls).then(function (manager) {
+      manager.registerEndpointScheme();
+
       const flow1 = manager.flowDefinitions.flow1;
       flow1.initialize();
       assert(flow1, "flow object missing");

@@ -9,7 +9,6 @@ const assert = chai.assert;
 const expect = chai.expect;
 const should = chai.should();
 
-const path = require('path');
 const uti = require('uti');
 
 const kronos = require('../lib/manager.js');
@@ -59,32 +58,14 @@ describe('service manager', function () {
   });
 
   describe('step registration', function () {
-    it('should register from additional dirs', function (done) {
-      const promise = kronos.manager({
-        stepDirectories: [path.join(__dirname, 'fixtures', 'steps1'), path.join(__dirname, 'fixtures',
-          'steps2')]
-      });
+    it('can register additional steps', function (done) {
+      kronos.manager().then(function (manager) {
+        manager.registerStep('step1',require('./fixtures/steps1/someStep'));
 
-      promise.then(function (manager) {
-        assert(manager.stepImplementations.someStep.name == 'someStep');
-        assert(manager.stepImplementations.anotherStep.name == 'anotherStep');
+        const c = manager.stepImplementations['step1'];
+        expect(c.name, 'step name').to.equal('step1');
+
         done();
-      });
-    });
-
-    it('should fail with bad step dir', function (done) {
-      const promise = kronos.manager({
-        stepDirectories: 'some missing dir'
-      });
-
-      promise.then(function (result) {
-          assert(false);
-          done();
-        },
-        function (error) {
-          // expect Error: ENOENT: no such file or directory, scandir 'some missing dir'
-          assert(error.toString().match(/ENOENT/));
-          done();
         });
     });
   });

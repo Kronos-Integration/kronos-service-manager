@@ -2,9 +2,7 @@
 
 "use strict";
 
-exports.stepImplementations = {
-	"someStep": {
+exports = {
 		"config" : { "attribute1" : { } },
 		initialize(manager, stepDef) {}
-	}
 };
