@@ -91,7 +91,6 @@ describe('service manager', function () {
         try {
           const f = myManager.declareFlows(flowDecl).flow1;
           expect(f).to.equal(myManager.flowDefinitions.flow1);
-          done();
         } catch (e) {
           assert(false);
           console.log(e);
