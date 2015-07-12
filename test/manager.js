@@ -58,10 +58,9 @@ describe('service manager', function () {
   });
 
   describe('step registration', function () {
-    it('can register additional steps', function (done) {
+    it('additional steps', function (done) {
       kronos.manager().then(function (manager) {
-        manager.registerStep('step1', require('./fixtures/steps1/someStep'));
-
+        manager.registerStepImplementation('step1', require('./fixtures/steps1/someStep'));
         const c = manager.stepImplementations['step1'];
         expect(c.name, 'step name').to.equal('step1');
 
@@ -73,20 +72,30 @@ describe('service manager', function () {
   describe('register flow', function () {
     it('should be present', function (done) {
       kronos.manager().then(function (myManager) {
-        myManager.declareFlows(flowDecl);
-        const flowName = 'flow1';
-        const flow = myManager.flowDefinitions[flowName];
-        should.exist(flow);
-        expect(flow.name).to.equal(flowName);
+        try {
+          myManager.declareFlows(flowDecl);
+          const flowName = 'flow1';
+          const flow = myManager.flowDefinitions[flowName];
+          should.exist(flow);
+          expect(flow.name).to.equal(flowName);
+        } catch (e) {
+          assert(false);
+          console.log(e);
+        }
         done();
       });
     });
 
-
     it('should be the returned one', function (done) {
       kronos.manager().then(function (myManager) {
-        const f = myManager.declareFlows(flowDecl).flow1;
-        expect(f).to.equal(myManager.flowDefinitions.flow1);
+        try {
+          const f = myManager.declareFlows(flowDecl).flow1;
+          expect(f).to.equal(myManager.flowDefinitions.flow1);
+          done();
+        } catch (e) {
+          assert(false);
+          console.log(e);
+        }
         done();
       });
     });
