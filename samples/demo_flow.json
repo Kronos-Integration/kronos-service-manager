@@ -39,9 +39,6 @@
 			}
 		},
 
-		// entweder initialize
-		"initialize": "function (manager, step)",
-
 		// oder weitere Steps
 		"steps": {
 			"untar": {
