@@ -1,19 +1,17 @@
-/* global describe, it, xit */
+/* global describe, it, beforeEach */
 /* jslint node: true, esnext: true */
 
 "use strict";
 
-const chai = require('chai');
-chai.use(require("chai-as-promised"));
-const assert = chai.assert;
-const expect = chai.expect;
-const should = chai.should();
+const kronosStep = require('kronos-step');
+// const endpointImpls = kronosStep.endpointImplementation;
+// const endpointImpls = kronosStep.endpointImplementation;
 
-const uti = require('uti');
+const channel = require('../../lib/channel');
 
-const kronos = require('../../lib/manager.js');
-kronos.manager().then(function (manager) {
-	const c = manager.stepImplementations['kronos-copy'];
 
-	console.log("Gumbo");
+kronosStep.createEndpoint("input", {
+	direction: "in(passive)"
 });
+
+console.log("");

@@ -4,7 +4,7 @@
 "use strict";
 
 const kronosStep = require('kronos-step');
-const endpointImpls = kronosStep.endpointImplementation;
+//const endpointImpls = kronosStep.endpointImplementation;
 
 const channel = require('../lib/channel');
 const chai = require('chai');
@@ -32,10 +32,10 @@ describe('channel', function () {
 
 		beforeEach(function () {
 			es = {
-				"input": endpointImpls.createEndpoint("input", {
+				"input": kronosStep.createEndpoint("input", {
 					direction: "in(passive)"
 				}),
-				"output": endpointImpls.createEndpoint("output", {
+				"output": kronosStep.createEndpoint("output", {
 					direction: "out(active)"
 				})
 			};
@@ -79,10 +79,10 @@ describe('channel', function () {
 
 		beforeEach(function () {
 			es = {
-				"input": endpointImpls.createEndpoint("input", {
+				"input": kronosStep.createEndpoint("input", {
 					direction: "in(passive)"
 				}),
-				"output": endpointImpls.createEndpoint("output", {
+				"output": kronosStep.createEndpoint("output", {
 					direction: "out(passive)"
 				})
 			};
