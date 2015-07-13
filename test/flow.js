@@ -19,7 +19,7 @@ function makePromise(flowDecls) {
 }
 
 describe('declaration', function () {
-  describe('plain', function () {
+  describe.only('plain', function () {
 
     const flowDecls = {
       "flow1": {
