@@ -65,7 +65,9 @@ module.exports = {
 
       logger.debug(`Write stream created`);
 
-      myRequest.stream.pipe(writeStream);
+      let readStream = myRequest.stream;
+
+      readStream.pipe(writeStream);
 
       logger.debug(`Done`);
     });
