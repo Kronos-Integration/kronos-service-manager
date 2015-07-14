@@ -45,10 +45,23 @@ module.exports = {
       logger.debug(`Generator called`);
 
       const myRequest = yield;
-      logger.debug(`Got a new request ${JSON.stringify(myRequest)}`);
+      //logger.debug(`Got a new request ${JSON.stringify(myRequest)}`);
 
-      logger.debug(`File to write ${myRequest.fileName}`);
-      const writeStream = fs.createWriteStream(myRequest.fileName);
+      let fileName;
+      // get the fileName. The Config element will overwrite a value given by the request
+      if (step.config.fileName) {
+        fileName = step.config.fileName;
+      } else {
+        fileName = myRequest.info.fileName;
+      }
+
+      if (!fileName) {
+        logger.error("No fileName for writer");
+        throw ("No fileName for writer");
+      }
+
+      logger.debug(`File to write ${fileName}`);
+      const writeStream = fs.createWriteStream(fileName);
 
       logger.debug(`Write stream created`);
 
@@ -56,31 +69,5 @@ module.exports = {
 
       logger.debug(`Done`);
     });
-
-    // // get the endpoint
-    // const in1 = step.endpoints.in.initialize(manager);
-    // const in1ParamDef = step.endpoints.in.contentInfo;
-    // const stepParamDef = step.meta.config;
-    // const stepConfig = step.config;
-    //
-    //
-    // for (let request of in1) {
-    //   logger.debug("Got request Write");
-    //   // get the info parameter hash
-    //   let info = request.info;
-    //
-    //   // get the input stream
-    //   let inStream = request.stream;
-    //
-    //   // validate the configs
-    //   const myConfig = validator(in1ParamDef, [stepConfig, info]);
-    //   const fileName = myConfig.fileName;
-    //
-    //   logger.debug(`Write file '${fileName}'`);
-    //
-    //   var destionationStream = fs.createWriteStream(fileName);
-    //
-    //   inStream.pipe(destionationStream);
-    // }
   }
 };
