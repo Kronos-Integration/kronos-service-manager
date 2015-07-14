@@ -3,7 +3,7 @@
 "use strict";
 
 const log4js = require('log4js');
-const logger = log4js.getLogger('kronos-step-file-common:kronos_fileWriter');
+const logger = log4js.getLogger('kronos-service-manager:steps:file-write');
 
 const fs = require('fs');
 
@@ -13,7 +13,7 @@ const fs = require('fs');
  * the  content info of the reading endpoint 'in'. But it must be there.
  * The step configuration will overwrite the contentInfo
  */
-exports.kronos_fileWriter = {
+module.exports = {
   "description": "Opens a file for reading",
   "endpoints": {
     "in": {
@@ -45,7 +45,7 @@ exports.kronos_fileWriter = {
       logger.debug(`Generator called`);
 
       const myRequest = yield;
-      logger.debug(`Got a new request ${myRequest}`);
+      logger.debug(`Got a new request ${JSON.stringify(myRequest)}`);
 
       logger.debug(`File to write ${myRequest.fileName}`);
       const writeStream = fs.createWriteStream(myRequest.fileName);

@@ -7,7 +7,10 @@ const kronos = require('../../../index');
 const fileReader = require('../steps/file-read');
 const fileWriter = require('../steps/file-write');
 
+const path = require('path');
 
+const sourceFileName = path.join(__dirname, 'fixtures/demo.txt');
+const destFileName = path.join(__dirname, 'result/demo_copy.txt');
 
 const simpleFlow = {
 	"fileCopy": {
@@ -16,7 +19,7 @@ const simpleFlow = {
 			"reader": {
 				"type": "kronos_fileReader",
 				"config": {
-					"fileName": 'test/fixtures/demo.txt'
+					"fileName": sourceFileName
 				},
 				"endpoints": {
 					"out": "step:writer/in"
@@ -25,7 +28,7 @@ const simpleFlow = {
 			"writer": {
 				"type": "kronos_fileWriter",
 				"config": {
-					"fileName": 'test/fixtures/tmp/demo_copy.txt'
+					"fileName": destFileName
 				},
 				"endpoints": {
 					"in": "step:reader/out",
@@ -41,8 +44,8 @@ kronos.manager().then(function (manager) {
 		manager.registerStepImplementation("kronos_fileWriter", fileWriter);
 
 		let flowFileCopy = manager.declareFlows(simpleFlow);
-		let flowTest = kronos.flowDefinitions.fileCopy;
-		flowTest.initialize(kronos);
+		let flowTest = manager.flowDefinitions.fileCopy;
+		flowTest.initialize(manager);
 	} catch (err) {
 		console.log(err);
 	}
