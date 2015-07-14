@@ -1,7 +1,6 @@
 /* jslint node: true, esnext: true */
 "use strict";
 
+const manager = require('./lib/manager');
 
-const kronos = require('./lib/manager');
-
-module.exports.kronos = kronos;
+module.exports = manager;
