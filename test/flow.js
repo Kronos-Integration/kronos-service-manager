@@ -185,5 +185,16 @@ describe('declaration', function () {
         done();
       });
     });
+
+    it('json', function (done) {
+      makePromise(flowDecls).then(function (manager) {
+        const flow2 = manager.flowDefinitions.flow2;
+        const json = flow2.toJSON();
+        //console.log(`${JSON.stringify(json,undefined,' ')}`);
+        assert(json.name === 'flow2');
+        done();
+      });
+    });
+
   });
 });

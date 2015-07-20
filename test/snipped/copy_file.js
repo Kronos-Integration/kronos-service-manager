@@ -2,11 +2,12 @@
 /* jslint node: true, esnext: true */
 
 "use strict";
+
+const kronos = require('../../lib/manager');
 const fs = require('fs');
 const path = require('path');
 
 const uti = require("uti");
-const kronos = require('../../lib/manager');
 
 
 

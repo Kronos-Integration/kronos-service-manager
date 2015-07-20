@@ -9,7 +9,7 @@ iojs test/stdin_to_stdout.js <test/stdin_to_stdout.js
 
 "use strict";
 
-const kronos = require('../lib/manager.js');
+const kronos = require('../../lib/manager.js');
 
 const floDecls = {
 	"flow1": {

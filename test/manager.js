@@ -18,7 +18,7 @@ describe('service manager', function () {
     "flow1": {
       "steps": {
         "s1": {
-          "type": "kronos-copy",
+          "type": "kronos-flow-control",
           "config": {
             "key1": "value1"
           },
@@ -49,9 +49,9 @@ describe('service manager', function () {
   describe('buildin step implementations', function () {
     it('should be present', function (done) {
       kronos.manager().then(function (manager) {
-        const c = manager.stepImplementations['kronos-copy'];
+        const c = manager.stepImplementations['kronos-flow-control'];
         should.exist(c);
-        expect(c.name, 'step name').to.equal('kronos-copy');
+        expect(c.name, 'step name').to.equal('kronos-flow-control');
         done();
       });
     });
@@ -99,18 +99,24 @@ describe('service manager', function () {
       });
     });
 
-    /*
-        it('can be removed again', function (done) {
-          kronos.manager().then(function (myManager) {
-            myManager.declareFlows(flowDecl);
-            myManager.deleteFlow('flow1').then(function () {
-              console.log(`flow: ${myManager.flowDefinitions[flowName]}`);
-              assert(myManager.flowDefinitions[flowName] === undefined);
-              //expect(myManager.flowDefinitions[flowName]).to.beUndefined();
-              done();
-            });
+/*
+    it('can be removed again', function (done) {
+      kronos.manager().then(function (myManager) {
+        myManager.declareFlows(flowDecl);
+
+        try {
+          myManager.deleteFlow('flow1').then(function () {
+            console.log(`flow: ${myManager.flowDefinitions[flowName]}`);
+            assert(myManager.flowDefinitions[flowName] === undefined);
+            done();
+          }, function (reject) {
+            console.log(`delete: ${reject}`);
           });
-        });
-        */
+        } catch (e) {
+          console.log(`delete catch: ${e}`);
+        }
+      });
+    });
+    */
   });
 });

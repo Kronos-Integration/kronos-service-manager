@@ -38,7 +38,7 @@ for(let request of ep) {
 
 
 passive::
-	This means the 'in' endpoint will wait until the next chunk of data will be sended.
+	This means the 'in' endpoint will wait until the next chunk of data will be send.
 +
 [source,js]
 ----
