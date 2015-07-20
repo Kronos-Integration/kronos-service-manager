@@ -99,18 +99,24 @@ describe('service manager', function () {
       });
     });
 
-    /*
-        it('can be removed again', function (done) {
-          kronos.manager().then(function (myManager) {
-            myManager.declareFlows(flowDecl);
-            myManager.deleteFlow('flow1').then(function () {
-              console.log(`flow: ${myManager.flowDefinitions[flowName]}`);
-              assert(myManager.flowDefinitions[flowName] === undefined);
-              //expect(myManager.flowDefinitions[flowName]).to.beUndefined();
-              done();
-            });
+/*
+    it('can be removed again', function (done) {
+      kronos.manager().then(function (myManager) {
+        myManager.declareFlows(flowDecl);
+
+        try {
+          myManager.deleteFlow('flow1').then(function () {
+            console.log(`flow: ${myManager.flowDefinitions[flowName]}`);
+            assert(myManager.flowDefinitions[flowName] === undefined);
+            done();
+          }, function (reject) {
+            console.log(`delete: ${reject}`);
           });
-        });
-        */
+        } catch (e) {
+          console.log(`delete catch: ${e}`);
+        }
+      });
+    });
+    */
   });
 });
