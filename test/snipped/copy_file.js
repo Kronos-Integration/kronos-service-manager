@@ -1,3 +1,4 @@
+const kronos = require('../../lib/manager');
 const fs = require('fs');
 const path = require('path');
 
