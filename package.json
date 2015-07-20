@@ -33,7 +33,7 @@
     "kronos-step": "git+ssh://donkey@mfelten.de/Groups/donkey/git/kronos-step.git",
     "log4js": "0.6.26",
     "request": "2.58.0",
-    "uti": "^1.5.0"
+    "uti": "^1.5.1"
   },
   "repository": {
     "type": "git",
