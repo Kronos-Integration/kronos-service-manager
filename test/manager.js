@@ -18,7 +18,7 @@ describe('service manager', function () {
     "flow1": {
       "steps": {
         "s1": {
-          "type": "kronos-copy",
+          "type": "kronos-flow-control",
           "config": {
             "key1": "value1"
           },
@@ -49,9 +49,9 @@ describe('service manager', function () {
   describe('buildin step implementations', function () {
     it('should be present', function (done) {
       kronos.manager().then(function (manager) {
-        const c = manager.stepImplementations['kronos-copy'];
+        const c = manager.stepImplementations['kronos-flow-control'];
         should.exist(c);
-        expect(c.name, 'step name').to.equal('kronos-copy');
+        expect(c.name, 'step name').to.equal('kronos-flow-control');
         done();
       });
     });
