@@ -50,4 +50,12 @@ kronos.manager().then(function (manager) {
 	function (err) {
 		console.log(err);
 	}
-);
+).then(function () {
+	const compare = require('file-compare');
+
+	compare.compare(sourceFileName, destFileName, function (copied, err) {
+		console.log(copied);
+		console.log(err);
+	});
+
+});
