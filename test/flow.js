@@ -192,6 +192,9 @@ describe('declaration', function () {
         const json = flow2.toJSON();
         //console.log(`${JSON.stringify(json,undefined,' ')}`);
         assert(json.name === 'flow2');
+
+        //console.log(`${JSON.stringify(json.steps.s1,undefined,' ')}`);
+      //  assert(json.steps.s1.type === 'kronos-copy');
         done();
       });
     });
