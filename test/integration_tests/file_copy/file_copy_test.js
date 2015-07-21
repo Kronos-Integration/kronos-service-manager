@@ -44,8 +44,6 @@ const testFlow = {
 	}
 };
 
-
-
 describe('file_copy_test', function () {
 	it('copy file', function (done) {
 		kronos.manager().then(function (manager) {
@@ -56,17 +54,18 @@ describe('file_copy_test', function () {
 				let flowFileCopy = manager.declareFlows(testFlow);
 				let flowTest = manager.flowDefinitions.fileCopy;
 				flowTest.initialize(manager);
+
+
+				compare.compare(sourceFileName, destFileName, function (copied, err) {
+					copied.should.equal(true);
+				});
+
+				done();
+
 			} catch (err) {
 				console.log(err);
+				done(err);
 			}
 		});
-		done();
 	});
-
-	it('compare file', function (done) {
-		compare.compare(sourceFileName, destFileName, function (copied, err) {
-			copied.should.equal(true);
-		});
-	});
-
 });
