@@ -60,11 +60,12 @@ describe('file_copy_test', function () {
 					copied.should.equal(true);
 				});
 
+				done();
 
 			} catch (err) {
 				console.log(err);
+				done(err);
 			}
 		});
-		done();
 	});
 });
