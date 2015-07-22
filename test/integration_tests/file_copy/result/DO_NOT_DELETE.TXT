@@ -1,1 +1,0 @@
-Dummy entry to ensure that the directory will be inserted into GIT 
