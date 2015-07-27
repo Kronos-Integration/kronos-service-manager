@@ -99,7 +99,7 @@ describe('service manager', function () {
       });
     });
 
-/*
+
     it('can be removed again', function (done) {
       kronos.manager().then(function (myManager) {
         myManager.declareFlows(flowDecl);
@@ -111,12 +111,13 @@ describe('service manager', function () {
             done();
           }, function (reject) {
             console.log(`delete: ${reject}`);
+            done();
           });
         } catch (e) {
           console.log(`delete catch: ${e}`);
+          done();
         }
       });
     });
-    */
   });
 });
