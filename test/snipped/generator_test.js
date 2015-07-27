@@ -1,39 +1,34 @@
 /* jslint node: true, esnext: true */
 "use strict";
 
-function* g4() {
+
+function* fileWriter() {
 	let counter = 0;
-
-	while (counter < 3) {
-		counter++;
-		let gum = yield counter;
-		if (gum) {
-			console.log("GUMBO");
-		}
+	while (true) {
+		let fileNameToWrite = yield counter;
+		console.log(`fileWriter: Write the file ${fileNameToWrite}`);
 	}
-	return "foo";
 }
 
-var result;
+function* untar() {
+	let elements = ['Archive1', 'Archive2'];
 
-function* g5() {
-	yield "Start";
-	yield * g4();
-	yield "End";
+	let iterator = fileWriter();
+	while (true) {
+		let tarFileName = yield;
+		for (let i = 0; i < elements.length; i++) {
+			console.log(`untar:  ${tarFileName}`);
+			console.log(`untar:  element ${elements[i]}`);
+			iterator.next(`${tarFileName}  ->  ${elements[i]}`);
+		}
+		yield;
+	}
 }
 
-function* g6() {
-	let request = yield;
-	console.log("### " + request);
-}
-var iterator = g6();
+
+var iterator = untar();
 
 console.log(iterator.next());
-console.log(iterator.next("dd"));
-console.log(iterator.next());
-console.log(iterator.next("ha"));
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
-console.log(iterator.next());
+console.log(iterator.next("Accounts.tar"));
+console.log(iterator.next("Descriptions.tar"));
+console.log(iterator.next("movies.tar"));
