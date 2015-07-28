@@ -5,4 +5,7 @@
 }, {
   "name": "org.kronos.log",
   "conformsTo": "public.data"
+}, {
+  "name": "gelf.graylog.org",
+  "conformsTo": "public.data"
 }]
