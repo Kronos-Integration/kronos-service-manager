@@ -21,7 +21,7 @@ function* untar() {
 			console.log(`untar:  element ${elements[i]}`);
 			iterator.next(`${tarFileName}  ->  ${elements[i]}`);
 		}
-		yield;
+		//yield;
 	}
 }
 
