@@ -104,17 +104,11 @@ describe('service manager', function () {
     it('can be removed again', function (done) {
       kronos.manager().then(function (myManager) {
         myManager.declareFlows(flowDecl);
-        console.log(`AA`);
         try {
           myManager.deleteFlow('flow1').then(function () {
-            console.log(`flow: ${myManager.flowDefinitions[flowName]}`);
-            assert(myManager.flowDefinitions[flowName] === undefined);
+            assert(myManager.flowDefinitions['flow1'] === undefined);
             done();
-          }, function (reject) {
-            done(reject);
-          }).catch(function (error) {
-            done(error);
-          });
+          }, done);
         } catch (e) {
           done(e);
         }
