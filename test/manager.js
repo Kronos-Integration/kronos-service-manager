@@ -38,10 +38,14 @@ describe('service manager', function () {
   describe('uti definitions', function () {
     it('should be present', function (done) {
       kronos.manager().then(function (manager) {
-        //console.log(`** ${manager.uti.conformsTo('org.kronos.flow','public.json')}`);
-        assert(uti.conformsTo('org.kronos.flow', 'public.json'),
-          'org.kronos.flow conformsTo public.json');
-        done();
+        try {
+          //console.log(`** ${manager.uti.conformsTo('org.kronos.flow','public.json')}`);
+          assert(uti.conformsTo('org.kronos.flow', 'public.json'),
+            'org.kronos.flow conformsTo public.json');
+          done();
+        } catch (e) {
+          done(e);
+        }
       }, done);
     });
   });
@@ -77,11 +81,10 @@ describe('service manager', function () {
           const flow = myManager.flowDefinitions[flowName];
           should.exist(flow);
           expect(flow.name).to.equal(flowName);
+          done();
         } catch (e) {
-          assert(false);
-          console.log(e);
+          done(e);
         }
-        done();
       }, done);
     });
 
@@ -90,11 +93,10 @@ describe('service manager', function () {
         try {
           const f = myManager.declareFlows(flowDecl).flow1;
           expect(f).to.equal(myManager.flowDefinitions.flow1);
+          done();
         } catch (e) {
-          assert(false);
-          console.log(e);
+          done(e);
         }
-        done();
       }, done);
     });
 
@@ -109,15 +111,12 @@ describe('service manager', function () {
             assert(myManager.flowDefinitions[flowName] === undefined);
             done();
           }, function (reject) {
-            console.log(`delete: ${reject}`);
-            done();
+            done(reject);
           }).catch(function (error) {
-            console.log(`.catch delete: ${reject}`);
-            done();
+            done(error);
           });
         } catch (e) {
-          console.log(`delete catch: ${e}`);
-          done();
+          done(e);
         }
       }, done);
     });
