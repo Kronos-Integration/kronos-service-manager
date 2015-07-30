@@ -47,7 +47,7 @@ describe('flow declaration with errors', function () {
         assert(pe.properties.endpoint === 'in');
         assert(pe.message === 'Mandatory ${endpoint} not defined');
         done();
-      });
+      }, done);
     });
 
 
@@ -61,7 +61,7 @@ describe('flow declaration with errors', function () {
         //assert(pe.scope[1].name === 'step');
         //assert(pe.scope[1].properties.step === 's1');
         done();
-      });
+      }, done);
     });
 
   });
@@ -92,7 +92,7 @@ describe('flow declaration with errors', function () {
         assert(pe.properties.type === 'copy2');
         assert(pe.message === 'Step ${type} implementation not found');
         done();
-      });
+      },done);
     });
 
     it('error entry should have scope', function (done) {
@@ -105,7 +105,7 @@ describe('flow declaration with errors', function () {
         assert(pe.scope[1].name === 'step');
         assert(pe.scope[1].properties.step === 's1');
         done();
-      });
+      },done);
     });
   });
 });

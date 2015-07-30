@@ -45,6 +45,6 @@ describe('kronos-flow-control', function () {
       //console.log(`sample: ${myManager.flowDefinitions.sample}`);
       assert(myManager.flowDefinitions.sample.name === 'sample');
       done();
-    });
+    }, done);
   });
 });

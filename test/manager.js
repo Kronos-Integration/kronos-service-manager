@@ -42,7 +42,7 @@ describe('service manager', function () {
         assert(uti.conformsTo('org.kronos.flow', 'public.json'),
           'org.kronos.flow conformsTo public.json');
         done();
-      });
+      }, done);
     });
   });
 
@@ -53,7 +53,7 @@ describe('service manager', function () {
         should.exist(c);
         expect(c.name, 'step name').to.equal('kronos-flow-control');
         done();
-      });
+      }, done);
     });
   });
 
@@ -63,9 +63,8 @@ describe('service manager', function () {
         manager.registerStepImplementation('step1', require('./fixtures/steps1/someStep'));
         const c = manager.stepImplementations['step1'];
         expect(c.name, 'step name').to.equal('step1');
-
         done();
-      });
+      }, done);
     });
   });
 
@@ -83,7 +82,7 @@ describe('service manager', function () {
           console.log(e);
         }
         done();
-      });
+      }, done);
     });
 
     it('should be the returned one', function (done) {
@@ -96,14 +95,14 @@ describe('service manager', function () {
           console.log(e);
         }
         done();
-      });
+      }, done);
     });
 
 
     it('can be removed again', function (done) {
       kronos.manager().then(function (myManager) {
         myManager.declareFlows(flowDecl);
-
+        console.log(`AA`);
         try {
           myManager.deleteFlow('flow1').then(function () {
             console.log(`flow: ${myManager.flowDefinitions[flowName]}`);
@@ -112,12 +111,15 @@ describe('service manager', function () {
           }, function (reject) {
             console.log(`delete: ${reject}`);
             done();
+          }).catch(function (error) {
+            console.log(`.catch delete: ${reject}`);
+            done();
           });
         } catch (e) {
           console.log(`delete catch: ${e}`);
           done();
         }
-      });
+      }, done);
     });
   });
 });
