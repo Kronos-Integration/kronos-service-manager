@@ -32,7 +32,7 @@
     "kronos-service-manager-addon": "git+ssh://donkey@mfelten.de/Groups/donkey/git/kronos-service-manager-addon.git",
     "kronos-step": "git+ssh://donkey@mfelten.de/Groups/donkey/git/kronos-step.git",
     "log4js": "0.6.26",
-    "uti": "^1.8.0"
+    "uti": "^1.8.1"
   },
   "repository": {
     "type": "git",
