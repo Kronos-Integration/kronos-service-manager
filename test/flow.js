@@ -20,7 +20,6 @@ function makePromise(flowDecls) {
 
 describe('declaration', function () {
   describe('plain', function () {
-
     const flowDecls = {
       "flow1": {
         "description": "the flow description",
@@ -53,23 +52,20 @@ describe('declaration', function () {
         } catch (e) {
           assert(false, "error during initialization: " + e);
         }
-      }, function (error) {
-        assert(false, "error during initialization: " + error);
-      });
-      done();
+        done();
+      }, done);
     });
 
     it('common attributes', function (done) {
       makePromise(flowDecls).then(function (manager) {
         try {
           const flow1 = manager.flowDefinitions.flow1;
-          console.log(`description: ${flow1.description}`);
           assert(flow1.description === 'the flow description');
         } catch (e) {
           assert(false, "error during initialization: " + e);
         }
         done();
-      });
+      }, done);
     });
   });
 
@@ -99,9 +95,9 @@ describe('declaration', function () {
                     "max_parallel": 10
                   },
                   "target": "step:steps/s2_1/in",
-                  "transform": {
-                    "element": "fileName"
-                  }
+                },
+                "contentInfoProcessing": {
+                  "fileName": "${name}"
                 }
               },
               "out": "step:steps/s2_2/out"
@@ -131,7 +127,7 @@ describe('declaration', function () {
         const flow2 = manager.flowDefinitions.flow2;
         assert(flow2.steps.s1.name === "s1");
         done();
-      });
+      }, done);
     });
 
     it('steps should have a mata object', function (done) {
@@ -144,7 +140,7 @@ describe('declaration', function () {
         const json = flow2.steps.s1.toJSON();
         assert(json.name === "s1");
         done();
-      });
+      }, done);
     });
 
     it('steps config should be present', function (done) {
@@ -152,7 +148,7 @@ describe('declaration', function () {
         const flow2 = manager.flowDefinitions.flow2;
         assert(flow2.steps.s1.config.port === 77);
         done();
-      });
+      }, done);
     });
 
     it('endpoints should be present', function (done) {
@@ -161,7 +157,7 @@ describe('declaration', function () {
 
         assert(flow2.steps.s1.endpoints.out.name === "out");
         done();
-      });
+      }, done);
     });
 
     it('substeps are present', function (done) {
@@ -170,20 +166,29 @@ describe('declaration', function () {
 
         assert(flow2.steps.s2.steps.s2_1.name === "s2_1");
         done();
-      });
+      }, done);
     });
 
     it('substeps endpoint linking is present', function (done) {
       makePromise(flowDecls).then(function (manager) {
+        try {
         const flow2 = manager.flowDefinitions.flow2;
 
         assert(flow2.steps.s2.endpoints.in.name === 'in');
+
+        console.log(`${JSON.stringify(flow2.steps.s2.endpoints.in.contentInfoProcessing)}`);
+        assert(flow2.steps.s2.endpoints.in.contentInfoProcessing.fileName === '${name}',
+          'contentInfoProcessing present');
+
         assert(flow2.steps.s2.endpoints.in.target === 'step:steps/s2_1/in', 'target present');
-        assert(flow2.steps.s2.endpoints.in.transform.element === 'fileName', 'transform present');
         assert(flow2.steps.s2.endpoints.out.name === 'out');
         assert(flow2.steps.s2.endpoints.out.direction === 'out(active,passive)');
         done();
-      });
+      }
+      catch(e) {
+        done(e);
+      }
+      }, done);
     });
 
     it('json', function (done) {
@@ -194,9 +199,9 @@ describe('declaration', function () {
         assert(json.name === 'flow2');
 
         //console.log(`${JSON.stringify(json.steps.s1,undefined,' ')}`);
-      //  assert(json.steps.s1.type === 'kronos-copy');
+        //  assert(json.steps.s1.type === 'kronos-copy');
         done();
-      });
+      }, done);
     });
 
   });

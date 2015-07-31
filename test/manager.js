@@ -38,11 +38,15 @@ describe('service manager', function () {
   describe('uti definitions', function () {
     it('should be present', function (done) {
       kronos.manager().then(function (manager) {
-        //console.log(`** ${manager.uti.conformsTo('org.kronos.flow','public.json')}`);
-        assert(uti.conformsTo('org.kronos.flow', 'public.json'),
-          'org.kronos.flow conformsTo public.json');
-        done();
-      });
+        try {
+          //console.log(`** ${manager.uti.conformsTo('org.kronos.flow','public.json')}`);
+          assert(uti.conformsTo('org.kronos.flow', 'public.json'),
+            'org.kronos.flow conformsTo public.json');
+          done();
+        } catch (e) {
+          done(e);
+        }
+      }, done);
     });
   });
 
@@ -53,7 +57,7 @@ describe('service manager', function () {
         should.exist(c);
         expect(c.name, 'step name').to.equal('kronos-flow-control');
         done();
-      });
+      }, done);
     });
   });
 
@@ -63,9 +67,8 @@ describe('service manager', function () {
         manager.registerStepImplementation('step1', require('./fixtures/steps1/someStep'));
         const c = manager.stepImplementations['step1'];
         expect(c.name, 'step name').to.equal('step1');
-
         done();
-      });
+      }, done);
     });
   });
 
@@ -78,12 +81,11 @@ describe('service manager', function () {
           const flow = myManager.flowDefinitions[flowName];
           should.exist(flow);
           expect(flow.name).to.equal(flowName);
+          done();
         } catch (e) {
-          assert(false);
-          console.log(e);
+          done(e);
         }
-        done();
-      });
+      }, done);
     });
 
     it('should be the returned one', function (done) {
@@ -91,33 +93,26 @@ describe('service manager', function () {
         try {
           const f = myManager.declareFlows(flowDecl).flow1;
           expect(f).to.equal(myManager.flowDefinitions.flow1);
+          done();
         } catch (e) {
-          assert(false);
-          console.log(e);
+          done(e);
         }
-        done();
-      });
+      }, done);
     });
 
 
     it('can be removed again', function (done) {
       kronos.manager().then(function (myManager) {
         myManager.declareFlows(flowDecl);
-
         try {
           myManager.deleteFlow('flow1').then(function () {
-            console.log(`flow: ${myManager.flowDefinitions[flowName]}`);
-            assert(myManager.flowDefinitions[flowName] === undefined);
+            assert(myManager.flowDefinitions['flow1'] === undefined);
             done();
-          }, function (reject) {
-            console.log(`delete: ${reject}`);
-            done();
-          });
+          }, done);
         } catch (e) {
-          console.log(`delete catch: ${e}`);
-          done();
+          done(e);
         }
-      });
+      }, done);
     });
   });
 });
