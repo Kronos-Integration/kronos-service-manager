@@ -19,7 +19,7 @@ function makePromise(flowDecls) {
 }
 
 describe('declaration', function () {
-  describe.only('with substeps', function () {
+  describe('with substeps', function () {
     const flowDecls = {
       "flow2": {
         "description": "Test",
@@ -72,7 +72,7 @@ describe('declaration', function () {
       }
     };
 
-    xit('steps should be present', function (done) {
+    it('steps should be present', function (done) {
       makePromise(flowDecls).then(function (manager) {
         const flow2 = manager.flowDefinitions.flow2;
         assert(flow2.steps.s1.name === "s1");
@@ -80,7 +80,7 @@ describe('declaration', function () {
       }, done);
     });
 
-    xit('steps should have a mata object', function (done) {
+    it('steps should have a mata object', function (done) {
       makePromise(flowDecls).then(function (manager) {
         const flow2 = manager.flowDefinitions.flow2;
         assert(flow2.steps.s1.meta.name === "kronos-copy");
@@ -93,7 +93,7 @@ describe('declaration', function () {
       }, done);
     });
 
-    xit('steps config should be present', function (done) {
+    it('steps config should be present', function (done) {
       makePromise(flowDecls).then(function (manager) {
         const flow2 = manager.flowDefinitions.flow2;
         assert(flow2.steps.s1.config.port === 77);
@@ -101,7 +101,7 @@ describe('declaration', function () {
       }, done);
     });
 
-    xit('endpoints should be present', function (done) {
+    it('endpoints should be present', function (done) {
       makePromise(flowDecls).then(function (manager) {
         const flow2 = manager.flowDefinitions.flow2;
 
@@ -110,7 +110,7 @@ describe('declaration', function () {
       }, done);
     });
 
-    xit('substeps are present', function (done) {
+    it('substeps are present', function (done) {
       makePromise(flowDecls).then(function (manager) {
         const flow2 = manager.flowDefinitions.flow2;
 
@@ -123,15 +123,7 @@ describe('declaration', function () {
       makePromise(flowDecls).then(function (manager) {
         try {
           const flow2 = manager.flowDefinitions.flow2;
-
-          console.log(`${JSON.stringify(flow2.steps.s2.endpoints.in)}`);
           assert(flow2.steps.s2.endpoints.in.name === 'in');
-
-          /*
-                  console.log(`${JSON.stringify(flow2.steps.s2.endpoints.in.contentInfoProcessing)}`);
-                  assert(flow2.steps.s2.endpoints.in.contentInfoProcessing.fileName === '${name}',
-                    'contentInfoProcessing present');
-          */
           assert(flow2.steps.s2.endpoints.in.target === 'step:steps/s2_1/in', 'target present');
           assert(flow2.steps.s2.endpoints.out.name === 'out');
           assert(flow2.steps.s2.endpoints.out.direction === 'out(active,passive)');
@@ -142,7 +134,7 @@ describe('declaration', function () {
       }, done);
     });
 
-    xit('json', function (done) {
+    it('json', function (done) {
       makePromise(flowDecls).then(function (manager) {
         const flow2 = manager.flowDefinitions.flow2;
         const json = flow2.toJSON();
