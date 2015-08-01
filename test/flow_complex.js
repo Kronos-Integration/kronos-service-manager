@@ -103,10 +103,14 @@ describe('declaration', function () {
 
     it('endpoints should be present', function (done) {
       makePromise(flowDecls).then(function (manager) {
-        const flow2 = manager.flowDefinitions.flow2;
+        try {
+          const flow2 = manager.flowDefinitions.flow2;
 
-        assert(flow2.steps.s1.endpoints.out.name === "out");
-        done();
+          assert(flow2.steps.s1.endpoints.out.name === "out");
+          done();
+        } catch (e) {
+          done(e);
+        }
       }, done);
     });
 
@@ -136,14 +140,18 @@ describe('declaration', function () {
 
     it('json', function (done) {
       makePromise(flowDecls).then(function (manager) {
-        const flow2 = manager.flowDefinitions.flow2;
-        const json = flow2.toJSON();
-        //console.log(`${JSON.stringify(json,undefined,' ')}`);
-        assert(json.name === 'flow2');
+        try {
+          const flow2 = manager.flowDefinitions.flow2;
+          const json = flow2.toJSON();
+          //console.log(`${JSON.stringify(json,undefined,' ')}`);
+          assert(json.name === 'flow2');
 
-        //console.log(`${JSON.stringify(json.steps.s1,undefined,' ')}`);
-        //  assert(json.steps.s1.type === 'kronos-copy');
-        done();
+          //console.log(`${JSON.stringify(json.steps.s1,undefined,' ')}`);
+          //  assert(json.steps.s1.type === 'kronos-copy');
+          done();
+        } catch (e) {
+          done(e);
+        }
       }, done);
     });
   });
