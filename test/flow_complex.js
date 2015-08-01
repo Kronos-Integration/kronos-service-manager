@@ -75,7 +75,7 @@ describe('declaration', function () {
     it('steps should be present', function (done) {
       makePromise(flowDecls).then(function (manager) {
         const flow2 = manager.flowDefinitions.flow2;
-        assert(flow2.steps.s1.name === "s1");
+        assert.equal(flow2.steps.s1.name, "s1");
         done();
       }, done);
     });
@@ -84,12 +84,12 @@ describe('declaration', function () {
       makePromise(flowDecls).then(function (manager) {
         try {
           const flow2 = manager.flowDefinitions.flow2;
-          assert(flow2.steps.s1.meta.name === "kronos-copy");
+          assert.equal(flow2.steps.s1.meta.name, "kronos-copy");
 
-          assert(`${flow2.steps.s1}`, "s1");
+          assert.equal(`${flow2.steps.s1}`, "s1");
 
           const json = flow2.steps.s1.toJSON();
-          assert(json.name === "s1");
+          assert.equal(json.name, "s1");
           done();
         } catch (e) {
           done(e);
@@ -100,7 +100,7 @@ describe('declaration', function () {
     it('steps config should be present', function (done) {
       makePromise(flowDecls).then(function (manager) {
         const flow2 = manager.flowDefinitions.flow2;
-        assert(flow2.steps.s1.config.port === 77);
+        assert.equal(flow2.steps.s1.config.port, 77);
         done();
       }, done);
     });
@@ -110,7 +110,7 @@ describe('declaration', function () {
         try {
           const flow2 = manager.flowDefinitions.flow2;
 
-          assert(flow2.steps.s1.endpoints.out.name === "out");
+          assert.equal(flow2.steps.s1.endpoints.out.name, "out");
           done();
         } catch (e) {
           done(e);
@@ -122,7 +122,7 @@ describe('declaration', function () {
       makePromise(flowDecls).then(function (manager) {
         const flow2 = manager.flowDefinitions.flow2;
 
-        assert(flow2.steps.s2.steps.s2_1.name === "s2_1");
+        assert.equal(flow2.steps.s2.steps.s2_1.name, "s2_1");
         done();
       }, done);
     });
@@ -131,10 +131,10 @@ describe('declaration', function () {
       makePromise(flowDecls).then(function (manager) {
         try {
           const flow2 = manager.flowDefinitions.flow2;
-          assert(flow2.steps.s2.endpoints.in.name === 'in');
-          assert(flow2.steps.s2.endpoints.in.target === 'step:steps/s2_1/in', 'target present');
-          assert(flow2.steps.s2.endpoints.out.name === 'out');
-          assert(flow2.steps.s2.endpoints.out.direction === 'out(active,passive)');
+          assert.equal(flow2.steps.s2.endpoints.in.name, 'in');
+          assert.equal(flow2.steps.s2.endpoints.in.target, 'step:steps/s2_1/in', 'target present');
+          assert.equal(flow2.steps.s2.endpoints.out.name, 'out');
+          assert.equal(flow2.steps.s2.endpoints.out.direction, 'out(active,passive)');
           done();
         } catch (e) {
           done(e);
@@ -147,8 +147,7 @@ describe('declaration', function () {
         try {
           const flow2 = manager.flowDefinitions.flow2;
           const json = flow2.toJSON();
-          //console.log(`${JSON.stringify(json,undefined,' ')}`);
-          assert(json.name === 'flow2');
+          assert.equal(json.name, 'flow2');
 
           //console.log(`${JSON.stringify(json.steps.s1,undefined,' ')}`);
           //  assert(json.steps.s1.type === 'kronos-copy');
