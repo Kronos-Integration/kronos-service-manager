@@ -82,14 +82,18 @@ describe('declaration', function () {
 
     it('steps should have a mata object', function (done) {
       makePromise(flowDecls).then(function (manager) {
-        const flow2 = manager.flowDefinitions.flow2;
-        assert(flow2.steps.s1.meta.name === "kronos-copy");
+        try {
+          const flow2 = manager.flowDefinitions.flow2;
+          assert(flow2.steps.s1.meta.name === "kronos-copy");
 
-        assert(`${flow2.steps.s1}` === "s1");
+          assert(`${flow2.steps.s1}`, "s1");
 
-        const json = flow2.steps.s1.toJSON();
-        assert(json.name === "s1");
-        done();
+          const json = flow2.steps.s1.toJSON();
+          assert(json.name === "s1");
+          done();
+        } catch (e) {
+          done(e);
+        }
       }, done);
     });
 
