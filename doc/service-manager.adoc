@@ -26,14 +26,14 @@ multiple other nodes via http.
 .example flow
 image::images/flow_split_2.png[]
 
-So the stpes needs to be devided into two groups. But it could not be done as schown in the
+So the steps needs to be divided into two groups. But it could not be done as schown in the
 next picture.
 
 .example flow
 image::images/flow_split_3.png[]
 
 The processor could not find a clear edge where the first group end ant the second group starts.
-Therefore it is mandatory that all steps of a group which should/could be devided needs to be connected
+Therefore it is mandatory that all steps of a group which should/could be divided needs to be connected
 with special channel. So the flow processor could separate the groups. This is shown in the next
 picture.
 
@@ -80,7 +80,7 @@ The flow will look like shown in the next picture.
 image::images/flow_life_cycle_1.png[]
 
 While executing the flow (There are thounds of new files and the execution will take some time) a new
-node will become available. No the manager registers the second step group on this new node and will distribute
+node will become available. Now the manager registers the second step group on this new node and will distribute
 the requests to both nodes. The own one and the remote one (remote in this case means other running node instance).
 
 .example flow
