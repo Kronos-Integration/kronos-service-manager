@@ -34,6 +34,19 @@ describe('service manager', function () {
       }
     }
   };
+  describe('std attributes', function () {
+    it('should have a name', function (done) {
+      kronos.manager({ name: 'myName' }).then(function (manager) {
+        try {
+          assert.equal(manager.name, 'myName');
+          assert.equal(manager.toString(), 'myName');
+          done();
+        } catch (e) {
+          done(e);
+        }
+      }, done);
+    });
+  });
 
   describe('uti definitions', function () {
     it('should be present', function (done) {
