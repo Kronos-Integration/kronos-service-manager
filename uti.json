@@ -8,4 +8,7 @@
 }, {
   "name": "gelf.graylog.org",
   "conformsTo": "public.data"
+}, {
+  "name": "org.kronos.file",
+  "conformsTo": "public.data"
 }]
