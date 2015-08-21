@@ -36,7 +36,9 @@ describe('service manager', function () {
   };
   describe('std attributes', function () {
     it('should have a name', function (done) {
-      kronos.manager({ name: 'myName' }).then(function (manager) {
+      kronos.manager({
+        name: 'myName'
+      }).then(function (manager) {
         try {
           assert.equal(manager.name, 'myName');
           assert.equal(manager.toString(), 'myName');
@@ -105,15 +107,15 @@ describe('service manager', function () {
     it('should be the returned one', function (done) {
       kronos.manager().then(function (myManager) {
         try {
-          const f = myManager.registerFlows(flowDecl).flow1;
-          expect(f).to.equal(myManager.flowDefinitions.flow1);
-          done();
+          const f = myManager.registerFlows(flowDecl).then(function (flows) {
+            expect(flows[0]).to.equal(myManager.flowDefinitions.flow1);
+            done();
+          });
         } catch (e) {
           done(e);
         }
       }, done);
     });
-
 
     it('can be removed again', function (done) {
       kronos.manager().then(function (myManager) {
