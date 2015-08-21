@@ -13,11 +13,13 @@ const kronos = require('../lib/manager.js');
 
 function runFlowTest(flowDecls, flowName, done, test) {
   return kronos.manager({
+    name: "myManager",
     validateSchema: false,
     flows: flowDecls
   }).then(function (manager) {
     try {
       const flow = manager.flowDefinitions[flowName];
+      assert.equal(flow.manager, manager);
       assert(flow, "flow object missing");
       test(flow);
     } catch (e) {
@@ -49,17 +51,31 @@ describe('flow', function () {
         }
       }
     };
-    describe('has static attributes', function () {
-      it('common attributes', function (done) {
+    describe('attributes', function () {
+      it('has a description', function (done) {
         runFlowTest(flowDecls, 'flow1', done, function (flow) {
           assert.equal(flow.description,'the flow description');
           done();
         });
       });
 
-      it('common attributes', function (done) {
+      it('has some endpoints', function (done) {
         runFlowTest(flowDecls, 'flow1', done, function (flow) {
           assert.equal(flow.steps.s1.endpoints.out.contentInfoProcessing.fileName,'${name}');
+          done();
+        });
+      });
+
+      it('has a manager', function (done) {
+        runFlowTest(flowDecls, 'flow1', done, function (flow) {
+          assert.equal(flow.manager.name,'myManager');
+          done();
+        });
+      });
+
+      it('has a state', function (done) {
+        runFlowTest(flowDecls, 'flow1', done, function (flow) {
+          assert.equal(flow.state,'registered');
           done();
         });
       });
