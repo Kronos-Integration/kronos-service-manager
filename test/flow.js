@@ -11,15 +11,23 @@ const should = chai.should();
 
 const kronos = require('../lib/manager.js');
 
-function makePromise(flowDecls) {
+function runFlowTest(flowDecls, flowName, done, test) {
   return kronos.manager({
     validateSchema: false,
     flows: flowDecls
-  });
+  }).then(function (manager) {
+    try {
+      const flow = manager.flowDefinitions[flowName];
+      assert(flow, "flow object missing");
+      test(flow);
+    } catch (e) {
+      done(e);
+    }
+  },done);
 }
 
-describe('declaration', function () {
-  describe('plain', function () {
+describe('flow', function () {
+  describe('simple', function () {
     const flowDecls = {
       "flow1": {
         "description": "the flow description",
@@ -30,61 +38,69 @@ describe('declaration', function () {
               "in": "stdin",
               "out": {
                 "connect": {
-                  "target": "step:s2/in"
+                  "target": "stdout"
                 },
                 "contentInfoProcessing": {
                   "fileName": "${name}"
                 }
-              },
-              "log": "stderr"
-            }
-          },
-          "s2": {
-            "type": "kronos-copy",
-            "endpoints": {
-              "out": "file:/tmp/somefile",
-              "log": "stderr"
+              }
             }
           }
         }
       }
     };
-
-    it('can be initialized', function (done) {
-      makePromise(flowDecls).then(function (manager) {
-        try {
-          const flow1 = manager.flowDefinitions.flow1;
-          flow1.initialize();
-          assert(flow1, "flow object missing");
+    describe('has static attributes', function () {
+      it('common attributes', function (done) {
+        runFlowTest(flowDecls, 'flow1', done, function (flow) {
+          assert.equal(flow.description,'the flow description');
           done();
-        } catch (e) {
-          done(e);
-        }
-      }, done);
+        });
+      });
+
+      it('common attributes', function (done) {
+        runFlowTest(flowDecls, 'flow1', done, function (flow) {
+          assert.equal(flow.steps.s1.endpoints.out.contentInfoProcessing.fileName,'${name}');
+          done();
+        });
+      });
     });
 
-    it('common attributes', function (done) {
-      makePromise(flowDecls).then(function (manager) {
-        try {
-          const flow1 = manager.flowDefinitions.flow1;
-          assert(flow1.description === 'the flow description');
-          done();
-        } catch (e) {
-          done(e);
-        }
-      }, done);
-    });
+    describe('lifecycle', function () {
+      it('can`t be paused from registered', function (done) {
+        runFlowTest(flowDecls, 'flow1', done, function (flow) {
+          flow.pause().then(function (flow) {
+            try {
+              done(new Error('registered flows cannot be paused'));
+            }
+            catch(e) { done(e); }
+          },function(e) { done(); });
+        });
+      });
 
-    it('contentInfoProcessing', function (done) {
-      makePromise(flowDecls).then(function (manager) {
-        try {
-          const flow1 = manager.flowDefinitions.flow1;
-          assert(flow1.steps.s1.endpoints.out.contentInfoProcessing.fileName === '${name}');
-          done();
-        } catch (e) {
-          done(e);
-        }
-      }, done);
+      it('can be started', function (done) {
+        runFlowTest(flowDecls, 'flow1', done, function (flow) {
+          flow.start().then(function (flow) {
+            try {
+              assert.equal(flow.state, 'running');
+              done();
+            }
+            catch(e) { done(e); }
+          },done);
+        });
+      });
+      it('can be started and stopped again', function (done) {
+        runFlowTest(flowDecls, 'flow1', done, function (flow) {
+          flow.start().then(function (flow) {
+            flow.stop().then(function (flow) {
+              try {
+                assert.equal(flow.state, 'stopped');
+                done();
+              }
+              catch(e) { done(e); }
+            },done);
+          });
+        });
+      });
     });
   });
 });

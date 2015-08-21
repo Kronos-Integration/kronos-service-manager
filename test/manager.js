@@ -89,11 +89,12 @@ describe('service manager', function () {
     it('should be present', function (done) {
       kronos.manager().then(function (myManager) {
         try {
-          myManager.declareFlows(flowDecl);
+          myManager.registerFlows(flowDecl);
           const flowName = 'flow1';
           const flow = myManager.flowDefinitions[flowName];
           should.exist(flow);
           expect(flow.name).to.equal(flowName);
+          expect(flow.state).to.equal("registered");
           done();
         } catch (e) {
           done(e);
@@ -104,7 +105,7 @@ describe('service manager', function () {
     it('should be the returned one', function (done) {
       kronos.manager().then(function (myManager) {
         try {
-          const f = myManager.declareFlows(flowDecl).flow1;
+          const f = myManager.registerFlows(flowDecl).flow1;
           expect(f).to.equal(myManager.flowDefinitions.flow1);
           done();
         } catch (e) {
@@ -116,7 +117,7 @@ describe('service manager', function () {
 
     it('can be removed again', function (done) {
       kronos.manager().then(function (myManager) {
-        myManager.declareFlows(flowDecl);
+        myManager.registerFlows(flowDecl);
         try {
           myManager.deleteFlow('flow1').then(function () {
             assert(myManager.flowDefinitions['flow1'] === undefined);

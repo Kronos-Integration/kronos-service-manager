@@ -14,6 +14,22 @@ const fs = require('fs');
 
 const kronos = require('../lib/manager.js');
 
+
+function runFlowTest(flowDecls, flowName, done, test) {
+  return kronos.manager({
+    validateSchema: false,
+    flows: flowDecls
+  }).then(function (manager) {
+    try {
+      const flow = manager.flowDefinitions[flowName];
+      assert(flow, "flow object missing");
+      test(flow);
+    } catch (e) {
+      done(e);
+    }
+  }, done);
+}
+
 describe('kronos-flow-control', function () {
   const flowStream = fs.createReadStream(path.join(__dirname, 'fixtures', 'sample.flow'), {
     encoding: 'utf8'
@@ -39,12 +55,10 @@ describe('kronos-flow-control', function () {
   };
 
   it('exec within flow1', function (done) {
-    kronos.manager().then(function (myManager) {
-      myManager.declareFlows(flowDecl);
-      myManager.intializeFlow('flow1');
-      //console.log(`sample: ${myManager.flowDefinitions.sample}`);
-      assert(myManager.flowDefinitions.sample.name === 'sample');
+    runFlowTest(flowDecl, 'flow1', done, function (flow) {
+      flow.start();
+      assert(flow.manager.flowDefinitions.sample.name === 'sample');
       done();
-    }, done);
+    });
   });
 });

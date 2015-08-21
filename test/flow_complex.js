@@ -11,11 +11,19 @@ const should = chai.should();
 
 const kronos = require('../lib/manager.js');
 
-function makePromise(flowDecls) {
+function runFlowTest(flowDecls, flowName, done, test) {
   return kronos.manager({
     validateSchema: false,
     flows: flowDecls
-  });
+  }).then(function (manager) {
+    try {
+      const flow = manager.flowDefinitions[flowName];
+      assert(flow, "flow object missing");
+      test(flow);
+    } catch (e) {
+      done(e);
+    }
+  }, done);
 }
 
 describe('declaration', function () {
@@ -73,44 +81,38 @@ describe('declaration', function () {
     };
 
     it('steps should be present', function (done) {
-      makePromise(flowDecls).then(function (manager) {
-        const flow2 = manager.flowDefinitions.flow2;
-        assert.equal(flow2.steps.s1.name, "s1");
-        done();
-      }, done);
+      runFlowTest(flowDecls, 'flow2', done, function (flow) {
+        assert.equal(flow.steps.s1.name, "s1");
+      });
     });
 
     it('steps should have a mata object', function (done) {
-      makePromise(flowDecls).then(function (manager) {
+      runFlowTest(flowDecls, 'flow2', done, function (flow) {
         try {
-          const flow2 = manager.flowDefinitions.flow2;
-          assert.equal(flow2.steps.s1.meta.name, "kronos-copy");
+          assert.equal(flow.steps.s1.meta.name, "kronos-copy");
 
-          assert.equal(`${flow2.steps.s1}`, "s1");
+          assert.equal(`${flow.steps.s1}`, "s1");
 
-          const json = flow2.steps.s1.toJSON();
+          const json = flow.steps.s1.toJSON();
           assert.equal(json.name, "s1");
           done();
         } catch (e) {
           done(e);
         }
-      }, done);
+      });
     });
 
     it('steps config should be present', function (done) {
-      makePromise(flowDecls).then(function (manager) {
-        const flow2 = manager.flowDefinitions.flow2;
-        assert.equal(flow2.steps.s1.config.port, 77);
+      runFlowTest(flowDecls, 'flow2', done, function (flow) {
+        assert.equal(flow.steps.s1.config.port, 77);
         done();
       }, done);
     });
 
     it('endpoints should be present', function (done) {
-      makePromise(flowDecls).then(function (manager) {
+      runFlowTest(flowDecls, 'flow2', done, function (flow) {
         try {
-          const flow2 = manager.flowDefinitions.flow2;
-
-          assert.equal(flow2.steps.s1.endpoints.out.name, "out");
+          assert.equal(flow.steps.s1.endpoints.out.name, "out");
           done();
         } catch (e) {
           done(e);
@@ -119,22 +121,19 @@ describe('declaration', function () {
     });
 
     it('substeps are present', function (done) {
-      makePromise(flowDecls).then(function (manager) {
-        const flow2 = manager.flowDefinitions.flow2;
-
-        assert.equal(flow2.steps.s2.steps.s2_1.name, "s2_1");
+      runFlowTest(flowDecls, 'flow2', done, function (flow) {
+        assert.equal(flow.steps.s2.steps.s2_1.name, "s2_1");
         done();
       }, done);
     });
 
     it('substeps endpoint linking is present', function (done) {
-      makePromise(flowDecls).then(function (manager) {
+      runFlowTest(flowDecls, 'flow2', done, function (flow) {
         try {
-          const flow2 = manager.flowDefinitions.flow2;
-          assert.equal(flow2.steps.s2.endpoints.in.name, 'in');
-          assert.equal(flow2.steps.s2.endpoints.in.target, 'step:steps/s2_1/in', 'target present');
-          assert.equal(flow2.steps.s2.endpoints.out.name, 'out');
-          assert.equal(flow2.steps.s2.endpoints.out.direction, 'out(active,passive)');
+          assert.equal(flow.steps.s2.endpoints.in.name, 'in');
+          assert.equal(flow.steps.s2.endpoints.in.target, 'step:steps/s2_1/in', 'target present');
+          assert.equal(flow.steps.s2.endpoints.out.name, 'out');
+          assert.equal(flow.steps.s2.endpoints.out.direction, 'out(active,passive)');
           done();
         } catch (e) {
           done(e);
@@ -143,10 +142,9 @@ describe('declaration', function () {
     });
 
     it('json', function (done) {
-      makePromise(flowDecls).then(function (manager) {
+      runFlowTest(flowDecls, 'flow2', done, function (flow) {
         try {
-          const flow2 = manager.flowDefinitions.flow2;
-          const json = flow2.toJSON();
+          const json = flow.toJSON();
           assert.equal(json.name, 'flow2');
 
           //console.log(`${JSON.stringify(json.steps.s1,undefined,' ')}`);
