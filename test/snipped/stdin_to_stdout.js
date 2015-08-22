@@ -47,7 +47,11 @@ const floDecls = {
 kronos.manager({
 	flows: floDecls
 }).then(function (manager) {
-	manager.intializeFlow('flow1');
+	manager.flowDefinitions.flow1.start().then(function (flow) {
+		console.log("Started");
+	}, function (error) {
+		console.log(error);
+	});
 }, function (error) {
 	console.log(error);
 });
