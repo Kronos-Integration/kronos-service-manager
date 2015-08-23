@@ -11,15 +11,15 @@ const should = chai.should();
 
 const kronos = require('../lib/manager.js');
 const flow = require('../lib/flow');
-const progressReporter = require('../lib/progressReporter');
+const scopeReporter = require("scope-reporter");
 
 describe('flow with errors', function () {
-
-  function makePromise(flowDecls, progressEntries) {
+  function makePromise(flowDecls, scopeReports) {
     return kronos.manager({
       flows: flowDecls,
-      progressReporter: progressReporter.defaultProgressReporter(function (entry) {
-        progressEntries.push(entry);
+      scopeReporter: scopeReporter.createReporter(undefined,function (reporter) {
+        //console.log(`push ${JSON.stringify(reporter)}`);
+        scopeReports.push(reporter);
       })
     });
   }
@@ -37,16 +37,18 @@ describe('flow with errors', function () {
     };
 
     it('progress entries should be filled with error', function (done) {
-      let progressEntries = [];
-      makePromise(flowDecls, progressEntries).then(function (manager) {
+      let scopeReports = [];
+      makePromise(flowDecls, scopeReports).then(function (manager) {
         try {
-          //console.log(`${JSON.stringify(progressEntries)}`);
 
-          assert(progressEntries.length !== 0);
-          const pe = progressEntries[0];
-          assert.equal(pe.severity, 'error');
-          assert.equal(pe.properties.endpoint, 'in');
-          assert.equal(pe.message,
+          assert.lengthOf(scopeReports, 3);
+          const sc = scopeReports[0];
+
+          console.log(`SC: ${JSON.stringify(sc)}`);
+
+          //assert.equal(sc.scope('severity').values.severity, 'error');
+          //assert.equal(sc.scope('endpoint').values.endpoint, 'in');
+          assert.equal(sc.scope('severty').values.message,
             'Mandatory ${endpoint} not defined');
           done();
         } catch (e) {
@@ -57,11 +59,11 @@ describe('flow with errors', function () {
 
 
     it('error entry should have scope', function (done) {
-      let progressEntries = [];
+      let scopeReports = [];
 
-      makePromise(flowDecls, progressEntries).then(function (manager) {
+      makePromise(flowDecls, scopeReports).then(function (manager) {
         try {
-          const pe = progressEntries[0];
+          const pe = scopeReports[0];
           assert.equal(pe.scope[0].name, 'flow');
           assert.equal(pe.scope[0].properties.flow, 'flow1');
           //assert(pe.scope[1].name === 'step');
@@ -92,12 +94,12 @@ describe('flow with errors', function () {
     };
 
     it('progress entries should be filled with error', function (done) {
-      let progressEntries = [];
+      let scopeReports = [];
 
-      makePromise(flowDecls, progressEntries).then(function (manager) {
+      makePromise(flowDecls, scopeReports).then(function (manager) {
         try {
-          assert(progressEntries.length !== 0);
-          const pe = progressEntries[0];
+          assert(scopeReports.length !== 0);
+          const pe = scopeReports[0];
           assert.equal(pe.severity, 'error');
           assert.equal(pe.properties.type, 'copy2');
           assert.equal(pe.message, 'Step ${type} implementation not found');
@@ -109,11 +111,11 @@ describe('flow with errors', function () {
     });
 
     it('error entry should have scope', function (done) {
-      let progressEntries = [];
+      let scopeReports = [];
 
-      makePromise(flowDecls, progressEntries).then(function (manager) {
+      makePromise(flowDecls, scopeReports).then(function (manager) {
         try {
-          const pe = progressEntries[0];
+          const pe = scopeReports[0];
           assert.equal(pe.scope[0].name, 'flow');
           assert.equal(pe.scope[0].properties.flow, 'myFlow');
           assert.equal(pe.scope[1].name, 'step');
