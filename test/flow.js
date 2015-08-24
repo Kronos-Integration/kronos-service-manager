@@ -19,7 +19,6 @@ function runFlowTest(flowDecls, flowName, done, test) {
   }).then(function (manager) {
     try {
       const flow = manager.flowDefinitions[flowName];
-      assert.equal(flow.manager, manager);
       assert(flow, "flow object missing");
       test(flow);
     } catch (e) {

@@ -16,15 +16,16 @@ const scopeReporter = require("scope-reporter");
 describe('flow with errors', function () {
   function makePromise(flowDecls, scopeReports) {
     return kronos.manager({
-      flows: flowDecls,
-      scopeReporter: scopeReporter.createReporter(undefined,function (reporter) {
-        //console.log(`push ${JSON.stringify(reporter)}`);
-        scopeReports.push(reporter);
+      scopeReporter: scopeReporter.createReporter(undefined, function (reporter) {
+        //console.log(`push ${JSON.stringify(reporter.toJSON())}`);
+        scopeReports.push(reporter.toJSON());
       })
+    }).then(function (manager) {
+      return manager.registerFlows(flowDecls);
     });
   }
 
-  describe('endpoint missing', function () {
+  describe('Mandatory endpoint not defined', function () {
     const flowDecls = {
       "flow1": {
         "description": "Test",
@@ -36,48 +37,46 @@ describe('flow with errors', function () {
       }
     };
 
-    it('progress entries should be filled with error', function (done) {
+    it('scopeReports filled', function (done) {
       let scopeReports = [];
       makePromise(flowDecls, scopeReports).then(function (manager) {
         try {
-
           assert.lengthOf(scopeReports, 3);
-          const sc = scopeReports[0];
+          assert.deepEqual(scopeReports[0], {
+            "scopes": [{
+              "name": "flow",
+              "properties": {
+                "name": "flow1"
+              }
+            }, {
+              "name": "step",
+              "properties": {
+                "name": "s1"
+              }
+            }, {
+              "name": "endpoint",
+              "properties": {
+                "name": "in"
+              }
+            }, {
+              "name": "severity",
+              "properties": {
+                "severity": "error",
+                "message": "Mandatory endpoint not defined"
+              }
+            }]
+          });
+          //console.log(`SC: ${JSON.stringify(scopeReports)}`);
 
-          console.log(`SC: ${JSON.stringify(sc)}`);
-
-          //assert.equal(sc.scope('severity').values.severity, 'error');
-          //assert.equal(sc.scope('endpoint').values.endpoint, 'in');
-          assert.equal(sc.scope('severty').values.message,
-            'Mandatory ${endpoint} not defined');
           done();
         } catch (e) {
           done(e);
         }
       }, done);
     });
-
-
-    it('error entry should have scope', function (done) {
-      let scopeReports = [];
-
-      makePromise(flowDecls, scopeReports).then(function (manager) {
-        try {
-          const pe = scopeReports[0];
-          assert.equal(pe.scope[0].name, 'flow');
-          assert.equal(pe.scope[0].properties.flow, 'flow1');
-          //assert(pe.scope[1].name === 'step');
-          //assert(pe.scope[1].properties.step === 's1');
-          done();
-        } catch (e) {
-          done(e);
-        }
-      }, done);
-    });
-
   });
 
-  describe('step type', function () {
+  describe('Step implementation not found', function () {
     const flowDecls = {
       "myFlow": {
         "description": "Test",
@@ -93,38 +92,44 @@ describe('flow with errors', function () {
       }
     };
 
-    it('progress entries should be filled with error', function (done) {
+    it('scopeReports filled', function (done) {
       let scopeReports = [];
 
       makePromise(flowDecls, scopeReports).then(function (manager) {
         try {
-          assert(scopeReports.length !== 0);
-          const pe = scopeReports[0];
-          assert.equal(pe.severity, 'error');
-          assert.equal(pe.properties.type, 'copy2');
-          assert.equal(pe.message, 'Step ${type} implementation not found');
+          assert.lengthOf(scopeReports, 1);
+          //console.log(`SC: ${JSON.stringify(scopeReports)}`);
+          assert.deepEqual(scopeReports[0], {
+            "scopes": [{
+              "name": "flow",
+              "properties": {
+                "name": "myFlow"
+              }
+            }, {
+              "name": "step",
+              "properties": {
+                "name": "s1"
+              }
+            }, {
+              "name": "step-type",
+              "properties": {
+                "name": "copy2"
+              }
+            }, {
+              "name": "severity",
+              "properties": {
+                "severity": "error",
+                "message": "Step implementation not found"
+              }
+            }]
+          });
           done();
         } catch (e) {
           done(e);
         }
-      }, done);
-    });
-
-    it('error entry should have scope', function (done) {
-      let scopeReports = [];
-
-      makePromise(flowDecls, scopeReports).then(function (manager) {
-        try {
-          const pe = scopeReports[0];
-          assert.equal(pe.scope[0].name, 'flow');
-          assert.equal(pe.scope[0].properties.flow, 'myFlow');
-          assert.equal(pe.scope[1].name, 'step');
-          assert.equal(pe.scope[1].properties.step, 's1');
-          done();
-        } catch (e) {
-          done(e);
-        }
-      }, done);
+      }, function (e) {
+        done(e);
+      });
     });
   });
 });
