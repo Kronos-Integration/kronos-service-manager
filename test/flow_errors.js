@@ -21,6 +21,7 @@ describe('flow with errors', function () {
         scopeReports.push(reporter.toJSON());
       })
     }).then(function (manager) {
+      require('kronos-service-manager-addon').registerWithManager(manager);
       return manager.registerFlows(flowDecls);
     });
   }

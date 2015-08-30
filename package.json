@@ -25,13 +25,13 @@
     "mocha": "2.2.5",
     "mocha-html-reporter": "^0.0.1",
     "stream-equal": "^0.1.5",
-    "tmp": "0.0.26"
+    "tmp": "0.0.26",
+    "kronos-service-manager-addon": "git+ssh://donkey@mfelten.de/Groups/donkey/git/kronos-service-manager-addon.git"
   },
   "dependencies": {
     "expression-expander": "^2.0.0",
     "fifo": "2.1.0",
     "kronos-flow": "git+ssh://donkey@mfelten.de/Groups/donkey/git/kronos-flow.git",
-    "kronos-service-manager-addon": "git+ssh://donkey@mfelten.de/Groups/donkey/git/kronos-service-manager-addon.git",
     "kronos-step": "git+ssh://donkey@mfelten.de/Groups/donkey/git/kronos-step.git",
     "log4js": "0.6.26",
     "scope-reporter": "^1.1.2",

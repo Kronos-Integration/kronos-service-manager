@@ -21,6 +21,8 @@ function runFlowTest(flowDecls, flowName, done, test) {
   }).then(function (manager) {
     theManager = manager;
 
+    require('kronos-service-manager-addon').registerWithManager(manager);
+
     manager.registerFlows(flowDecls).then(
       function (flows) {
         try {
@@ -30,8 +32,7 @@ function runFlowTest(flowDecls, flowName, done, test) {
         } catch (e) {
           done(e);
         }
-      }
-    , done);
+      }, done);
   }, done);
 }
 

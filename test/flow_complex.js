@@ -15,6 +15,8 @@ function runFlowTest(flowDecls, flowName, done, test) {
   return kronos.manager({
     validateSchema: false
   }).then(function (manager) {
+    require('kronos-service-manager-addon').registerWithManager(manager);
+
     manager.registerFlows(flows).then(function () {
       try {
         const flow = manager.flowDefinitions[flowName];
