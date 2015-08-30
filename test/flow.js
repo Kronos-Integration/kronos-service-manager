@@ -11,20 +11,28 @@ const should = chai.should();
 
 const kronos = require('../lib/manager.js');
 
+
+let theManager;
+
 function runFlowTest(flowDecls, flowName, done, test) {
   return kronos.manager({
     name: "myManager",
-    validateSchema: false,
-    flows: flowDecls
+    validateSchema: false
   }).then(function (manager) {
-    try {
-      const flow = manager.flowDefinitions[flowName];
-      assert(flow, "flow object missing");
-      test(flow);
-    } catch (e) {
-      done(e);
-    }
-  },done);
+    theManager = manager;
+
+    manager.registerFlows(flowDecls).then(
+      function (flows) {
+        try {
+          const flow = manager.flowDefinitions[flowName];
+          assert(flow, "flow object missing");
+          test(flow);
+        } catch (e) {
+          done(e);
+        }
+      }
+    , done);
+  }, done);
 }
 
 describe('flow', function () {
@@ -53,28 +61,28 @@ describe('flow', function () {
     describe('attributes', function () {
       it('has a description', function (done) {
         runFlowTest(flowDecls, 'flow1', done, function (flow) {
-          assert.equal(flow.description,'the flow description');
+          assert.equal(flow.description, 'the flow description');
           done();
         });
       });
 
       it('has some endpoints', function (done) {
         runFlowTest(flowDecls, 'flow1', done, function (flow) {
-          assert.equal(flow.steps.s1.endpoints.out.contentInfoProcessing.fileName,'${name}');
+          assert.equal(flow.steps.s1.endpoints.out.contentInfoProcessing.fileName, '${name}');
           done();
         });
       });
 
       it('has a manager', function (done) {
         runFlowTest(flowDecls, 'flow1', done, function (flow) {
-          assert.equal(flow.manager.name,'myManager');
+          assert.equal(flow.manager, theManager);
           done();
         });
       });
 
       it('has a state', function (done) {
         runFlowTest(flowDecls, 'flow1', done, function (flow) {
-          assert.equal(flow.state,'registered');
+          assert.equal(flow.state, 'registered');
           done();
         });
       });
@@ -86,9 +94,12 @@ describe('flow', function () {
           flow.pause().then(function (flow) {
             try {
               done(new Error('registered flows cannot be paused'));
+            } catch (e) {
+              done(e);
             }
-            catch(e) { done(e); }
-          },function(e) { done(); });
+          }, function (e) {
+            done();
+          });
         });
       });
 
@@ -98,9 +109,10 @@ describe('flow', function () {
             try {
               assert.equal(flow.state, 'running');
               done();
+            } catch (e) {
+              done(e);
             }
-            catch(e) { done(e); }
-          },done);
+          }, done);
         });
       });
       it('can be started and stopped again', function (done) {
@@ -110,9 +122,10 @@ describe('flow', function () {
               try {
                 assert.equal(flow.state, 'stopped');
                 done();
+              } catch (e) {
+                done(e);
               }
-              catch(e) { done(e); }
-            },done);
+            }, done);
           });
         });
       });

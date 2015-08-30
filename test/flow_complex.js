@@ -13,16 +13,17 @@ const kronos = require('../lib/manager.js');
 
 function runFlowTest(flowDecls, flowName, done, test) {
   return kronos.manager({
-    validateSchema: false,
-    flows: flowDecls
+    validateSchema: false
   }).then(function (manager) {
-    try {
-      const flow = manager.flowDefinitions[flowName];
-      assert(flow, "flow object missing");
-      test(flow);
-    } catch (e) {
-      done(e);
-    }
+    manager.registerFlows(flows).then(function () {
+      try {
+        const flow = manager.flowDefinitions[flowName];
+        assert(flow, "flow object missing");
+        test(flow);
+      } catch (e) {
+        done(e);
+      }
+    }, done);
   }, done);
 }
 
