@@ -22,11 +22,11 @@
     "file-compare": "0.0.2",
     "istanbul-harmony": "0.3.16",
     "jsdoc": "^3.3.2",
-    "mocha": "2.2.5",
+    "kronos-service-manager-addon": "git+ssh://donkey@mfelten.de/Groups/donkey/git/kronos-service-manager-addon.git",
+    "mocha": "^2.3.0",
     "mocha-html-reporter": "^0.0.1",
     "stream-equal": "^0.1.5",
-    "tmp": "0.0.26",
-    "kronos-service-manager-addon": "git+ssh://donkey@mfelten.de/Groups/donkey/git/kronos-service-manager-addon.git"
+    "tmp": "0.0.26"
   },
   "dependencies": {
     "expression-expander": "^2.0.0",
