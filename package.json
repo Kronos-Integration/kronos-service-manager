@@ -18,7 +18,6 @@
   "devDependencies": {
     "chai": "3.0.0",
     "chai-as-promised": "5.1.0",
-    "conventional-changelog-generator": "0.0.3",
     "file-compare": "0.0.2",
     "istanbul-harmony": "0.3.16",
     "jsdoc": "^3.3.2",
