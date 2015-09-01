@@ -47,13 +47,13 @@ describe('channel', function () {
 			}, es.output);
 		});
 
-		it('endpoints created', function () {
-			assert(chl.endpointA);
-			assert(chl.endpointB);
+		it('has endpoints', function () {
+			assert.isDefined(chl.endpointA);
+			assert.isDefined(chl.endpointB);
 		});
 
 		it('has a name', function () {
-			assert(chl.name === 'a/input->b/output');
+			assert.equal(chl.name, 'a/input->b/output');
 		});
 
 		it('requests passing through generator', function () {
@@ -63,7 +63,7 @@ describe('channel', function () {
 			let i = 1;
 
 			for (let request of input) {
-				//console.log(`got: ${JSON.stringify(request)}`);
+				console.log(`got: ${JSON.stringify(request)}`);
 
 				assert(request.info.name === `send from output #${i}`, `#${i} info attributes present`);
 				assert(request.stream === `a stream ${i}`, `stream ${i} present`);
@@ -94,13 +94,13 @@ describe('channel', function () {
 			}, es.output);
 		});
 
-		it('endpoints created', function () {
-			assert(chl.endpointA);
-			assert(chl.endpointB);
+		it('has endpoints', function () {
+			assert.isDefined(chl.endpointA);
+			assert.isDefined(chl.endpointB);
 		});
 
 		it('has a name', function () {
-			assert(chl.name === 'a/input->b/output');
+			assert.equal(chl.name, 'a/input->b/output');
 		});
 
 		it('requests passing through generator', function () {
