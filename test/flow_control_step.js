@@ -15,10 +15,12 @@ const fs = require('fs');
 const kronos = require('../lib/manager.js');
 
 
-function runFlowTest(flowDecls, flowName, done, test) {
+function runFlowTest(flows, flowName, done, test) {
   return kronos.manager({
     validateSchema: false,
   }).then(function (manager) {
+    require('kronos-service-manager-addon').registerWithManager(manager);
+
     manager.registerFlows(flows).then(function() {
       try {
         const flow = manager.flowDefinitions[flowName];
@@ -57,9 +59,10 @@ describe('kronos-flow-control', function () {
 
   it('exec within flow1', function (done) {
     runFlowTest(flowDecl, 'flow1', done, function (flow) {
-      flow.start();
-      assert(flow.manager.flowDefinitions.sample.name === 'sample');
-      done();
+      flow.start().then(function() {
+        assert.equal(flow.manager.flowDefinitions.sample.name, 'sample');
+        done();
+      },done);
     });
   });
 });
