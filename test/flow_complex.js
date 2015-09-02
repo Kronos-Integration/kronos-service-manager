@@ -11,7 +11,7 @@ const should = chai.should();
 
 const kronos = require('../lib/manager.js');
 
-function runFlowTest(flowDecls, flowName, done, test) {
+function runFlowTest(flows, flowName, done, test) {
   return kronos.manager({
     validateSchema: false
   }).then(function (manager) {
@@ -89,7 +89,7 @@ describe('declaration', function () {
       });
     });
 
-    it('steps should have a mata object', function (done) {
+    it('steps should have a meta object', function (done) {
       runFlowTest(flowDecls, 'flow2', done, function (flow) {
         try {
           assert.equal(flow.steps.s1.meta.name, "kronos-copy");
