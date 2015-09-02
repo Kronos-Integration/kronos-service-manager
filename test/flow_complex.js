@@ -33,7 +33,6 @@ describe('declaration', function () {
   describe('with substeps', function () {
     const flowDecls = {
       "flow2": {
-        "description": "Test",
         "steps": {
           "s1": {
             "type": "kronos-copy",
@@ -86,6 +85,7 @@ describe('declaration', function () {
     it('steps should be present', function (done) {
       runFlowTest(flowDecls, 'flow2', done, function (flow) {
         assert.equal(flow.steps.s1.name, "s1");
+        done();
       });
     });
 
@@ -133,6 +133,7 @@ describe('declaration', function () {
     it('substeps endpoint linking is present', function (done) {
       runFlowTest(flowDecls, 'flow2', done, function (flow) {
         try {
+          console.log(`FLOW: ${JSON.stringify(flow.steps.s2)}`);
           assert.equal(flow.steps.s2.endpoints.in.name, 'in');
           assert.equal(flow.steps.s2.endpoints.in.target, 'step:steps/s2_1/in', 'target present');
           assert.equal(flow.steps.s2.endpoints.out.name, 'out');
