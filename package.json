@@ -22,7 +22,7 @@
     "istanbul-harmony": "0.3.16",
     "jsdoc": "^3.3.2",
     "kronos-service-manager-addon": "git+ssh://donkey@mfelten.de/Groups/donkey/git/kronos-service-manager-addon.git",
-    "mocha": "^2.3.0",
+    "mocha": "^2.3.1",
     "mocha-html-reporter": "^0.0.1",
     "stream-equal": "^0.1.5",
     "tmp": "0.0.26"
