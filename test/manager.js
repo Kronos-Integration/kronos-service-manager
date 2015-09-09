@@ -104,10 +104,11 @@ describe('service manager', function () {
       }, done);
     });
 
-    it('should be the returned one', function (done) {
+    it('returned flows is array', function (done) {
       kronos.manager().then(function (myManager) {
         try {
           const f = myManager.registerFlows(flowDecl).then(function (flows) {
+            assert.isArray(flows);
             expect(flows[0]).to.equal(myManager.flowDefinitions.flow1);
             done();
           });
