@@ -4,7 +4,7 @@
 "use strict";
 
 const chai = require('chai');
-chai.use(require("chai-as-promised"));
+chai.use(require('chai-as-promised'));
 const assert = chai.assert;
 const expect = chai.expect;
 const should = chai.should();
@@ -12,32 +12,48 @@ const should = chai.should();
 const path = require('path');
 const fs = require('fs');
 
-const kronos = require('../lib/manager.js');
+const events = require('events');
 
+const scopeReporter = require('scope-reporter');
+const createFlow = require('kronos-step').createFlow;
+const createStepImplementation = require('kronos-step').createStepImplementation;
 
-function runFlowTest(flows, flowName, done, test) {
-  return kronos.manager({
-    validateSchema: false,
-  }).then(function (manager) {
-    require('kronos-service-manager-addon').registerWithManager(manager);
-
-    manager.registerFlows(flows).then(function() {
-      try {
-        const flow = manager.flowDefinitions[flowName];
-        assert(flow, "flow object missing");
-        test(flow);
-      } catch (e) {
-        done(e);
+const allFlows = {};
+const manager = Object.create(new events.EventEmitter(), {
+  stepImplementations: {
+    value: {
+      'kronos-flow-control': createStepImplementation('kronos-flow-control', require('../lib/steps/flow_control')),
+      'kronos-copy': createStepImplementation('kronos-copy', require('../lib/steps/flow_control'))
+    }
+  },
+  endpointSchemeImplementations: {
+    value: {}
+  },
+  registerFlows: {
+    value: function (flows) {
+      for (var name in flows) {
+        allFlows[name] = flows[name];
       }
-    }, done);
-  }, done);
+      console.log(`register: ${JSON.stringify(allFlows)}`);
+    }
+  },
+  flowDefinitions: {
+    value: allFlows
+  }
+});
+
+function makeFlow(flowDecls, flowName) {
+  const sr = scopeReporter.createReporter(undefined);
+  const flow = createFlow(manager, flowDecls, sr)[0];
+  assert(flow, "flow object missing");
+  return flow;
 }
 
 describe('kronos-flow-control', function () {
   const flowStream = fs.createReadStream(path.join(__dirname, 'fixtures', 'sample.flow'), {
     encoding: 'utf8'
   });
-  const flowDecl = {
+  const flowDecls = {
     "flow1": {
       "steps": {
         "s1": {
@@ -58,11 +74,14 @@ describe('kronos-flow-control', function () {
   };
 
   it('exec within flow1', function (done) {
-    runFlowTest(flowDecl, 'flow1', done, function (flow) {
-      flow.start().then(function() {
+    const flow = makeFlow(flowDecls, 'flow1');
+    flow.start().then(function () {
+      try {
         assert.equal(flow.manager.flowDefinitions.sample.name, 'sample');
         done();
-      },done);
-    });
+      } catch (e) {
+        done(e);
+      }
+    }, done);
   });
 });
