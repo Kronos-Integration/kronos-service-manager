@@ -46,7 +46,7 @@ describe('declaration', function () {
             }
           },
           "s2": {
-            "type": "kronos-group",
+            "type": "kronos-copy",
             "endpoints": {
               "in": {
                 "connect": {
