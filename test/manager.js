@@ -79,7 +79,7 @@ describe('service manager', function () {
   describe('step registration', function () {
     it('additional steps', function (done) {
       kronos.manager().then(function (manager) {
-        manager.registerStepImplementation('step1', require('./fixtures/steps1/someStep'));
+        manager.registerStepImplementation(require('./fixtures/steps1/someStep'));
         const c = manager.stepImplementations['step1'];
         expect(c.name, 'step name').to.equal('step1');
         done();

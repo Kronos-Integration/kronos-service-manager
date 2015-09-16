@@ -22,8 +22,8 @@ const allFlows = {};
 const manager = Object.create(new events.EventEmitter(), {
   stepImplementations: {
     value: {
-      'kronos-flow-control': createStepImplementation('kronos-flow-control', require('../lib/steps/flow_control')),
-      'kronos-copy': createStepImplementation('kronos-copy', require('../lib/steps/flow_control'))
+      'kronos-flow-control': createStepImplementation(require('../lib/steps/flow_control')),
+      'kronos-copy': createStepImplementation(require('../lib/steps/flow_control'))
     }
   },
   endpointSchemeImplementations: {
