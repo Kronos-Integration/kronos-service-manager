@@ -16,21 +16,21 @@
   "author": "Markus Felten <markus.felten@gmx.de>",
   "license": "BSD-2-Clause",
   "devDependencies": {
-    "chai": "^3.2.0",
+    "chai": "3.3.0",
     "chai-as-promised": "5.1.0",
     "file-compare": "0.0.2",
     "istanbul-harmony": "0.3.16",
-    "jsdoc": "^3.3.2",
+    "jsdoc": "3.3.3",
     "kronos-service-manager-addon": "git+ssh://donkey@mfelten.de/Groups/donkey/git/kronos-service-manager-addon.git",
-    "mocha": "^2.3.2",
-    "mocha-html-reporter": "^0.0.1",
-    "stream-equal": "^0.1.5",
+    "mocha": "2.3.3",
+    "mocha-html-reporter": "0.0.1",
+    "stream-equal": "0.1.5",
     "tmp": "0.0.27"
   },
   "dependencies": {
     "kronos-step": "git+ssh://donkey@mfelten.de/Groups/donkey/git/kronos-step.git",
-    "scope-reporter": "^1.1.2",
-    "uti": "^1.9.0"
+    "scope-reporter": "1.1.2",
+    "uti": "1.9.0"
   },
   "repository": {
     "type": "git",
