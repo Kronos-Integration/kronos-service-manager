@@ -28,7 +28,7 @@
     "tmp": "0.0.27"
   },
   "dependencies": {
-    "kronos-step": "git+ssh://donkey@mfelten.de/Groups/donkey/git/kronos-step.git",
+    "kronos-step": "1.2.2",
     "scope-reporter": "^1.1.2",
     "uti": "^1.9.0"
   },
