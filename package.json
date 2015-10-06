@@ -1,17 +1,26 @@
 {
   "name": "kronos-service-manager",
-  "version": "v0.0.1",
-  "description": "Service Container abstraction",
+  "description": "Base step implementation",
   "main": "lib/manager.js",
-  "homepage": "http://kronos.io/",
   "scripts": {
     "cover": "node --harmony ./node_modules/istanbul-harmony/lib/cli.js cover --hook-run-in-context ./node_modules/mocha/bin/_mocha -- --R spec --U exports test",
-    "doc": "./node_modules/.bin/jsdoc lib/*.js",
-    "test": "mocha --harmony test/*.js",
-    "ci-test-report": "mocha --harmony --reporter mocha-html-reporter test/*.js"
+    "doc": "jsdoc lib/*.js",
+    "test": "mocha --harmony test/*_test.js",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kronos-Integration/kronos-service-manager.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Kronos-Integration/kronos-service-manager/issues"
+  },
+  "homepage": "https://github.com/Kronos-Integration/kronos-service-manager#readme",
   "engines": {
-    "node": ">=4.0.0"
+    "node": "4.0.0"
+  },
+  "release": {
+    "debug": false
   },
   "author": "Markus Felten <markus.felten@gmx.de>",
   "license": "BSD-2-Clause",
@@ -21,19 +30,12 @@
     "file-compare": "0.0.2",
     "istanbul-harmony": "0.3.16",
     "jsdoc": "^3.3.2",
-    "kronos-service-manager-addon": "git+ssh://donkey@mfelten.de/Groups/donkey/git/kronos-service-manager-addon.git",
     "mocha": "^2.3.2",
     "mocha-html-reporter": "^0.0.1",
     "stream-equal": "^0.1.5",
     "tmp": "0.0.27"
   },
   "dependencies": {
-    "kronos-step": "git+ssh://donkey@mfelten.de/Groups/donkey/git/kronos-step.git",
-    "scope-reporter": "^1.1.2",
     "uti": "^1.9.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "ssh://donkey@mfelten.de/Groups/donkey/git/kronos-service-manager.git"
   }
 }
