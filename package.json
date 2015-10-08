@@ -30,7 +30,7 @@
     "file-compare": "0.0.2",
     "istanbul-harmony": "0.3.16",
     "jsdoc": "^3.3.2",
-    "mocha": "^2.3.2",
+    "mocha": "^2.3.3",
     "mocha-html-reporter": "^0.0.1",
     "stream-equal": "^0.1.5",
     "tmp": "0.0.27"
