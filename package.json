@@ -29,7 +29,7 @@
     "chai-as-promised": "5.1.0",
     "file-compare": "0.0.2",
     "istanbul-harmony": "0.3.16",
-    "jsdoc": "^3.3.2",
+    "jsdoc": "^3.3.3",
     "mocha": "^2.3.2",
     "mocha-html-reporter": "^0.0.1",
     "stream-equal": "^0.1.5",
