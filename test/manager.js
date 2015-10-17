@@ -80,12 +80,16 @@ describe('service manager', function () {
   */
 
   describe('step registration', function () {
-    it('additional steps', function (done) {
+    it('registers steps present', function (done) {
       kronos.manager().then(function (manager) {
-        manager.registerStep(require('./fixtures/steps1/someStep'));
-        const c = manager.steps['step1'];
-        expect(c.name, 'step name').to.equal('step1');
-        done();
+        try {
+          manager.registerStep(require('./fixtures/steps1/someStep'));
+          const c = manager.steps['some-step'];
+          expect(c.name, 'step name').to.equal('some-step');
+          done();
+        } catch (e) {
+          done(e);
+        }
       }, done);
     });
   });
