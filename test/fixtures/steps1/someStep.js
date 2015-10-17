@@ -2,15 +2,19 @@
 
 "use strict";
 
-module.exports = {
-	"name": "step1",
-	"config": {
-		"attribute1": {}
-	},
+const step = require('kronos-step');
+
+class SomeStep extends step.Step {
+
+};
+
+SomeStep.configuration = {
+	"name": "some-step",
 	"endpoints": {
 		"in": {
-			"direction": "in(active,passive)"
+			"in": true
 		}
-	},
-	initialize(manager, stepDef) {}
+	}
 };
+
+module.exports = SomeStep;
