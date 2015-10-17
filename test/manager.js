@@ -9,27 +9,23 @@ const assert = chai.assert;
 const expect = chai.expect;
 const should = chai.should();
 
-const uti = require('uti');
-
-const kronos = require('../lib/manager.js');
+const uti = require('uti'),
+  flow = require('kronos-flow'),
+  kronos = require('../lib/manager.js');
 
 describe('service manager', function () {
   const flowDecl = {
-    "flow1": {
-      "type": "kronos-flow",
-      "steps": {
-        "s1": {
-          "type": "kronos-flow-control",
-          "config": {
-            "key1": "value1"
-          },
-          "endpoints": {
-            "in": "stdin",
-            "out": function* () {
-              do {
-                let request = yield;
-              } while (true);
-            }
+    "name": "flow1",
+    "type": "kronos-flow",
+    "steps": {
+      "s1": {
+        "type": "kronos-flow-control",
+        "endpoints": {
+          "in": "stdin",
+          "out": function* () {
+            do {
+              let request = yield;
+            } while (true);
           }
         }
       }
@@ -98,6 +94,7 @@ describe('service manager', function () {
     it('should be present', function (done) {
       kronos.manager().then(function (myManager) {
         try {
+          flow.registerWithManager(manager);
           myManager.registerFlow(flowDecl);
           const flowName = 'flow1';
           const flow = myManager.flows[flowName];
@@ -105,20 +102,6 @@ describe('service manager', function () {
           expect(flow.name).to.equal(flowName);
           expect(flow.state).to.equal("registered");
           done();
-        } catch (e) {
-          done(e);
-        }
-      }, done);
-    });
-
-    it('returned flows is array', function (done) {
-      kronos.manager().then(function (myManager) {
-        try {
-          const f = myManager.registerFlow(flowDecl).then(function (flows) {
-            assert.isArray(flows);
-            expect(flows[0]).to.equal(myManager.flows.flow1);
-            done();
-          });
         } catch (e) {
           done(e);
         }

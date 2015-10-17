@@ -37,7 +37,8 @@
     "istanbul-harmony": "0.3.16",
     "jsdoc": "^3.3.2",
     "mocha": "^2.3.2",
-    "semantic-release": "6.0.3"
+    "semantic-release": "6.0.3",
+    "kronos-flow": "git+https://github.com/Kronos-Integration/kronos-flow.git",
   },
   "dependencies": {
     "scope-reporter": "2.1.0",
