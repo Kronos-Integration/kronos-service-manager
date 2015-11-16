@@ -9,26 +9,23 @@ const assert = chai.assert;
 const expect = chai.expect;
 const should = chai.should();
 
-const uti = require('uti');
-
-const kronos = require('../lib/manager.js');
+const uti = require('uti'),
+  flow = require('kronos-flow'),
+  kronos = require('../lib/manager.js');
 
 describe('service manager', function () {
   const flowDecl = {
-    "flow1": {
-      "steps": {
-        "s1": {
-          "type": "kronos-flow-control",
-          "config": {
-            "key1": "value1"
-          },
-          "endpoints": {
-            "in": "stdin",
-            "out": function* () {
-              do {
-                let request = yield;
-              } while (true);
-            }
+    "name": "flow1",
+    "type": "kronos-flow",
+    "steps": {
+      "s1": {
+        "type": "kronos-flow-control",
+        "endpoints": {
+          "in": "stdin",
+          "out": function* () {
+            do {
+              let request = yield;
+            } while (true);
           }
         }
       }
@@ -65,24 +62,30 @@ describe('service manager', function () {
     });
   });
 
-  describe('buildin step implementations', function () {
-    it('should be present', function (done) {
-      kronos.manager().then(function (manager) {
-        const c = manager.stepImplementations['kronos-flow-control'];
-        should.exist(c);
-        expect(c.name, 'step name').to.equal('kronos-flow-control');
-        done();
-      }, done);
+  /*
+    describe('buildin step implementations', function () {
+      it('should be present', function (done) {
+        kronos.manager().then(function (manager) {
+          const c = manager.stepImplementations['kronos-flow-control'];
+          should.exist(c);
+          expect(c.name, 'step name').to.equal('kronos-flow-control');
+          done();
+        }, done);
+      });
     });
-  });
+  */
 
   describe('step registration', function () {
-    it('additional steps', function (done) {
+    it('registers steps present', function (done) {
       kronos.manager().then(function (manager) {
-        manager.registerStepImplementation(require('./fixtures/steps1/someStep'));
-        const c = manager.stepImplementations['step1'];
-        expect(c.name, 'step name').to.equal('step1');
-        done();
+        try {
+          manager.registerStep(require('./fixtures/steps1/someStep'));
+          const c = manager.steps['some-step'];
+          expect(c.name, 'step name').to.equal('some-step');
+          done();
+        } catch (e) {
+          done(e);
+        }
       }, done);
     });
   });
@@ -91,9 +94,10 @@ describe('service manager', function () {
     it('should be present', function (done) {
       kronos.manager().then(function (myManager) {
         try {
-          myManager.registerFlows(flowDecl);
+          flow.registerWithManager(manager);
+          myManager.registerFlow(flowDecl);
           const flowName = 'flow1';
-          const flow = myManager.flowDefinitions[flowName];
+          const flow = myManager.flows[flowName];
           should.exist(flow);
           expect(flow.name).to.equal(flowName);
           expect(flow.state).to.equal("registered");
@@ -104,26 +108,12 @@ describe('service manager', function () {
       }, done);
     });
 
-    it('returned flows is array', function (done) {
-      kronos.manager().then(function (myManager) {
-        try {
-          const f = myManager.registerFlows(flowDecl).then(function (flows) {
-            assert.isArray(flows);
-            expect(flows[0]).to.equal(myManager.flowDefinitions.flow1);
-            done();
-          });
-        } catch (e) {
-          done(e);
-        }
-      }, done);
-    });
-
     it('can be removed again', function (done) {
       kronos.manager().then(function (myManager) {
-        myManager.registerFlows(flowDecl);
+        myManager.registerFlow(flowDecl);
         try {
           myManager.deleteFlow('flow1').then(function () {
-            assert(myManager.flowDefinitions['flow1'] === undefined);
+            assert(myManager.flows['flow1'] === undefined);
             done();
           }, done);
         } catch (e) {

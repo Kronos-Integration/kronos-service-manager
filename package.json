@@ -1,11 +1,12 @@
 {
   "name": "kronos-service-manager",
-  "description": "Base step implementation",
+  "version": "0.0.0",
+  "description": "kronos service manger",
   "main": "lib/manager.js",
   "scripts": {
     "cover": "node --harmony ./node_modules/istanbul-harmony/lib/cli.js cover --hook-run-in-context ./node_modules/mocha/bin/_mocha -- --R spec --U exports test",
     "doc": "jsdoc lib/*.js",
-    "test": "mocha --harmony test/*_test.js",
+    "test": "mocha --harmony test/*.js",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "repository": {
@@ -17,12 +18,18 @@
   },
   "homepage": "https://github.com/Kronos-Integration/kronos-service-manager#readme",
   "engines": {
-    "node": "4.0.0"
+    "node": "4.1.2"
   },
   "release": {
     "debug": false
   },
-  "author": "Markus Felten <markus.felten@gmx.de>",
+  "contributors": [{
+    "name": "Torsten Link",
+    "email": "torstenlink@gmx.de"
+  }, {
+    "name": "Markus Felten",
+    "email": "markus.felten@gmx.de"
+  }],
   "license": "BSD-2-Clause",
   "devDependencies": {
     "chai": "3.3.0",
@@ -31,12 +38,12 @@
     "istanbul": "^0.4.0",
     "jsdoc": "^3.3.2",
     "mocha": "^2.3.2",
-    "mocha-html-reporter": "^0.0.1",
-    "stream-equal": "^0.1.5",
-    "tmp": "0.0.27"
+    "semantic-release": "6.0.3",
+    "kronos-flow": "1.2.0",
   },
   "dependencies": {
-    "kronos-step": "1.2.2",
+    "scope-reporter": "2.1.0",
+    "kronos-step": "2.0.0",
     "uti": "^1.9.0"
   }
 }
