@@ -35,7 +35,7 @@
     "chai": "3.3.0",
     "chai-as-promised": "5.1.0",
     "istanbul-harmony": "0.3.16",
-    "jsdoc": "^3.3.2",
+    "jsdoc": "^3.3.3",
     "mocha": "^2.3.2",
     "semantic-release": "6.0.3",
     "kronos-flow": "git+https://github.com/Kronos-Integration/kronos-flow.git",
