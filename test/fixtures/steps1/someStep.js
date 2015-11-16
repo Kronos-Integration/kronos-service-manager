@@ -2,19 +2,16 @@
 
 "use strict";
 
-const step = require('kronos-step');
+const BaseStep = require('kronos-step').Step;
 
-class SomeStep extends step.Step {
-
-};
-
-SomeStep.configuration = {
+const SomeStep = {
 	"name": "some-step",
 	"endpoints": {
 		"in": {
-			"in": true
+			"in": true,
+			"passive": true
 		}
 	}
 };
 
-module.exports = SomeStep;
+module.exports = Object.assign({}, BaseStep, SomeStep);

@@ -11,21 +11,19 @@ const should = chai.should();
 
 const uti = require('uti'),
   flow = require('kronos-flow'),
-  kronos = require('../lib/manager.js');
+  kronos = require('../lib/manager.js'),
+  someStepFactory = require('./fixtures/steps1/someStep');
+
 
 describe('service manager', function () {
   const flowDecl = {
-    "name": "flow1",
-    "type": "kronos-flow",
-    "steps": {
-      "s1": {
-        "type": "kronos-flow-control",
-        "endpoints": {
-          "in": "stdin",
-          "out": function* () {
-            do {
-              let request = yield;
-            } while (true);
+    "flow1": {
+      "type": "kronos-flow",
+      "steps": {
+        "s1": {
+          "type": "some-step",
+          "endpoints": {
+            "in": "stdin"
           }
         }
       }
@@ -79,7 +77,7 @@ describe('service manager', function () {
     it('registers steps present', function (done) {
       kronos.manager().then(function (manager) {
         try {
-          manager.registerStep(require('./fixtures/steps1/someStep'));
+          manager.registerStep(someStepFactory);
           const c = manager.steps['some-step'];
           expect(c.name, 'step name').to.equal('some-step');
           done();
@@ -94,13 +92,15 @@ describe('service manager', function () {
     it('should be present', function (done) {
       kronos.manager().then(function (myManager) {
         try {
-          flow.registerWithManager(manager);
-          myManager.registerFlow(flowDecl);
+          flow.registerWithManager(myManager);
+          myManager.registerStep(someStepFactory);
+          flow.loadFlows(myManager, myManager.scopeReporter, flowDecl);
+
           const flowName = 'flow1';
-          const flow = myManager.flows[flowName];
-          should.exist(flow);
-          expect(flow.name).to.equal(flowName);
-          expect(flow.state).to.equal("registered");
+          const flowFactory = myManager.flows[flowName];
+          should.exist(flowFactory);
+          expect(flowFactory.name).to.equal(flowName);
+          expect(flowFactory.state).to.equal("registered");
           done();
         } catch (e) {
           done(e);
@@ -110,10 +110,13 @@ describe('service manager', function () {
 
     it('can be removed again', function (done) {
       kronos.manager().then(function (myManager) {
-        myManager.registerFlow(flowDecl);
+        flow.registerWithManager(myManager);
+        myManager.registerStep(someStepFactory);
+        flow.loadFlows(myManager, myManager.scopeReporter, flowDecl);
+
         try {
           myManager.deleteFlow('flow1').then(function () {
-            assert(myManager.flows['flow1'] === undefined);
+            assert(myManager.flows.flow1 === undefined);
             done();
           }, done);
         } catch (e) {
