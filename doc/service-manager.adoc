@@ -30,3 +30,12 @@ If a new flow was registered at the manager it will emit an event +
 or +
 ''flowStateChanged, flow'' +
 if there was an existing flow before.
+
+==== Delete Flow
+Deletes an existing flow from the manager. Before deletion it will be stopped if necessary.
+
+[source,js]
+----
+manager.deleteFlow(flowName);
+----
+Deletes the flow with the given name
