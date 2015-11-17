@@ -97,7 +97,7 @@ describe('service manager', function () {
           const flowFactory = myManager.flows[flowName];
           should.exist(flowFactory);
           expect(flowFactory.name).to.equal(flowName);
-          expect(flowFactory.state).to.equal("registered");
+          expect(flowFactory.state).to.equal("stopped");
           done();
         } catch (e) {
           done(e);
