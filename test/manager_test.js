@@ -107,7 +107,7 @@ describe('service manager', function () {
       }, done);
     });
 
-    xit('can be removed again', function (done) {
+    it('can be removed again', function (done) {
       kronos.manager().then(function (myManager) {
         try {
           flow.registerWithManager(myManager);
