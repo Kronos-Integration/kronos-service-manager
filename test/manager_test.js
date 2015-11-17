@@ -21,10 +21,7 @@ describe('service manager', function () {
       "type": "kronos-flow",
       "steps": {
         "s1": {
-          "type": "some-step",
-          "endpoints": {
-            "in": "stdin"
-          }
+          "type": "some-step"
         }
       }
     }
@@ -105,7 +102,7 @@ describe('service manager', function () {
         } catch (e) {
           done(e);
         }
-      }, done);
+      }, done());
     });
 
     it('can be removed again', function (done) {
@@ -118,11 +115,11 @@ describe('service manager', function () {
           myManager.deleteFlow('flow1').then(function () {
             assert(myManager.flows.flow1 === undefined);
             done();
-          }, done);
+          }, done());
         } catch (e) {
           done(e);
         }
-      }, done);
+      }, done());
     });
   });
 });
