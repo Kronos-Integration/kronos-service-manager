@@ -3,11 +3,12 @@
 
 "use strict";
 
-const chai = require('chai');
+const chai = require('chai'),
+  assert = chai.assert,
+  expect = chai.expect,
+  should = chai.should();
+
 chai.use(require('chai-as-promised'));
-const assert = chai.assert;
-const expect = chai.expect;
-const should = chai.should();
 
 const uti = require('uti'),
   flow = require('kronos-flow'),
@@ -86,6 +87,8 @@ describe('service manager', function () {
   });
 
   describe('register flow', function () {
+    const flowName = 'flow1';
+
     it('should be present', function (done) {
       kronos.manager().then(function (myManager) {
         try {
@@ -93,7 +96,6 @@ describe('service manager', function () {
           myManager.registerStep(someStepFactory);
           flow.loadFlows(myManager, myManager.scopeReporter, flowDecl);
 
-          const flowName = 'flow1';
           const flowFactory = myManager.flows[flowName];
           should.exist(flowFactory);
           expect(flowFactory.name).to.equal(flowName);
@@ -102,24 +104,24 @@ describe('service manager', function () {
         } catch (e) {
           done(e);
         }
-      }, done());
+      }, done);
     });
 
     it('can be removed again', function (done) {
       kronos.manager().then(function (myManager) {
-        flow.registerWithManager(myManager);
-        myManager.registerStep(someStepFactory);
-        flow.loadFlows(myManager, myManager.scopeReporter, flowDecl);
-
         try {
-          myManager.deleteFlow('flow1').then(function () {
-            assert(myManager.flows.flow1 === undefined);
+          flow.registerWithManager(myManager);
+          myManager.registerStep(someStepFactory);
+          flow.loadFlows(myManager, myManager.scopeReporter, flowDecl);
+
+          myManager.deleteFlow(flowName).then(function () {
+            assert.equal(myManager.flows.flow1, undefined);
             done();
-          }, done());
+          }, done);
         } catch (e) {
           done(e);
         }
-      }, done());
+      }, done);
     });
   });
 });
