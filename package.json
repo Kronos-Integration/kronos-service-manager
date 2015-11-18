@@ -21,9 +21,9 @@
     "debug": false
   },
   "dependencies": {
-    "scope-reporter": "2.1.0",
     "kronos-step": "2.6.0",
-    "uti": "^1.9.0"
+    "scope-reporter": "2.1.0",
+    "uti": "1.10.0"
   },
   "devDependencies": {
     "chai": "3.4.1",
