@@ -39,7 +39,8 @@ describe('service manager', function () {
         } catch (e) {
           done(e);
         }
-      }, done);
+      }, done());
+      done("Error: manager not created");
     });
   });
 
@@ -55,6 +56,7 @@ describe('service manager', function () {
           done(e);
         }
       }, done);
+      done("Error: manager not created");
     });
   });
 
@@ -82,7 +84,8 @@ describe('service manager', function () {
         } catch (e) {
           done(e);
         }
-      }, done);
+      }, done());
+      done("Error: manager not created");
     });
   });
 
@@ -104,7 +107,8 @@ describe('service manager', function () {
         } catch (e) {
           done(e);
         }
-      }, done);
+      }, done());
+      done("Error: manager not created");
     });
 
     it('can be removed again', function (done) {
@@ -121,7 +125,8 @@ describe('service manager', function () {
         } catch (e) {
           done(e);
         }
-      }, done);
+      }, done());
+      done("Error: manager not created");
     });
   });
 });
