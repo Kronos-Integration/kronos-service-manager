@@ -21,7 +21,7 @@
     "debug": false
   },
   "dependencies": {
-    "kronos-step": "2.6.0",
+    "kronos-step": "2.7.0",
     "scope-reporter": "2.1.0",
     "uti": "1.10.0"
   },
