@@ -92,10 +92,10 @@ describe('service manager', function () {
     });
   });
 
-  describe('register flow', function () {
+  describe('flows', function () {
     const flowName = 'flow1';
 
-    it('should be present', function (done) {
+    it('registered should be present', function (done) {
       kronos.manager().then(function (myManager) {
         try {
           flow.registerWithManager(myManager);
@@ -126,6 +126,22 @@ describe('service manager', function () {
             assert.equal(myManager.flows.flow1, undefined);
             done();
           }, done);
+        } catch (e) {
+          done(e);
+        }
+      }, function () {
+        done("Manager not created");
+      });
+    });
+
+    it('deleting unknown flow rejects', function (done) {
+      kronos.manager().then(function (myManager) {
+        try {
+          myManager.deleteFlow("unknownFlow").then(function () {
+            done(new Error("shouldn fullfill: deletion of an unknown flow"));
+          }, function (reject) {
+            done();
+          });
         } catch (e) {
           done(e);
         }
