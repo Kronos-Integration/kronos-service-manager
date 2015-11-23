@@ -117,6 +117,25 @@ describe('service manager', function () {
         done("Manager not created");
       });
     });
+
+    describe('getStepInstance', function () {
+      it('not registerd should throw', function (done) {
+        kronos.manager().then(function (manager) {
+          try {
+            assert.throws(function () {
+              manager.getStepInstance({
+                type: "not-already-registered"
+              })
+            });
+            done();
+          } catch (e) {
+            done(e);
+          }
+        }, function () {
+          done("Manager not created");
+        });
+      });
+    });
   });
 
   describe('flows', function () {
