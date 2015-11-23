@@ -15,18 +15,17 @@ const uti = require('uti'),
   kronos = require('../lib/manager.js'),
   someStepFactory = require('./fixtures/steps1/someStep');
 
+const flowDecl = {
+  "name": "flow1",
+  "type": "kronos-flow",
+  "steps": {
+    "s1": {
+      "type": "some-step"
+    }
+  }
+};
 
 describe('service manager', function () {
-  const flowDecl = {
-    "flow1": {
-      "type": "kronos-flow",
-      "steps": {
-        "s1": {
-          "type": "some-step"
-        }
-      }
-    }
-  };
   describe('std attributes', function () {
     it('should have a name', function (done) {
       kronos.manager({
@@ -62,18 +61,44 @@ describe('service manager', function () {
     });
   });
 
-  /*
-    describe('buildin step implementations', function () {
-      it('should be present', function (done) {
-        kronos.manager().then(function (manager) {
-          const c = manager.stepImplementations['kronos-flow-control'];
-          should.exist(c);
-          expect(c.name, 'step name').to.equal('kronos-flow-control');
-          done();
-        }, done);
+  describe('shutdown', function () {
+    it('empty', function (done) {
+      kronos.manager().then(function (manager) {
+        try {
+          manager.shutdown().then(
+            function (manager) {
+              done();
+            }, done
+          );
+        } catch (e) {
+          done(e);
+        }
+      }, function () {
+        done("Manager not created");
       });
     });
-  */
+
+    it('with flows', function (done) {
+      kronos.manager().then(function (manager) {
+        try {
+          manager.registerStep(someStepFactory);
+          flow.registerWithManager(manager);
+          manager.registerFlow(manager.getStepInstance(flowDecl));
+
+          manager.shutdown().then(
+            function (manager) {
+              done();
+            }, done
+          );
+        } catch (e) {
+          done(e);
+        }
+      }, function () {
+        done("Manager not created");
+      });
+    });
+
+  });
 
   describe('step registration', function () {
     it('registers steps present', function (done) {
@@ -100,12 +125,12 @@ describe('service manager', function () {
         try {
           flow.registerWithManager(myManager);
           myManager.registerStep(someStepFactory);
-          flow.loadFlows(myManager, myManager.scopeReporter, flowDecl);
+          myManager.registerFlow(myManager.getStepInstance(flowDecl));
 
-          const flowFactory = myManager.flows[flowName];
-          should.exist(flowFactory);
-          expect(flowFactory.name).to.equal(flowName);
-          expect(flowFactory.state).to.equal("stopped");
+          const aFlow = myManager.flows[flowName];
+          should.exist(aFlow);
+          expect(aFlow.name).to.equal(flowName);
+          expect(aFlow.state).to.equal("stopped");
           done();
         } catch (e) {
           done(e);
@@ -120,7 +145,7 @@ describe('service manager', function () {
         try {
           flow.registerWithManager(myManager);
           myManager.registerStep(someStepFactory);
-          flow.loadFlows(myManager, myManager.scopeReporter, flowDecl);
+          myManager.registerFlow(myManager.getStepInstance(flowDecl));
 
           myManager.deleteFlow(flowName).then(function () {
             assert.equal(myManager.flows.flow1, undefined);
