@@ -83,13 +83,15 @@ describe('service manager', function () {
         try {
           manager.registerStep(someStepFactory);
           flow.registerWithManager(manager);
-          manager.registerFlow(manager.getStepInstance(flowDecl));
-
-          manager.shutdown().then(
-            function (manager) {
-              done();
-            }, done
-          );
+          const aFlow = manager.getStepInstance(flowDecl);
+          manager.registerFlow(aFlow);
+          aFlow.start().then(function () {
+            manager.shutdown().then(
+              function (manager) {
+                done();
+              }, done
+            );
+          });
         } catch (e) {
           done(e);
         }
