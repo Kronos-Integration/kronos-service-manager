@@ -106,9 +106,13 @@ describe('service manager', function () {
     it('registers steps present', function (done) {
       kronos.manager().then(function (manager) {
         try {
+          let stepFromEvent;
+          manager.addListener('stepRegistered', step => stepFromEvent = step);
+
           manager.registerStep(someStepFactory);
-          const c = manager.steps['some-step'];
-          expect(c.name, 'step name').to.equal('some-step');
+          const myStep = manager.steps['some-step'];
+          expect(myStep.name, 'step name').to.equal('some-step');
+          assert.equal(stepFromEvent, myStep);
           done();
         } catch (e) {
           done(e);
@@ -144,6 +148,9 @@ describe('service manager', function () {
     it('registered should be present', function (done) {
       kronos.manager().then(function (myManager) {
         try {
+          let flowFromEvent;
+          myManager.addListener('flowRegistered', flow => flowFromEvent = flow);
+
           flow.registerWithManager(myManager);
           myManager.registerStep(someStepFactory);
           myManager.registerFlow(myManager.getStepInstance(flowDecl));
@@ -152,6 +159,8 @@ describe('service manager', function () {
           should.exist(aFlow);
           expect(aFlow.name).to.equal(flowName);
           expect(aFlow.state).to.equal("stopped");
+
+          assert.equal(flowFromEvent, aFlow);
           done();
         } catch (e) {
           done(e);
@@ -164,13 +173,30 @@ describe('service manager', function () {
     it('can be removed again', function (done) {
       kronos.manager().then(function (myManager) {
         try {
+          let removedStepFromEventDone = false;
+
+          myManager.addListener('stepStateChanged', (step, oldState, newState) => {
+            if (newState === 'removed' && step.name === 'flow1') {
+              removedStepFromEventDone = true;
+            }
+          });
+
           flow.registerWithManager(myManager);
           myManager.registerStep(someStepFactory);
           myManager.registerFlow(myManager.getStepInstance(flowDecl));
 
           myManager.deleteFlow(flowName).then(function () {
-            assert.equal(myManager.flows.flow1, undefined);
-            done();
+            try {
+              assert.equal(myManager.flows.flow1, undefined);
+
+              // stepStateChanged may get fired late ??
+              setTimeout(function () {
+                assert.isTrue(removedStepFromEventDone);
+                done();
+              }, 10);
+            } catch (e) {
+              done(e);
+            }
           }, done);
         } catch (e) {
           done(e);
