@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "kronos-step": "2.7.1",
-    "scope-reporter": "2.2.0",
+    "scope-reporter": "2.3.0",
     "uti": "1.10.0"
   },
   "devDependencies": {
