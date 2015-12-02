@@ -3,6 +3,9 @@
   "conformsTo": "public.json",
   "fileNameExtension": ".flow"
 }, {
+  "name": "org.kronos.flow.command",
+  "conformsTo": "public.json"
+}, {
   "name": "org.kronos.log",
   "conformsTo": "public.data"
 }, {
