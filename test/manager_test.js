@@ -64,6 +64,26 @@ describe('service manager', function () {
     });
   });
 
+  describe('config', function () {
+    it('can be defined', function (done) {
+      kronos.manager().then(function (manager) {
+          try {
+            const myConfig = 4711;
+
+            assert.equal(manager.configGet('key'), undefined);
+            assert.equal(manager.configGet('key', (key) => myConfig), myConfig);
+            assert.equal(manager.configGet('key'), myConfig);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        },
+        function () {
+          done("Manager not created");
+        });
+    });
+  });
+
   describe('uti definitions', function () {
     it('should be present', function (done) {
       kronos.manager().then(function (manager) {
