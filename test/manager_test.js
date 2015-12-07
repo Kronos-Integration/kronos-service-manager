@@ -153,6 +153,12 @@ describe('service manager', function () {
           const myStep = manager.steps['some-step'];
           expect(myStep.name, 'step name').to.equal('some-step');
           assert.equal(stepFromEvent, myStep);
+
+          // do not fire a 2nd. time stepRegistered
+          stepFromEvent = undefined;
+          manager.registerStep(someStepFactory);
+          assert.equal(stepFromEvent, undefined);
+
           done();
         } catch (e) {
           done(e);
