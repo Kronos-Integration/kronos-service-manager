@@ -21,7 +21,7 @@
     "verifyRelease": "cracks"
   },
   "dependencies": {
-    "kronos-step": "2.8.0",
+    "kronos-step": "2.7.1",
     "scope-reporter": "2.3.0",
     "uti": "1.10.0"
   },
