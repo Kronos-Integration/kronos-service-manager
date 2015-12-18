@@ -44,35 +44,20 @@ describe('service manager', function () {
     });
   });
 
-  describe('modules', function () {
+  describe('services', function () {
     it('can be defined', function (done) {
       kronos.manager().then(function (manager) {
           try {
-            const myModule = {};
+            const value1 = 4711;
 
-            assert.equal(manager.moduleGet('key'), undefined);
-            assert.equal(manager.moduleGet('key', (key) => myModule), myModule);
-            assert.equal(manager.moduleGet('key'), myModule);
-            done();
-          } catch (e) {
-            done(e);
-          }
-        },
-        function () {
-          done("Manager not created");
-        });
-    });
-  });
-
-  describe('config', function () {
-    it('can be defined', function (done) {
-      kronos.manager().then(function (manager) {
-          try {
-            const myConfig = 4711;
-
-            assert.equal(manager.configGet('key'), undefined);
-            assert.equal(manager.configGet('key', (key) => myConfig), myConfig);
-            assert.equal(manager.configGet('key'), myConfig);
+            assert.equal(manager.serviceGet('service1'), undefined);
+            assert.equal(manager.serviceGet('service1', serviceName => {
+              return {
+                key1: value1
+              };
+            }).key1, value1);
+            assert.equal(manager.serviceGet('service1').key1, value1);
+            assert.equal(manager.serviceGet('service1').state, 'stopped');
             done();
           } catch (e) {
             done(e);
