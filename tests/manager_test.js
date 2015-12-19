@@ -45,7 +45,7 @@ describe('service manager', function () {
   });
 
   describe('services', function () {
-    it('can be defined', function (done) {
+    it('simple definition', function (done) {
       kronos.manager().then(function (manager) {
           try {
             const value1 = 4711;
@@ -58,6 +58,41 @@ describe('service manager', function () {
             }).key1, value1);
             assert.equal(manager.serviceGet('service1').key1, value1);
             assert.equal(manager.serviceGet('service1').state, 'stopped');
+            done();
+          } catch (e) {
+            done(e);
+          }
+        },
+        function () {
+          done("Manager not created");
+        });
+    });
+    it('derived definition', function (done) {
+      kronos.manager().then(function (manager) {
+          try {
+            manager.serviceRegister('abstract', {
+              _start() {
+                  return Promise.resolve(this);
+                },
+                abstractKey: 'abstractValue'
+            });
+
+            const abstract = manager.serviceGet('abstract');
+
+            assert.equal(abstract.name, 'abstract');
+            assert.equal(abstract.abstractKey, 'abstractValue');
+
+            manager.serviceRegister('derived', {
+              name: 'abstract',
+              derivedKey: 'derivedValue'
+            });
+
+            const derived = manager.serviceGet('derived');
+            assert.equal(derived.name, 'derived');
+            assert.equal(derived.abstractKey, 'abstractValue');
+
+            assert.equal(derived.derivedKey, 'derivedValue');
+
             done();
           } catch (e) {
             done(e);
