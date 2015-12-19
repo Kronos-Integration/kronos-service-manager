@@ -70,7 +70,7 @@ describe('service manager', function () {
     it('derived definition', function (done) {
       kronos.manager().then(function (manager) {
           try {
-            manager.serviceRegister('abstract', {
+            const returnedService = manager.serviceRegister('abstract', {
               _start() {
                   return Promise.resolve(this);
                 },
@@ -78,6 +78,7 @@ describe('service manager', function () {
             });
 
             const abstract = manager.serviceGet('abstract');
+            assert.equal(abstract, returnedService);
 
             assert.equal(abstract.name, 'abstract');
             assert.equal(abstract.abstractKey, 'abstractValue');
