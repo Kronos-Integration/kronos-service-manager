@@ -19,7 +19,7 @@
   "homepage": "https://github.com/Kronos-Integration/kronos-service-manager#readme",
   "release": {},
   "dependencies": {
-    "kronos-service": "1.1.0",
+    "kronos-service": "1.1.1",
     "kronos-step": "2.9.0",
     "scope-reporter": "2.3.0",
     "uti": "1.10.0"
