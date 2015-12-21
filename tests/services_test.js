@@ -12,6 +12,16 @@ chai.use(require('chai-as-promised'));
 
 const kronos = require('../lib/manager.js');
 
+
+const servicesDefaults = {
+  service1: {
+    key2: "default value 1"
+  },
+  service2: {
+    key2: "default value 2"
+  }
+};
+
 describe('service manager', function () {
   describe('services', function () {
     it('simple definition', function (done) {
@@ -73,4 +83,28 @@ describe('service manager', function () {
         });
     });
   });
+  it('default values', function (done) {
+    kronos.manager({
+      services: servicesDefaults
+    }).then(function (manager) {
+        try {
+          const service1 = manager.serviceRegister('service1');
+          assert.equal(service1.key2, 'default value 1');
+
+          const service2 = manager.serviceRegister('service2', {
+            key1: "special value"
+          });
+          assert.equal(service2.key1, 'special value');
+          assert.equal(service2.key2, 'default value 2');
+
+          done();
+        } catch (e) {
+          done(e);
+        }
+      },
+      function () {
+        done("Manager not created");
+      });
+  });
+
 });
