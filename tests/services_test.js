@@ -18,13 +18,14 @@ const servicesDefaults = {
     key2: "default value 1"
   },
   service2: {
-    key2: "default value 2"
+    key2: "default value 2",
+    logLevel: "trace"
   }
 };
 
 describe('service manager', function () {
   describe('services', function () {
-    it('simple definition', function (done) {
+    it('simple registration', function (done) {
       kronos.manager().then(function (manager) {
           try {
             const value1 = 4711;
@@ -46,7 +47,8 @@ describe('service manager', function () {
           done("Manager not created");
         });
     });
-    it('derived definition', function (done) {
+
+    it('derived registration', function (done) {
       kronos.manager().then(function (manager) {
           try {
             const returnedService = manager.serviceRegister('abstract', {
@@ -83,6 +85,36 @@ describe('service manager', function () {
         });
     });
   });
+
+  it('simple declaration', function (done) {
+    kronos.manager().then(function (manager) {
+        try {
+          const abstract = manager.serviceRegister('abstract', {
+            _start() {
+                return Promise.resolve(this);
+              },
+              abstractKey: 'abstractValue'
+          });
+
+          const myService = manager.serviceDeclare('abstract', {
+            'name': "myService",
+            port: 4711,
+            logLevel: "trace"
+          });
+
+          assert.equal(myService.name, 'myService');
+          assert.equal(myService.port, 4711);
+          assert.equal(myService.logLevel, "trace");
+          done();
+        } catch (e) {
+          done(e);
+        }
+      },
+      function () {
+        done("Manager not created");
+      });
+  });
+
   it('default values', function (done) {
     kronos.manager({
       services: servicesDefaults
@@ -96,6 +128,7 @@ describe('service manager', function () {
           });
           assert.equal(service2.key1, 'special value');
           assert.equal(service2.key2, 'default value 2');
+          assert.equal(service2.logLevel, 'trace');
 
           done();
         } catch (e) {
