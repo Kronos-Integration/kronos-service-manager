@@ -20,6 +20,10 @@ const servicesDefaults = {
   service2: {
     key2: "default value 2",
     logLevel: "trace"
+  },
+  myService: {
+    fromDefault: "default value 3",
+    logLevel: "error"
   }
 };
 
@@ -87,7 +91,9 @@ describe('service manager', function () {
   });
 
   it('simple declaration', function (done) {
-    kronos.manager().then(function (manager) {
+    kronos.manager({
+      services: servicesDefaults
+    }).then(function (manager) {
         try {
           const abstract = manager.serviceRegister('abstract', {
             _start() {
@@ -97,14 +103,16 @@ describe('service manager', function () {
           });
 
           const myService = manager.serviceDeclare('abstract', {
-            'name': "myService",
-            port: 4711,
-            logLevel: "trace"
+            "name": "myService",
+            "port": 4711,
+            //logLevel: "trace"
           });
 
+          assert.equal(myService.abstractKey, 'abstractValue');
           assert.equal(myService.name, 'myService');
           assert.equal(myService.port, 4711);
-          assert.equal(myService.logLevel, "trace");
+          assert.equal(myService.logLevel, "error");
+          assert.equal(myService.fromDefault, "default value 3");
           done();
         } catch (e) {
           done(e);
@@ -126,6 +134,7 @@ describe('service manager', function () {
           const service2 = manager.serviceRegister('service2', {
             key1: "special value"
           });
+
           assert.equal(service2.key1, 'special value');
           assert.equal(service2.key2, 'default value 2');
           assert.equal(service2.logLevel, 'trace');
