@@ -59,7 +59,7 @@ describe('service manager', function () {
               _start() {
                   return Promise.resolve(this);
                 },
-                abstractKey: 'abstractValue'
+                abstractKey: 'abstractValue',
             });
 
             const abstract = manager.serviceGet('abstract');
@@ -70,6 +70,7 @@ describe('service manager', function () {
 
             manager.serviceRegister('derived', {
               name: 'abstract',
+              autostart: true,
               derivedKey: 'derivedValue'
             });
 
@@ -78,6 +79,66 @@ describe('service manager', function () {
             assert.equal(derived.abstractKey, 'abstractValue');
 
             assert.equal(derived.derivedKey, 'derivedValue');
+            assert.equal(derived.state, 'starting');
+
+            done();
+          } catch (e) {
+            done(e);
+          }
+        },
+        function () {
+          done("Manager not created");
+        });
+    });
+
+    it('simple declaration', function (done) {
+      kronos.manager({
+        services: servicesDefaults
+      }).then(function (manager) {
+          try {
+            const abstract = manager.serviceRegister('abstract', {
+              _start() {
+                  return Promise.resolve(this);
+                },
+                abstractKey: 'abstractValue'
+            });
+
+            const myService = manager.serviceDeclare('abstract', {
+              "name": "myService",
+              "port": 4711,
+              //logLevel: "trace"
+            });
+
+            assert.equal(myService.abstractKey, 'abstractValue');
+            assert.equal(myService.name, 'myService');
+            assert.equal(myService.port, 4711);
+            assert.equal(myService.logLevel, "error");
+            assert.equal(myService.fromDefault, "default value 3");
+            done();
+          } catch (e) {
+            done(e);
+          }
+        },
+        function () {
+          done("Manager not created");
+        });
+    });
+
+    it('default values', function (done) {
+      kronos.manager({
+        services: servicesDefaults
+      }).then(function (manager) {
+          try {
+            const service1 = manager.serviceRegister('service1');
+            assert.equal(service1.key2, 'default value 1');
+
+            const service2 = manager.serviceRegister('service2', {
+              key1: "special value"
+            });
+
+            assert.equal(service2.key1, 'special value');
+            assert.equal(service2.key2, 'default value 2');
+            assert.equal(service2.logLevel, 'trace');
 
             done();
           } catch (e) {
@@ -89,64 +150,4 @@ describe('service manager', function () {
         });
     });
   });
-
-  it('simple declaration', function (done) {
-    kronos.manager({
-      services: servicesDefaults
-    }).then(function (manager) {
-        try {
-          const abstract = manager.serviceRegister('abstract', {
-            _start() {
-                return Promise.resolve(this);
-              },
-              abstractKey: 'abstractValue'
-          });
-
-          const myService = manager.serviceDeclare('abstract', {
-            "name": "myService",
-            "port": 4711,
-            //logLevel: "trace"
-          });
-
-          assert.equal(myService.abstractKey, 'abstractValue');
-          assert.equal(myService.name, 'myService');
-          assert.equal(myService.port, 4711);
-          assert.equal(myService.logLevel, "error");
-          assert.equal(myService.fromDefault, "default value 3");
-          done();
-        } catch (e) {
-          done(e);
-        }
-      },
-      function () {
-        done("Manager not created");
-      });
-  });
-
-  it('default values', function (done) {
-    kronos.manager({
-      services: servicesDefaults
-    }).then(function (manager) {
-        try {
-          const service1 = manager.serviceRegister('service1');
-          assert.equal(service1.key2, 'default value 1');
-
-          const service2 = manager.serviceRegister('service2', {
-            key1: "special value"
-          });
-
-          assert.equal(service2.key1, 'special value');
-          assert.equal(service2.key2, 'default value 2');
-          assert.equal(service2.logLevel, 'trace');
-
-          done();
-        } catch (e) {
-          done(e);
-        }
-      },
-      function () {
-        done("Manager not created");
-      });
-  });
-
 });
