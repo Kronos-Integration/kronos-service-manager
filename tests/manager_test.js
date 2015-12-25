@@ -34,6 +34,9 @@ describe('service manager', function () {
         try {
           assert.equal(manager.name, 'myName');
           assert.equal(manager.toString(), 'myName');
+
+          // test if there is a log level entry point
+          manager.info(level => 'level ');
           done();
         } catch (e) {
           done(e);
