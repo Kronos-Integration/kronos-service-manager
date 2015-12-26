@@ -29,7 +29,8 @@ describe('service manager', function () {
   describe('std attributes', function () {
     it('should have a name', function (done) {
       kronos.manager({
-        name: 'myName'
+        name: 'myName',
+        logLevel: 'trace'
       }).then(function (manager) {
         try {
           assert.equal(manager.name, 'myName');
@@ -37,6 +38,7 @@ describe('service manager', function () {
 
           // test if there is a log level entry point
           manager.info(level => 'level ');
+          assert.equal(manager.logLevel, 'trace');
           done();
         } catch (e) {
           done(e);
