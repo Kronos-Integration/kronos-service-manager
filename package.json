@@ -20,7 +20,7 @@
   "release": {},
   "dependencies": {
     "kronos-service": "1.5.0",
-    "kronos-step": "2.10.2",
+    "kronos-step": "2.11.0",
     "loglevel-mixin": "^1.1.0",
     "scope-reporter": "2.3.0",
     "uti": "1.10.0"
