@@ -140,7 +140,7 @@ describe('service manager', function () {
             assert.throws(function () {
               manager.getStepInstance({
                 type: "not-already-registered"
-              })
+              });
             });
             done();
           } catch (e) {
