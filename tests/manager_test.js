@@ -153,6 +153,16 @@ describe('service manager', function () {
     });
   });
 
+  describe('interceptors', function () {
+    it('has interceptors', function (done) {
+      kronos.manager().then(function (myManager) {
+
+        assert.isDefined(myManager.interceptors);
+        done();
+      });
+    });
+  });
+
   describe('flows', function () {
     const flowName = 'flow1';
 
