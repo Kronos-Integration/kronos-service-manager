@@ -10,8 +10,7 @@ const chai = require('chai'),
 
 chai.use(require('chai-as-promised'));
 
-const uti = require('uti'),
-  flow = require('kronos-flow'),
+const flow = require('kronos-flow'),
   kronos = require('../lib/manager.js'),
   someStepFactory = require('./fixtures/steps1/someStep');
 
@@ -39,23 +38,6 @@ describe('service manager', function () {
           // test if there is a log level entry point
           manager.info(level => 'level ');
           assert.equal(manager.logLevel, 'trace');
-          done();
-        } catch (e) {
-          done(e);
-        }
-      }, function () {
-        done("Manager not created");
-      });
-    });
-  });
-
-  describe('uti definitions', function () {
-    it('should be present', function (done) {
-      kronos.manager().then(function (manager) {
-        try {
-          //console.log(`** ${manager.uti.conformsTo('org.kronos.flow','public.json')}`);
-          assert(uti.conformsTo('org.kronos.flow', 'public.json'),
-            'org.kronos.flow conformsTo public.json');
           done();
         } catch (e) {
           done(e);
