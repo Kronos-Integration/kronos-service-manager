@@ -19,7 +19,7 @@
   "homepage": "https://github.com/Kronos-Integration/kronos-service-manager#readme",
   "release": {},
   "dependencies": {
-    "kronos-service": "^1.6.3",
+    "kronos-service": "git+https://github.com/Kronos-Integration/kronos-service.git#api_rework",
     "kronos-step": "3.7.0",
     "loglevel-mixin": "^1.1.0",
     "scope-reporter": "2.3.0"
@@ -28,11 +28,11 @@
     "chai": "3.4.1",
     "chai-as-promised": "^5.2.0",
     "file-compare": "0.0.2",
-    "istanbul": "^0.4.1",
+    "istanbul": "^0.4.2",
     "jsdoc": "3.4.0",
     "kronos-flow": "1.6.1",
     "mocha": "2.3.4",
-    "semantic-release": "6.0.3"
+    "semantic-release": "6.2.0"
   },
   "contributors": [{
     "name": "Torsten Link",
