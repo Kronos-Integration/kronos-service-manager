@@ -48,21 +48,22 @@ describe('service manager', () => {
     });
   });
 
-  describe('shutdown', () => {
+  describe('stop', () => {
     it('empty', done => {
       kronos.manager().then(manager => {
-        try {
-          manager.shutdown().then(
-            manager => {
-              done();
-            }, done
-          );
-        } catch (e) {
-          done(e);
-        }
-      }, function () {
-        done("Manager not created");
-      });
+          try {
+            manager.stop().then(
+              () => {
+                done();
+              }, done
+            );
+          } catch (e) {
+            done(e);
+          }
+        },
+        function () {
+          done("Manager not created");
+        });
     });
 
     it('with flows', done => {
@@ -73,11 +74,7 @@ describe('service manager', () => {
           const aFlow = manager.getStepInstance(flowDecl);
           manager.registerFlow(aFlow);
           aFlow.start().then(() => {
-            manager.shutdown().then(
-              manager => {
-                done();
-              }, done
-            );
+            manager.stop().then(done, done);
           });
         } catch (e) {
           done(e);
@@ -110,7 +107,7 @@ describe('service manager', () => {
         } catch (e) {
           done(e);
         }
-      }, function () {
+      }, () => {
         done("Manager not created");
       });
     });
@@ -128,7 +125,7 @@ describe('service manager', () => {
           } catch (e) {
             done(e);
           }
-        }, function () {
+        }, () => {
           done("Manager not created");
         });
       });
@@ -167,7 +164,7 @@ describe('service manager', () => {
         } catch (e) {
           done(e);
         }
-      }, function () {
+      }, () => {
         done("Manager not created");
       });
     });
@@ -203,7 +200,7 @@ describe('service manager', () => {
         } catch (e) {
           done(e);
         }
-      }, function () {
+      }, () => {
         done("Manager not created");
       });
     });
@@ -219,7 +216,7 @@ describe('service manager', () => {
         } catch (e) {
           done(e);
         }
-      }, function () {
+      }, () => {
         done("Manager not created");
       });
     });
