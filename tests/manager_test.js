@@ -30,7 +30,7 @@ describe('service manager', () => {
       kronos.manager({
         name: 'myName',
         logLevel: 'trace'
-      }).then(function (manager) {
+      }).then(manager => {
         try {
           assert.equal(manager.name, 'myName');
           assert.equal(manager.toString(), 'myName');
@@ -53,7 +53,7 @@ describe('service manager', () => {
       kronos.manager().then(manager => {
         try {
           manager.shutdown().then(
-            function (manager) {
+            manager => {
               done();
             }, done
           );
@@ -72,9 +72,9 @@ describe('service manager', () => {
           flow.registerWithManager(manager);
           const aFlow = manager.getStepInstance(flowDecl);
           manager.registerFlow(aFlow);
-          aFlow.start().then(function () {
+          aFlow.start().then(() => {
             manager.shutdown().then(
-              function (manager) {
+              manager => {
                 done();
               }, done
             );
@@ -138,7 +138,6 @@ describe('service manager', () => {
   describe('interceptors', () => {
     it('has interceptors', done => {
       kronos.manager().then(myManager => {
-
         assert.isDefined(myManager.interceptors);
         done();
       });
@@ -214,7 +213,7 @@ describe('service manager', () => {
         try {
           myManager.deleteFlow("unknownFlow").then(function () {
             done(new Error("shouldn fullfill: deletion of an unknown flow"));
-          }, function (reject) {
+          }, reject => {
             done();
           });
         } catch (e) {
