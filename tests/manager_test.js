@@ -74,7 +74,9 @@ describe('service manager', () => {
           const aFlow = manager.getStepInstance(flowDecl);
           manager.registerFlow(aFlow);
           aFlow.start().then(() => {
-            manager.stop().then(done, done);
+            manager.stop().then(r => {
+              done();
+            }, done);
           });
         } catch (e) {
           done(e);
