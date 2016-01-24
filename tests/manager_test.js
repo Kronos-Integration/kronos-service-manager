@@ -24,9 +24,9 @@ const flowDecl = {
   }
 };
 
-describe('service manager', function () {
-  describe('std attributes', function () {
-    it('should have a name', function (done) {
+describe('service manager', () => {
+  describe('std attributes', () => {
+    it('should have a name', done => {
       kronos.manager({
         name: 'myName',
         logLevel: 'trace'
@@ -48,9 +48,9 @@ describe('service manager', function () {
     });
   });
 
-  describe('shutdown', function () {
-    it('empty', function (done) {
-      kronos.manager().then(function (manager) {
+  describe('shutdown', () => {
+    it('empty', done => {
+      kronos.manager().then(manager => {
         try {
           manager.shutdown().then(
             function (manager) {
@@ -65,8 +65,8 @@ describe('service manager', function () {
       });
     });
 
-    it('with flows', function (done) {
-      kronos.manager().then(function (manager) {
+    it('with flows', done => {
+      kronos.manager().then(manager => {
         try {
           manager.registerStep(someStepFactory);
           flow.registerWithManager(manager);
@@ -89,9 +89,9 @@ describe('service manager', function () {
 
   });
 
-  describe('step registration', function () {
-    it('registers steps present', function (done) {
-      kronos.manager().then(function (manager) {
+  describe('step registration', () => {
+    it('registers steps present', done => {
+      kronos.manager().then(manager => {
         try {
           let stepFromEvent;
           manager.addListener('stepRegistered', step => stepFromEvent = step);
@@ -115,9 +115,9 @@ describe('service manager', function () {
       });
     });
 
-    describe('getStepInstance', function () {
-      it('not registerd should throw', function (done) {
-        kronos.manager().then(function (manager) {
+    describe('getStepInstance', () => {
+      it('not registerd should throw', done => {
+        kronos.manager().then(manager => {
           try {
             assert.throws(function () {
               manager.getStepInstance({
@@ -135,9 +135,9 @@ describe('service manager', function () {
     });
   });
 
-  describe('interceptors', function () {
-    it('has interceptors', function (done) {
-      kronos.manager().then(function (myManager) {
+  describe('interceptors', () => {
+    it('has interceptors', done => {
+      kronos.manager().then(myManager => {
 
         assert.isDefined(myManager.interceptors);
         done();
@@ -145,11 +145,11 @@ describe('service manager', function () {
     });
   });
 
-  describe('flows', function () {
+  describe('flows', () => {
     const flowName = 'flow1';
 
-    it('registered should be present', function (done) {
-      kronos.manager().then(function (myManager) {
+    it('registered should be present', done => {
+      kronos.manager().then(myManager => {
         try {
           let flowFromEvent;
           myManager.addListener('flowRegistered', flow => flowFromEvent = flow);
@@ -173,8 +173,8 @@ describe('service manager', function () {
       });
     });
 
-    it('can be removed again', function (done) {
-      kronos.manager().then(function (myManager) {
+    it('can be removed again', done => {
+      kronos.manager().then(myManager => {
         try {
           let removedStepFromEventDone = false;
 
@@ -188,7 +188,7 @@ describe('service manager', function () {
           myManager.registerStep(someStepFactory);
           myManager.registerFlow(myManager.getStepInstance(flowDecl));
 
-          myManager.deleteFlow(flowName).then(function () {
+          myManager.deleteFlow(flowName).then(() => {
             try {
               assert.equal(myManager.flows.flow1, undefined);
 
@@ -209,8 +209,8 @@ describe('service manager', function () {
       });
     });
 
-    it('deleting unknown flow rejects', function (done) {
-      kronos.manager().then(function (myManager) {
+    it('deleting unknown flow rejects', done => {
+      kronos.manager().then(myManager => {
         try {
           myManager.deleteFlow("unknownFlow").then(function () {
             done(new Error("shouldn fullfill: deletion of an unknown flow"));
