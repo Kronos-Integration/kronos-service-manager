@@ -164,12 +164,12 @@ describe('service manager', () => {
           myManager.registerStep(someStepFactory);
           myManager.registerFlow(myManager.getStepInstance(flowDecl));
 
-          myManager.deleteFlow(flowName).then(() => {
+          myManager.unregisterFlow(flowName).then(() => {
             try {
               assert.equal(myManager.flows.flow1, undefined);
 
               // stepStateChanged may get fired late ??
-              setTimeout(function () {
+              setTimeout(() => {
                 assert.isTrue(removedStepFromEventDone);
                 done();
               }, 10);
@@ -186,7 +186,7 @@ describe('service manager', () => {
     it('deleting unknown flow rejects', done => {
       kronos.manager().then(myManager => {
         try {
-          myManager.deleteFlow("unknownFlow").then(function () {
+          myManager.unregisterFlow("unknownFlow").then(function () {
             done(new Error("should not fullfill: deletion of an unknown flow"));
           }, reject => done());
         } catch (e) {
