@@ -23,7 +23,7 @@
     "kronos-service": "git+https://github.com/Kronos-Integration/kronos-service.git#api_rework",
     "kronos-step": "^3.9.0",
     "loglevel-mixin": "^1.1.0",
-    "registry-mixin": "^1.0.1"
+    "registry-mixin": "^1.1.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",

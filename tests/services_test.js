@@ -34,7 +34,6 @@ class ServiceAbstract extends service.Service {
     Object.defineProperty(this, 'port', {
       value: config.port
     });
-
   }
 }
 
@@ -61,7 +60,7 @@ describe('service manager', () => {
 
           assert.equal(manager.services.service1, undefined);
 
-          manager.registerService(ServiceAbstract);
+          manager.registerServiceFactory(ServiceAbstract);
           const myService = manager.declareService('service1', 'abstract', {
             key1: value1
           });
@@ -78,7 +77,7 @@ describe('service manager', () => {
     it('derived registration', done => {
       kronos.manager().then(manager => {
         try {
-          manager.registerService(ServiceAbstract);
+          manager.registerServiceFactory(ServiceAbstract);
 
           const abstract = manager.services.abstract;
 
@@ -105,7 +104,7 @@ describe('service manager', () => {
     it('simple declaration', done => {
       kronos.manager(servicesDefaults).then(manager => {
         try {
-          manager.registerService(ServiceAbstract);
+          manager.registerServiceFactory(ServiceAbstract);
 
           const myService = manager.declareService('myService', 'abstract', {
             "port": 4711
