@@ -88,14 +88,14 @@ describe('service manager', () => {
             assert.equal(abstract.name, 'abstract');
 
             manager.declareService({
-              name: 'service1',
+              name: 'derived',
               type: 'abstract',
               key1: 'derivedValue'
             }).then(service => {
               const derived = manager.services.derived;
-              assert.equal(derived.name, 'derived');
-              assert.equal(derived.key1, 'derivedValue');
-              assert.equal(derived.state, 'starting');
+              assert.equal(service.name, 'derived');
+              assert.equal(service.key1, 'derivedValue');
+              assert.equal(service.state, 'running');
               done();
             }).catch(done);
           }, done).catch(done);
@@ -113,12 +113,12 @@ describe('service manager', () => {
               name: 'myService',
               type: 'abstract',
               port: 4711
-            });
-
-            assert.equal(myService.name, 'myService');
-            assert.equal(myService.port, 4711);
-            assert.equal(myService.logLevel, "info");
-            done();
+            }).then(service => {
+              assert.equal(service.name, 'myService');
+              assert.equal(service.port, 4711);
+              assert.equal(service.logLevel, "info");
+              done();
+            }).catch(done);
           }, done).catch(done);
         } catch (e) {
           done(e);

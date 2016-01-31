@@ -62,7 +62,7 @@ describe('service manager', () => {
         try {
           manager.registerStep(someStepFactory);
           flow.registerWithManager(manager);
-          const aFlow = manager.getStepInstance(flowDecl);
+          const aFlow = manager.createStepInstanceFromConfig(flowDecl);
           manager.registerFlow(aFlow);
           aFlow.start().then(() => manager.stop().then(r => done(), done));
         } catch (e) {
@@ -134,7 +134,7 @@ describe('service manager', () => {
 
           flow.registerWithManager(myManager);
           myManager.registerStep(someStepFactory);
-          myManager.registerFlow(myManager.getStepInstance(flowDecl));
+          myManager.registerFlow(myManager.createStepInstanceFromConfig(flowDecl));
 
           const aFlow = myManager.flows[flowName];
           should.exist(aFlow);
@@ -162,7 +162,7 @@ describe('service manager', () => {
 
           flow.registerWithManager(myManager);
           myManager.registerStep(someStepFactory);
-          myManager.registerFlow(myManager.getStepInstance(flowDecl));
+          myManager.registerFlow(myManager.createStepInstanceFromConfig(flowDecl));
 
           myManager.unregisterFlow(flowName).then(() => {
             try {
