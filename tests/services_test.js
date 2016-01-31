@@ -60,14 +60,18 @@ describe('service manager', () => {
 
           assert.equal(manager.services.service1, undefined);
 
-          manager.registerServiceFactory(ServiceAbstract);
-          const myService = manager.declareService('service1', 'abstract', {
-            key1: value1
-          });
-
-          assert.equal(manager.services.service1.key1, value1);
-          assert.equal(manager.services.service1.state, 'starting');
-          done();
+          manager.registerServiceFactory(ServiceAbstract).then(
+            () => {
+              return manager.declareService({
+                name: 'service1',
+                type: 'abstract',
+                key1: value1
+              }).then(service => {
+                assert.equal(service.key1, value1);
+                assert.equal(service.state, 'running');
+                done();
+              });
+            }, done).catch(done);
         } catch (e) {
           done(e);
         }
@@ -77,24 +81,24 @@ describe('service manager', () => {
     it('derived registration', done => {
       kronos.manager().then(manager => {
         try {
-          manager.registerServiceFactory(ServiceAbstract);
+          manager.registerServiceFactory(ServiceAbstract).then(() => {
+            const abstract = manager.serviceFactories.abstract;
 
-          const abstract = manager.services.abstract;
+            assert.equal(abstract, ServiceAbstract);
+            assert.equal(abstract.name, 'abstract');
 
-          assert.equal(abstract, ServiceAbstract);
-
-          assert.equal(abstract.name, 'abstract');
-
-          manager.declareService('derived', 'abstract', {
-            key1: 'derivedValue'
-          });
-
-          const derived = manager.services.derived;
-          assert.equal(derived.name, 'derived');
-          assert.equal(derived.key1, 'derivedValue');
-          assert.equal(derived.state, 'starting');
-
-          done();
+            manager.declareService({
+              name: 'service1',
+              type: 'abstract',
+              key1: 'derivedValue'
+            }).then(service => {
+              const derived = manager.services.derived;
+              assert.equal(derived.name, 'derived');
+              assert.equal(derived.key1, 'derivedValue');
+              assert.equal(derived.state, 'starting');
+              done();
+            }).catch(done);
+          }, done).catch(done);
         } catch (e) {
           done(e);
         }
@@ -104,16 +108,18 @@ describe('service manager', () => {
     it('simple declaration', done => {
       kronos.manager(servicesDefaults).then(manager => {
         try {
-          manager.registerServiceFactory(ServiceAbstract);
+          manager.registerServiceFactory(ServiceAbstract).then(() => {
+            const myService = manager.declareService({
+              name: 'myService',
+              type: 'abstract',
+              port: 4711
+            });
 
-          const myService = manager.declareService('myService', 'abstract', {
-            "port": 4711
-          });
-
-          assert.equal(myService.name, 'myService');
-          assert.equal(myService.port, 4711);
-          assert.equal(myService.logLevel, "info");
-          done();
+            assert.equal(myService.name, 'myService');
+            assert.equal(myService.port, 4711);
+            assert.equal(myService.logLevel, "info");
+            done();
+          }, done).catch(done);
         } catch (e) {
           done(e);
         }
