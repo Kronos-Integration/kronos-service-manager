@@ -1,10 +1,11 @@
 language: node_js
 node_js:
-  - 4.2
+  - 5
 sudo: false
 branches:
   only:
     - master
+    - api_rework
 cache:
   directories:
     - node_modules
