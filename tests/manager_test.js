@@ -60,11 +60,14 @@ describe('service manager', () => {
     it('with flows', done => {
       kronos.manager().then(manager => {
         try {
-          manager.registerStep(someStepFactory);
-          flow.registerWithManager(manager);
-          const aFlow = manager.createStepInstanceFromConfig(flowDecl);
-          manager.registerFlow(aFlow);
-          aFlow.start().then(() => manager.stop().then(r => done(), done));
+          Promise.all([
+            manager.registerStep(someStepFactory),
+            flow.registerWithManager(manager)
+          ]).then(() => {
+            const aFlow = manager.createStepInstanceFromConfig(flowDecl);
+            manager.registerFlow(aFlow);
+            aFlow.start().then(() => manager.stop().then(r => done(), done));
+          });
         } catch (e) {
           done(e);
         }
@@ -79,17 +82,18 @@ describe('service manager', () => {
           let stepFromEvent;
           manager.addListener('stepRegistered', step => stepFromEvent = step);
 
-          manager.registerStep(someStepFactory);
-          const myStep = manager.steps['some-step'];
-          assert.equal(myStep.name, 'some-step');
-          assert.equal(stepFromEvent, myStep);
+          manager.registerStep(someStepFactory).then(() => {
+            const myStep = manager.steps['some-step'];
+            assert.equal(myStep.name, 'some-step');
+            assert.equal(stepFromEvent, myStep);
 
-          // do not fire a 2nd. time stepRegistered
-          stepFromEvent = undefined;
-          manager.registerStep(someStepFactory);
-          assert.equal(stepFromEvent, undefined);
+            // do not fire a 2nd. time stepRegistered
+            stepFromEvent = undefined;
+            manager.registerStep(someStepFactory);
+            assert.equal(stepFromEvent, undefined);
 
-          done();
+            done();
+          });
         } catch (e) {
           done(e);
         }
@@ -132,17 +136,19 @@ describe('service manager', () => {
           let flowFromEvent;
           myManager.addListener('flowRegistered', flow => flowFromEvent = flow);
 
-          flow.registerWithManager(myManager);
-          myManager.registerStep(someStepFactory);
-          myManager.registerFlow(myManager.createStepInstanceFromConfig(flowDecl));
+          Promise.all([
+            flow.registerWithManager(myManager),
+            myManager.registerStep(someStepFactory),
+            myManager.registerFlow(myManager.createStepInstanceFromConfig(flowDecl))
+          ]).then(() => {
+            const aFlow = myManager.flows[flowName];
+            should.exist(aFlow);
+            expect(aFlow.name).to.equal(flowName);
+            expect(aFlow.state).to.equal("stopped");
 
-          const aFlow = myManager.flows[flowName];
-          should.exist(aFlow);
-          expect(aFlow.name).to.equal(flowName);
-          expect(aFlow.state).to.equal("stopped");
-
-          assert.equal(flowFromEvent, aFlow);
-          done();
+            assert.equal(flowFromEvent, aFlow);
+            done();
+          });
         } catch (e) {
           done(e);
         }
@@ -160,23 +166,25 @@ describe('service manager', () => {
             }
           });
 
-          flow.registerWithManager(myManager);
-          myManager.registerStep(someStepFactory);
-          myManager.registerFlow(myManager.createStepInstanceFromConfig(flowDecl));
+          Promise.all([
+            flow.registerWithManager(myManager),
+            myManager.registerStep(someStepFactory),
+            myManager.registerFlow(myManager.createStepInstanceFromConfig(flowDecl))
+          ]).then(() => {
+            myManager.unregisterFlow(flowName).then(() => {
+              try {
+                assert.equal(myManager.flows.flow1, undefined);
 
-          myManager.unregisterFlow(flowName).then(() => {
-            try {
-              assert.equal(myManager.flows.flow1, undefined);
-
-              // stepStateChanged may get fired late ??
-              setTimeout(() => {
-                assert.isTrue(removedStepFromEventDone);
-                done();
-              }, 10);
-            } catch (e) {
-              done(e);
-            }
-          }, done);
+                // stepStateChanged may get fired late ??
+                setTimeout(() => {
+                  assert.isTrue(removedStepFromEventDone);
+                  done();
+                }, 10);
+              } catch (e) {
+                done(e);
+              }
+            }, done);
+          });
         } catch (e) {
           done(e);
         }
@@ -186,9 +194,8 @@ describe('service manager', () => {
     it('deleting unknown flow rejects', done => {
       kronos.manager().then(myManager => {
         try {
-          myManager.unregisterFlow("unknownFlow").then(function () {
-            done(new Error("should not fullfill: deletion of an unknown flow"));
-          }, reject => done());
+          myManager.unregisterFlow("unknownFlow").then(() =>
+            done(new Error("should not fullfill: deletion of an unknown flow")), reject => done());
         } catch (e) {
           done(e);
         }
