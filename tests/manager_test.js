@@ -66,7 +66,7 @@ describe('service manager', () => {
             manager.registerStep(someStepFactory),
             flow.registerWithManager(manager)
           ]).then(() => {
-            const aFlow = manager.createStepInstanceFromConfig(flowDecl);
+            const aFlow = manager.createStepInstanceFromConfig(flowDecl, manager);
             manager.registerFlow(aFlow);
             aFlow.start().then(() => manager.stop().then(r => done(), done));
           }).catch(done);
@@ -109,7 +109,7 @@ describe('service manager', () => {
             assert.throws(function () {
               manager.createStepInstanceFromConfig({
                 type: "not-already-registered"
-              });
+              }, manager);
             });
             done();
           } catch (e) {
@@ -141,7 +141,8 @@ describe('service manager', () => {
           Promise.all([
             flow.registerWithManager(myManager),
             myManager.registerStep(someStepFactory)
-          ]).then(() => myManager.registerFlow(myManager.createStepInstanceFromConfig(flowDecl))).then(
+          ]).then(() => myManager.registerFlow(myManager.createStepInstanceFromConfig(flowDecl,
+            myManager))).then(
             () => {
               const aFlow = myManager.flows[flowName];
               should.exist(aFlow);
@@ -171,7 +172,7 @@ describe('service manager', () => {
           Promise.all([
             flow.registerWithManager(myManager),
             myManager.registerStep(someStepFactory),
-            myManager.registerFlow(myManager.createStepInstanceFromConfig(flowDecl))
+            myManager.registerFlow(myManager.createStepInstanceFromConfig(flowDecl, myManager))
           ]).then(() => {
             myManager.unregisterFlow(flowName).then(() => {
               try {
