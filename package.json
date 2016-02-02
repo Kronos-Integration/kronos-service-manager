@@ -17,11 +17,10 @@
     "url": "https://github.com/Kronos-Integration/kronos-service-manager/issues"
   },
   "homepage": "https://github.com/Kronos-Integration/kronos-service-manager#readme",
-  "release": {},
   "dependencies": {
     "kronos-flow": "git+https://github.com/Kronos-Integration/kronos-flow.git#api_rework",
     "kronos-service": "2.0.2",
-    "kronos-step": "git+https://github.com/Kronos-Integration/kronos-step.git#api_rework",
+    "kronos-step": "4.0.0",
     "loglevel-mixin": "^1.1.0",
     "registry-mixin": "^1.2.0"
   },
