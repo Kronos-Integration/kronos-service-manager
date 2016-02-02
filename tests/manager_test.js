@@ -58,7 +58,9 @@ describe('service manager', () => {
     });
 
     it('with flows', done => {
-      kronos.manager().then(manager => {
+      kronos.manager({
+        logLevel: 'info'
+      }).then(manager => {
         try {
           Promise.all([
             manager.registerStep(someStepFactory),
@@ -67,7 +69,7 @@ describe('service manager', () => {
             const aFlow = manager.createStepInstanceFromConfig(flowDecl);
             manager.registerFlow(aFlow);
             aFlow.start().then(() => manager.stop().then(r => done(), done));
-          });
+          }).catch(done);
         } catch (e) {
           done(e);
         }
@@ -89,23 +91,23 @@ describe('service manager', () => {
 
             // do not fire a 2nd. time stepRegistered
             stepFromEvent = undefined;
-            manager.registerStep(someStepFactory);
-            assert.equal(stepFromEvent, undefined);
-
-            done();
-          });
+            manager.registerStep(someStepFactory).then(() => {
+              assert.equal(stepFromEvent, undefined);
+              done();
+            });
+          }).catch(done);
         } catch (e) {
           done(e);
         }
       }, () => done("Manager not created"));
     });
 
-    describe('getStepInstance', () => {
+    describe('createStepInstanceFromConfig', () => {
       it('not registerd should throw', done => {
         kronos.manager().then(manager => {
           try {
             assert.throws(function () {
-              manager.getStepInstance({
+              manager.createStepInstanceFromConfig({
                 type: "not-already-registered"
               });
             });
@@ -138,17 +140,17 @@ describe('service manager', () => {
 
           Promise.all([
             flow.registerWithManager(myManager),
-            myManager.registerStep(someStepFactory),
-            myManager.registerFlow(myManager.createStepInstanceFromConfig(flowDecl))
-          ]).then(() => {
-            const aFlow = myManager.flows[flowName];
-            should.exist(aFlow);
-            expect(aFlow.name).to.equal(flowName);
-            expect(aFlow.state).to.equal("stopped");
+            myManager.registerStep(someStepFactory)
+          ]).then(() => myManager.registerFlow(myManager.createStepInstanceFromConfig(flowDecl))).then(
+            () => {
+              const aFlow = myManager.flows[flowName];
+              should.exist(aFlow);
+              expect(aFlow.name).to.equal(flowName);
+              expect(aFlow.state).to.equal("stopped");
 
-            assert.equal(flowFromEvent, aFlow);
-            done();
-          });
+              assert.equal(flowFromEvent, aFlow);
+              done();
+            }).catch(done);
         } catch (e) {
           done(e);
         }
