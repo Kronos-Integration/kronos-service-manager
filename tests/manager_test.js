@@ -32,6 +32,8 @@ describe('service manager', () => {
         try {
           assert.equal(manager.name, 'myName');
           assert.equal(manager.toString(), 'myName');
+          assert.equal(manager.services.logger.name, 'logger');
+          assert.equal(manager.services.config.name, 'config');
 
           // test if there is a log level entry point
           manager.info(level => 'level ');
