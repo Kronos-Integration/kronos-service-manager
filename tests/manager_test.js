@@ -171,23 +171,24 @@ describe('service manager', () => {
 
           Promise.all([
             flow.registerWithManager(myManager),
-            myManager.registerStep(someStepFactory),
-            myManager.registerFlow(myManager.createStepInstanceFromConfig(flowDecl, myManager))
-          ]).then(() => {
-            myManager.unregisterFlow(flowName).then(() => {
-              try {
-                assert.equal(myManager.flows.flow1, undefined);
+            myManager.registerStep(someStepFactory)
+          ]).then(() =>
+            myManager.registerFlow(myManager.createStepInstanceFromConfig(flowDecl, myManager))).then(
+            () => {
+              myManager.unregisterFlow(flowName).then(() => {
+                try {
+                  assert.equal(myManager.flows.flow1, undefined);
 
-                // stepStateChanged may get fired late ??
-                setTimeout(() => {
-                  assert.isTrue(removedStepFromEventDone);
-                  done();
-                }, 10);
-              } catch (e) {
-                done(e);
-              }
-            }, done);
-          });
+                  // stepStateChanged may get fired late ??
+                  setTimeout(() => {
+                    assert.isTrue(removedStepFromEventDone);
+                    done();
+                  }, 10);
+                } catch (e) {
+                  done(e);
+                }
+              }, done);
+            }).catch(done);
         } catch (e) {
           done(e);
         }
