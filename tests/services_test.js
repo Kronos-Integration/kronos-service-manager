@@ -67,6 +67,8 @@ describe('service manager', () => {
                 type: 'abstract',
                 key1: value1
               }).then(service => {
+                const service1 = manager.services.service1;
+                assert.equal(service, service1);
                 assert.equal(service.key1, value1);
                 assert.equal(service.state, 'running');
                 done();
@@ -93,6 +95,7 @@ describe('service manager', () => {
               key1: 'derivedValue'
             }).then(service => {
               const derived = manager.services.derived;
+              assert.equal(service, derived);
               assert.equal(service.name, 'derived');
               assert.equal(service.key1, 'derivedValue');
               assert.equal(service.state, 'running');
@@ -114,6 +117,7 @@ describe('service manager', () => {
               type: 'abstract',
               port: 4711
             }).then(service => {
+              assert.equal(service, manager.services.myService);
               assert.equal(service.name, 'myService');
               assert.equal(service.port, 4711);
               assert.equal(service.logLevel, "info");
