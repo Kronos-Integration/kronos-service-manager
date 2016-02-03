@@ -62,11 +62,10 @@ describe('service manager', () => {
     it('with flows', done => {
       kronos.manager({
         logLevel: 'info'
-      }).then(manager => {
+      }, [flow]).then(manager => {
         try {
           Promise.all([
-            manager.registerStep(someStepFactory),
-            flow.registerWithManager(manager)
+            manager.registerStep(someStepFactory)
           ]).then(() => {
             const aFlow = manager.createStepInstanceFromConfig(flowDecl, manager);
             manager.registerFlow(aFlow);
@@ -135,13 +134,12 @@ describe('service manager', () => {
     const flowName = 'flow1';
 
     it('registered should be present', done => {
-      kronos.manager().then(myManager => {
+      kronos.manager({}, [flow]).then(myManager => {
         try {
           let flowFromEvent;
           myManager.addListener('flowRegistered', flow => flowFromEvent = flow);
 
           Promise.all([
-            flow.registerWithManager(myManager),
             myManager.registerStep(someStepFactory)
           ]).then(() => myManager.registerFlow(myManager.createStepInstanceFromConfig(flowDecl,
             myManager))).then(
@@ -161,7 +159,7 @@ describe('service manager', () => {
     });
 
     it('can be removed again', done => {
-      kronos.manager().then(myManager => {
+      kronos.manager({}, [flow]).then(myManager => {
         try {
           let removedStepFromEventDone = false;
 
@@ -172,7 +170,6 @@ describe('service manager', () => {
           });
 
           Promise.all([
-            flow.registerWithManager(myManager),
             myManager.registerStep(someStepFactory)
           ]).then(() =>
             myManager.registerFlow(myManager.createStepInstanceFromConfig(flowDecl, myManager))).then(
