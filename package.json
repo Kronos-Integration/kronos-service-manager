@@ -44,6 +44,5 @@
   "engines": {
     "node": ">=5"
   },
-  "keywords": [
-  ]
+  "keywords": []
 }
