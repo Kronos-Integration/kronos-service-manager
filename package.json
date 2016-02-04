@@ -45,6 +45,5 @@
     "node": ">=5"
   },
   "keywords": [
-    "kronos-service"
   ]
 }
