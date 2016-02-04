@@ -1,12 +1,12 @@
 {
   "name": "kronos-service-manager",
-  "version": "0.0.0",
+  "version": "0.0.0-semantic-release",
   "description": "kronos service manger",
   "main": "lib/manager.js",
   "scripts": {
-    "cover": "node ./node_modules/istanbul/lib/cli.js cover --hook-run-in-context ./node_modules/mocha/bin/_mocha -- --R spec --U exports tests",
+    "cover": "node ./node_modules/istanbul/lib/cli.js cover --hook-run-in-context ./node_modules/mocha/bin/_mocha -- --R spec --U exports tests/*_test.js",
     "doc": "jsdoc lib/*.js",
-    "test": "mocha tests/*.js",
+    "test": "mocha tests/*_test.js",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "repository": {
@@ -22,23 +22,29 @@
     "registry-mixin": "^1.2.0"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
-    "istanbul": "^0.4.2",
+    "chai": "3.5.0",
+    "istanbul": "0.4.2",
     "jsdoc": "3.4.0",
     "kronos-flow": "2.0.0",
     "kronos-step": "^4.0.1",
-    "mocha": "^2.4.1",
+    "mocha": "2.4.5",
     "semantic-release": "6.2.0"
   },
-  "contributors": [{
-    "name": "Torsten Link",
-    "email": "torstenlink@gmx.de"
-  }, {
-    "name": "Markus Felten",
-    "email": "markus.felten@gmx.de"
-  }],
+  "contributors": [
+    {
+      "name": "Torsten Link",
+      "email": "torstenlink@gmx.de"
+    },
+    {
+      "name": "Markus Felten",
+      "email": "markus.felten@gmx.de"
+    }
+  ],
   "license": "BSD-2-Clause",
   "engines": {
     "node": ">=5"
-  }
+  },
+  "keywords": [
+    "kronos-service"
+  ]
 }
