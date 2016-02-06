@@ -54,7 +54,10 @@ const servicesDefaults = {
 describe('service manager', () => {
   describe('services', () => {
     it('simple registration', done => {
-      kronos.manager().then(manager => {
+      kronos.manager({
+        name: "s1",
+        key: 33
+      }).then(manager => {
         try {
           const value1 = 4711;
 
