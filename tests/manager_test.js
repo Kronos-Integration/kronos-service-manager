@@ -25,20 +25,17 @@ const flowDecl = {
 describe('service manager', () => {
   describe('std attributes', () => {
     it('should have a name', done => {
-      kronos.manager({
+      kronos.manager([{
         name: 'myName',
         logLevel: 'trace'
-      }).then(manager => {
+      }]).then(manager => {
         try {
-          console.log(`**** ${manager.toString()}`);
-
           assert.equal(manager.name, 'myName');
-          //assert.equal(manager.toString(), 'myName: running');
           assert.equal(manager.services.logger.name, 'logger');
           assert.equal(manager.services.config.name, 'config');
 
           // test if there is a log level entry point
-          manager.info(level => 'level ');
+          manager.info(level => 'level');
           assert.equal(manager.logLevel, 'trace');
           done();
         } catch (e) {
