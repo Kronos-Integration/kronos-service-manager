@@ -30,6 +30,7 @@ describe('service manager', () => {
         logLevel: 'trace'
       }]).then(manager => {
         try {
+          assert.equal(manager.type, 'kronos');
           assert.equal(manager.name, 'myName');
           assert.equal(manager.services.logger.name, 'logger');
           assert.equal(manager.services.config.name, 'config');
