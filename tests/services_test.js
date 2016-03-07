@@ -24,8 +24,8 @@ class ServiceAbstract extends service.Service {
     return true;
   }
 
-  constructor(config) {
-    super(config);
+  constructor(config, owner) {
+    super(config, owner);
 
     Object.defineProperty(this, 'key1', {
       value: config.key1
