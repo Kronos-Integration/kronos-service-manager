@@ -27,20 +27,17 @@
     "cz-conventional-changelog": "1.1.5",
     "istanbul": "0.4.2",
     "jsdoc": "3.4.0",
-    "kronos-flow": "2.5.11",
+    "kronos-flow": "2.5.12",
     "mocha": "2.4.5",
     "semantic-release": "6.2.1"
   },
-  "contributors": [
-    {
-      "name": "Torsten Link",
-      "email": "torstenlink@gmx.de"
-    },
-    {
-      "name": "Markus Felten",
-      "email": "markus.felten@gmx.de"
-    }
-  ],
+  "contributors": [{
+    "name": "Torsten Link",
+    "email": "torstenlink@gmx.de"
+  }, {
+    "name": "Markus Felten",
+    "email": "markus.felten@gmx.de"
+  }],
   "license": "BSD-2-Clause",
   "engines": {
     "node": ">=5"
