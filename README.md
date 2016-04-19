@@ -24,9 +24,9 @@ With [npm](http://npmjs.org) do:
 npm install kronos-service-manager
 ```
 
-Browse available [services](https://www.npmjs.com/browse/keyword/kronos-services),
-[interceptors](https://www.npmjs.com/browse/keyword/kronos-interceptors)
-and [steps](https://www.npmjs.com/browse/keyword/kronos-steps).
+Browse available [services](https://www.npmjs.com/browse/keyword/kronos-service),
+[interceptors](https://www.npmjs.com/browse/keyword/kronos-interceptor)
+and [steps](https://www.npmjs.com/browse/keyword/kronos-step).
 
 license
 =======
