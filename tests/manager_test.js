@@ -1,7 +1,7 @@
 /* global describe, it, xit */
 /* jslint node: true, esnext: true */
 
-"use strict";
+'use strict';
 
 const chai = require('chai'),
   assert = chai.assert,
@@ -13,11 +13,11 @@ const flow = require('kronos-flow'),
   someStepFactory = require('./fixtures/steps1/someStep');
 
 const flowDecl = {
-  "name": "flow1",
-  "type": "kronos-flow",
-  "steps": {
-    "s1": {
-      "type": "some-step"
+  name: 'flow1',
+  type: 'kronos-flow',
+  steps: {
+    s1: {
+      type: 'some-step'
     }
   }
 };
@@ -56,7 +56,7 @@ describe('service manager', () => {
         } catch (e) {
           done(e);
         }
-      }, () => done("Manager not created"));
+      }, () => done('Manager not created'));
     });
 
     it('with flows', done => {
@@ -74,7 +74,7 @@ describe('service manager', () => {
         } catch (e) {
           done(e);
         }
-      }, () => done("Manager not created"));
+      }, () => done('Manager not created'));
     });
   });
 
@@ -100,7 +100,7 @@ describe('service manager', () => {
         } catch (e) {
           done(e);
         }
-      }, () => done("Manager not created"));
+      }, () => done('Manager not created'));
     });
 
     describe('createStepInstanceFromConfig', () => {
@@ -109,14 +109,14 @@ describe('service manager', () => {
           try {
             assert.throws(function () {
               manager.createStepInstanceFromConfig({
-                type: "not-already-registered"
+                type: 'not-already-registered'
               }, manager);
             });
             done();
           } catch (e) {
             done(e);
           }
-        }, () => done("Manager not created"));
+        }, () => done('Manager not created'));
       });
     });
   });
@@ -147,7 +147,7 @@ describe('service manager', () => {
               const aFlow = myManager.flows[flowName];
               should.exist(aFlow);
               expect(aFlow.name).to.equal(flowName);
-              expect(aFlow.state).to.equal("stopped");
+              expect(aFlow.state).to.equal('stopped');
 
               assert.equal(flowFromEvent, aFlow);
               done();
@@ -155,7 +155,7 @@ describe('service manager', () => {
         } catch (e) {
           done(e);
         }
-      }, () => done("Manager not created"));
+      }, () => done('Manager not created'));
     });
 
     it('can be removed again', done => {
@@ -191,18 +191,18 @@ describe('service manager', () => {
         } catch (e) {
           done(e);
         }
-      }, () => done("Manager not created"));
+      }, () => done('Manager not created'));
     });
 
     it('deleting unknown flow rejects', done => {
       kronos.manager().then(myManager => {
         try {
-          myManager.unregisterFlow("unknownFlow").then(() =>
-            done(new Error("should not fullfill: deletion of an unknown flow")), reject => done());
+          myManager.unregisterFlow('unknownFlow').then(() =>
+            done(new Error('should not fullfill: deletion of an unknown flow')), reject => done());
         } catch (e) {
           done(e);
         }
-      }, () => done("Manager not created"));
+      }, () => done('Manager not created'));
     });
   });
 });
