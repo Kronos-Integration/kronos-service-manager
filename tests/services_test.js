@@ -1,7 +1,7 @@
 /* global describe, it, xit */
 /* jslint node: true, esnext: true */
 
-"use strict";
+'use strict';
 
 const chai = require('chai'),
   assert = chai.assert,
@@ -14,10 +14,10 @@ const kronos = require('../lib/manager.js');
 
 class ServiceAbstract extends service.Service {
   static get name() {
-    return "abstract";
+    return 'abstract';
   }
   get type() {
-    return "abstract";
+    return 'abstract';
   }
 
   get autostart() {
@@ -39,15 +39,15 @@ class ServiceAbstract extends service.Service {
 
 const servicesDefaults = {
   service1: {
-    key2: "default value 1"
+    key2: 'default value 1'
   },
   service2: {
-    key2: "default value 2",
-    logLevel: "trace"
+    key2: 'default value 2',
+    logLevel: 'trace'
   },
   myService: {
-    fromDefault: "default value 3",
-    logLevel: "error"
+    fromDefault: 'default value 3',
+    logLevel: 'error'
   }
 };
 
@@ -55,7 +55,7 @@ describe('service manager', () => {
   describe('services', () => {
     it('simple registration', done => {
       kronos.manager({
-        name: "s1",
+        name: 's1',
         key: 33
       }).then(manager => {
         try {
@@ -80,7 +80,7 @@ describe('service manager', () => {
         } catch (e) {
           done(e);
         }
-      }, () => done("Manager not created"));
+      }, () => done('Manager not created'));
     });
 
     it('derived registration', done => {
@@ -108,7 +108,7 @@ describe('service manager', () => {
         } catch (e) {
           done(e);
         }
-      }, () => done("Manager not created"));
+      }, () => done('Manager not created'));
     });
 
     it('simple declaration', done => {
@@ -123,14 +123,14 @@ describe('service manager', () => {
               assert.equal(service, manager.services.myService);
               assert.equal(service.name, 'myService');
               assert.equal(service.port, 4711);
-              assert.equal(service.logLevel, "info");
+              assert.equal(service.logLevel, 'info');
               done();
             }).catch(done);
           }, done).catch(done);
         } catch (e) {
           done(e);
         }
-      }, () => done("Manager not created"));
+      }, () => done('Manager not created'));
     });
   });
 });
