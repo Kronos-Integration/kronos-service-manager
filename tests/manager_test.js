@@ -85,12 +85,6 @@ describe('service manager', () => {
     it('registers steps present', done => {
       kronos.manager().then(manager => {
         try {
-          const te = new endpoint.ReceiveEndpoint('test');
-          te.receive = request => {
-            console.log(request);
-          };
-          manager.endpoints.stepState.connected = te;
-
           let stepFromEvent;
           manager.addListener('stepRegistered', step => stepFromEvent = step);
 
@@ -106,6 +100,43 @@ describe('service manager', () => {
               done();
             });
           }).catch(done);
+        } catch (e) {
+          done(e);
+        }
+      }, () => done('Manager not created'));
+    });
+
+    it('stepState endpoint', done => {
+      kronos.manager().then(manager => {
+        try {
+          const te = new endpoint.ReceiveEndpoint('test');
+          let stateChangedRequest;
+
+          te.receive = request => {
+            stateChangedRequest = request;
+            console.log(request);
+          };
+          manager.endpoints.stepState.connected = te;
+
+          manager.registerStep(someStepFactory).then(f => {
+            const flow = manager.createStepInstanceFromConfig({
+              type: 'some-step',
+              name: 'aName'
+            }, manager);
+            manager.registerFlow(flow).then(f => {
+              f.start().then(() => {
+                manager.endpoints.stepState.connected = undefined;
+                assert.deepEqual(stateChangedRequest, {
+                  type: 'stepStateChanged',
+                  step: 'aName',
+                  oldState: 'starting',
+                  newState: 'running'
+                });
+                done();
+              });
+            });
+          }).catch(done);
+
         } catch (e) {
           done(e);
         }
