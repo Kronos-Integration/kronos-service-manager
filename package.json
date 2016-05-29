@@ -29,7 +29,7 @@
     "jsdoc": "3.4.0",
     "kronos-flow": "2.5.22",
     "mocha": "2.5.3",
-    "semantic-release": "6.2.2"
+    "semantic-release": "6.3.0"
   },
   "contributors": [
     {
