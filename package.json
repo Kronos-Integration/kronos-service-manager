@@ -20,25 +20,28 @@
   "dependencies": {
     "kronos-service": "^4.0.0",
     "kronos-step": "^5.3.4",
-    "registry-mixin": "^2.0.0",
-    "model-attributes": "^1.2.0"
+    "model-attributes": "^1.5.0",
+    "registry-mixin": "^2.0.0"
   },
   "devDependencies": {
     "chai": "3.5.0",
     "cz-conventional-changelog": "1.2.0",
     "istanbul": "0.4.5",
     "jsdoc": "3.4.0",
-    "kronos-flow": "^2.5.25",
+    "kronos-flow": "^2.5.26",
     "mocha": "3.0.2",
     "semantic-release": "6.3.0"
   },
-  "contributors": [{
-    "name": "Torsten Link",
-    "email": "torstenlink@gmx.de"
-  }, {
-    "name": "Markus Felten",
-    "email": "markus.felten@gmx.de"
-  }],
+  "contributors": [
+    {
+      "name": "Torsten Link",
+      "email": "torstenlink@gmx.de"
+    },
+    {
+      "name": "Markus Felten",
+      "email": "markus.felten@gmx.de"
+    }
+  ],
   "license": "BSD-2-Clause",
   "engines": {
     "node": ">=6.5"
