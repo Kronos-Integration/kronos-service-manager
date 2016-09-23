@@ -20,7 +20,7 @@
   "dependencies": {
     "kronos-service": "^4.1.4",
     "kronos-step": "^5.3.6",
-    "model-attributes": "^2.1.0",
+    "model-attributes": "^2.2.2",
     "registry-mixin": "^2.0.0"
   },
   "devDependencies": {
