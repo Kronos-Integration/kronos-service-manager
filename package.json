@@ -20,8 +20,8 @@
   "dependencies": {
     "kronos-service": "^4.1.6",
     "kronos-step": "^5.3.7",
-    "model-attributes": "^2.2.3",
-    "registry-mixin": "^2.1.0"
+    "model-attributes": "^2.2.6",
+    "registry-mixin": "^2.1.1"
   },
   "devDependencies": {
     "chai": "3.5.0",
