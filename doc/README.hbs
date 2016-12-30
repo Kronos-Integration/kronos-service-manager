@@ -19,41 +19,12 @@ kronos-service-manager
 kronos service manger
 
 # API Reference
+{{#modules~}}
+- {{name}}
+{{/modules}}
 
-* <a name="loadFlowFromFile"></a>
-
-## loadFlowFromFile(fileName) ⇒ <code>Promise</code>
-Load a flow from a file
-
-**Kind**: global function  
-**Returns**: <code>Promise</code> - of the loaded flow  
-
-| Param | Type |
-| --- | --- |
-| fileName | <code>string</code> | 
-
-
-* <a name="willBeUnregistered"></a>
-
-## willBeUnregistered() ⇒ <code>Promise</code>
-Deletes a flow from the stored flow definitions. If the flow
-is currently running, it will be stopped first. After it
-is stopped, it will be deleted.
-
-**Kind**: global function  
-**Returns**: <code>Promise</code> - returns a promise that is fullfilled when the flow is removed
-        or one that rejects if there is no flow for the given flowName  
-
-* <a name="ServiceManager+_stop"></a>
-
-## ServiceManager._stop() ⇒ <code>Promise</code>
-Stops execution and frees all used resources.
-It will stop each flow.
-Then stop all services
-
-**Kind**: instance method of <code>ServiceManager</code>  
-**Returns**: <code>Promise</code> - that fullfills when the manager has stopped  
-
+{{#functions}}* {{>docs}}
+{{/functions}}
 * * *
 
 install
