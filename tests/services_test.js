@@ -7,12 +7,14 @@ const chai = require('chai'),
   assert = chai.assert,
   expect = chai.expect,
   should = chai.should(),
-  service = require('kronos-service');
+  {
+    Service
+  } = require('kronos-service');
 
-const kronos = require('../lib/manager.js');
+const kronos = require('../dist/module.js');
 
 
-class ServiceAbstract extends service.Service {
+class ServiceAbstract extends Service {
   static get name() {
     return 'abstract';
   }

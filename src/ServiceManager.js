@@ -2,33 +2,46 @@
 
 'use strict';
 
-const util = require('./util'),
-  rgm = require('registry-mixin'),
-  mat = require('model-attributes'),
-  endpoint = require('kronos-endpoint'),
-  service = require('kronos-service');
+import {
+  ServiceProviderMixin, Service
+}
+from 'kronos-service';
+import {
+  createAttributes, mergeAttributes
+}
+from 'model-attributes';
+import {
+  SendEndpoint
+}
+from 'kronos-endpoint';
+import {
+  defineRegistryProperties
+}
+from 'registry-mixin';
 
-class ServiceManager extends util.FlowSupportMixin(service.ServiceProviderMixin(service.Service)) {
+import FlowSupportMixin from './FlowSupportMixin';
+
+class ServiceManager extends FlowSupportMixin(ServiceProviderMixin(Service)) {
 
   static get name() {
     return 'kronos';
   }
 
   static get configurationAttributes() {
-    return Object.assign(mat.createAttributes({
+    return mergeAttributes(createAttributes({
       id: {
         description: 'node id in the cluster',
         type: 'string',
         default: 'kronos',
         needsRestart: true
       }
-    }), service.Service.configurationAttributes);
+    }), Service.configurationAttributes);
   }
 
   constructor(config) {
     super(config);
 
-    rgm.defineRegistryProperties(this, 'interceptor', {
+    defineRegistryProperties(this, 'interceptor', {
       withCreateInstance: true,
       factoryType: 'new'
     });
@@ -38,7 +51,7 @@ class ServiceManager extends util.FlowSupportMixin(service.ServiceProviderMixin(
      * createStepInstanceFromConfig({ type: "type name" },...args);
      *   calls: registeredStep.createInstance( config, ...args)
      */
-    rgm.defineRegistryProperties(this, 'step', {
+    defineRegistryProperties(this, 'step', {
       withCreateInstance: true,
       withEvents: true,
       factoryType: 'object',
@@ -46,7 +59,7 @@ class ServiceManager extends util.FlowSupportMixin(service.ServiceProviderMixin(
         // todo pass 'registry' as 2nd. argument
     });
 
-    rgm.defineRegistryProperties(this, 'flow', {
+    defineRegistryProperties(this, 'flow', {
       withEvents: true,
       hasBeenRegistered: flow => flow.autostart ? flow.start() : Promise.resolve(),
 
@@ -62,7 +75,7 @@ class ServiceManager extends util.FlowSupportMixin(service.ServiceProviderMixin(
 
     const manager = this;
 
-    this.addEndpoint(new endpoint.SendEndpoint('stepState', this, {
+    this.addEndpoint(new SendEndpoint('stepState', this, {
       hasBeenOpened() {
           manager._stepStateChangedListener = (step, oldState, newState) => {
             this.receive({
@@ -97,8 +110,13 @@ class ServiceManager extends util.FlowSupportMixin(service.ServiceProviderMixin(
  * @param {array} modules optional array of modules to register with registerWithManager
  * @return {Promise} a promise with the service manager as its value
  */
-exports.manager = function (config, modules = []) {
+function manager(config, modules = []) {
   const sm = new ServiceManager(config);
   return Promise.all(modules.map(m => m.registerWithManager(sm)))
     .then(() => sm.start().then(() => Promise.resolve(sm)));
+}
+
+export {
+  ServiceManager,
+  manager
 };

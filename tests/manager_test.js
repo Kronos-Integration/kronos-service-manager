@@ -9,8 +9,10 @@ const chai = require('chai'),
   should = chai.should();
 
 const flow = require('kronos-flow'),
-  endpoint = require('kronos-endpoint'),
-  kronos = require('../lib/manager.js'),
+  {
+    ReceiveEndpoint
+  } = require('kronos-endpoint'),
+  kronos = require('../dist/module.js'),
   someStepFactory = require('./fixtures/steps1/someStep');
 
 const flowDecl = {
@@ -109,7 +111,7 @@ describe('service manager', () => {
     it('stepState endpoint', done => {
       kronos.manager().then(manager => {
         try {
-          const te = new endpoint.ReceiveEndpoint('test');
+          const te = new ReceiveEndpoint('test');
           let stateChangedRequest;
 
           te.receive = request => {

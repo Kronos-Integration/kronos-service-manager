@@ -3,8 +3,11 @@
 [![Build Status](https://secure.travis-ci.org/Kronos-Integration/kronos-service-manager.png)](http://travis-ci.org/Kronos-Integration/kronos-service-manager)
 [![bithound](https://www.bithound.io/github/Kronos-Integration/kronos-service-manager/badges/score.svg)](https://www.bithound.io/github/Kronos-Integration/kronos-service-manager)
 [![codecov.io](http://codecov.io/github/Kronos-Integration/kronos-service-manager/coverage.svg?branch=master)](http://codecov.io/github/Kronos-Integration/kronos-service-manager?branch=master)
+[![Coverage Status](https://coveralls.io/repos/Kronos-Integration/kronos-service-manager/badge.svg)](https://coveralls.io/r/Kronos-Integration/kronos-service-manager)
 [![Code Climate](https://codeclimate.com/github/Kronos-Integration/kronos-service-manager/badges/gpa.svg)](https://codeclimate.com/github/Kronos-Integration/kronos-service-manager)
+[![Known Vulnerabilities](https://snyk.io/test/github/Kronos-Integration/kronos-service-manager/badge.svg)](https://snyk.io/test/github/Kronos-Integration/kronos-service-manager)
 [![GitHub Issues](https://img.shields.io/github/issues/Kronos-Integration/kronos-service-manager.svg?style=flat-square)](https://github.com/Kronos-Integration/kronos-service-manager/issues)
+[![Stories in Ready](https://badge.waffle.io/Kronos-Integration/kronos-service-manager.svg?label=ready&title=Ready)](http://waffle.io/Kronos-Integration/kronos-service-manager)
 [![Dependency Status](https://david-dm.org/Kronos-Integration/kronos-service-manager.svg)](https://david-dm.org/Kronos-Integration/kronos-service-manager)
 [![devDependency Status](https://david-dm.org/Kronos-Integration/kronos-service-manager/dev-status.svg)](https://david-dm.org/Kronos-Integration/kronos-service-manager#info=devDependencies)
 [![docs](http://inch-ci.org/github/Kronos-Integration/kronos-service-manager.svg?branch=master)](http://inch-ci.org/github/Kronos-Integration/kronos-service-manager)
@@ -14,6 +17,44 @@
 kronos-service-manager
 ====
 kronos service manger
+
+# API Reference
+
+* <a name="loadFlowFromFile"></a>
+
+## loadFlowFromFile(fileName) ⇒ <code>Promise</code>
+Load a flow from a file
+
+**Kind**: global function  
+**Returns**: <code>Promise</code> - of the loaded flow  
+
+| Param | Type |
+| --- | --- |
+| fileName | <code>string</code> | 
+
+
+* <a name="willBeUnregistered"></a>
+
+## willBeUnregistered() ⇒ <code>Promise</code>
+Deletes a flow from the stored flow definitions. If the flow
+is currently running, it will be stopped first. After it
+is stopped, it will be deleted.
+
+**Kind**: global function  
+**Returns**: <code>Promise</code> - returns a promise that is fullfilled when the flow is removed
+        or one that rejects if there is no flow for the given flowName  
+
+* <a name="ServiceManager+_stop"></a>
+
+## ServiceManager._stop() ⇒ <code>Promise</code>
+Stops execution and frees all used resources.
+It will stop each flow.
+Then stop all services
+
+**Kind**: instance method of <code>ServiceManager</code>  
+**Returns**: <code>Promise</code> - that fullfills when the manager has stopped  
+
+* * *
 
 install
 =======
