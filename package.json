@@ -21,16 +21,16 @@
   "homepage": "https://github.com/Kronos-Integration/kronos-service-manager#readme",
   "dependencies": {
     "kronos-service": "^4.3.1",
-    "kronos-step": "^5.3.7",
-    "model-attributes": "^3.0.1",
-    "registry-mixin": "^2.1.9"
+    "kronos-step": "^5.3.8",
+    "model-attributes": "^3.0.2",
+    "registry-mixin": "^2.1.10"
   },
   "devDependencies": {
     "chai": "^3.5.0",
     "cz-conventional-changelog": "^1.2.0",
     "istanbul": "^0.4.5",
     "jsdoc-to-markdown": "^2.0.1",
-    "kronos-flow": "^2.5.33",
+    "kronos-flow": "^2.5.34",
     "markdown-doctest": "^0.9.1",
     "mocha": "^3.2.0",
     "rollup": "^0.39.2",
@@ -50,8 +50,7 @@
   "engines": {
     "node": ">=6.9.2"
   },
-  "keywords": [
-  ],
+  "keywords": [],
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
