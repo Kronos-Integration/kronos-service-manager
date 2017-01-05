@@ -104,10 +104,10 @@ class ServiceManager extends FlowSupportMixin(ServiceProviderMixin(Service)) {
   }
 }
 
-/*
+/**
  * creates a kronos service manager.
- * @param {array} config separated for each service
- * @param {array} modules optional array of modules to register with registerWithManager
+ * @param {object[]} config separated for each service
+ * @param {string[]} [modules] modules to register with registerWithManager
  * @return {Promise} a promise with the service manager as its value
  */
 function manager(config, modules = []) {
