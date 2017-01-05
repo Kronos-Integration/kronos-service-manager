@@ -44,6 +44,20 @@ is stopped, it will be deleted.
 **Returns**: <code>Promise</code> - returns a promise that is fullfilled when the flow is removed
         or one that rejects if there is no flow for the given flowName  
 
+* <a name="manager"></a>
+
+## manager(config, [modules]) ⇒ <code>Promise</code>
+creates a kronos service manager.
+
+**Kind**: global function  
+**Returns**: <code>Promise</code> - a promise with the service manager as its value  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| config | <code>Array.&lt;object&gt;</code> | separated for each service |
+| [modules] | <code>Array.&lt;string&gt;</code> | modules to register with registerWithManager |
+
+
 * <a name="ServiceManager+_stop"></a>
 
 ## ServiceManager._stop() ⇒ <code>Promise</code>
