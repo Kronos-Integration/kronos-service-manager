@@ -22,10 +22,10 @@
   },
   "homepage": "https://github.com/Kronos-Integration/kronos-service-manager#readme",
   "dependencies": {
-    "kronos-service": "^4.5.0",
+    "kronos-service": "^4.5.1",
     "kronos-step": "^5.3.8",
-    "model-attributes": "^3.0.2",
-    "registry-mixin": "^2.1.10"
+    "model-attributes": "^3.0.3",
+    "registry-mixin": "^2.1.11"
   },
   "devDependencies": {
     "chai": "^3.5.0",
