@@ -25,7 +25,7 @@
   "dependencies": {
     "kronos-service": "^4.5.4",
     "kronos-step": "^5.3.8",
-    "model-attributes": "^3.0.8",
+    "model-attributes": "^3.0.10",
     "registry-mixin": "^2.1.14"
   },
   "devDependencies": {
