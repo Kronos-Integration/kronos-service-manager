@@ -1,19 +1,5 @@
 {
   "name": "kronos-service-manager",
-  "version": "0.0.0-semantic-release",
-  "description": "kronos service manger",
-  "main": "dist/module.js",
-  "module": "src/ServiceManager.js",
-  "scripts": {
-    "cover": "nyc npm test",
-    "test": "mocha tests/*_test.js",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
-    "docs": "jsdoc2md -l off -t doc/README.hbs -f src/*.js >README.md",
-    "pretest": "rollup -c",
-    "posttest": "markdown-doctest",
-    "precover": "rollup -c",
-    "prepare": "rollup -c"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Kronos-Integration/kronos-service-manager.git"
@@ -22,37 +8,42 @@
     "url": "https://github.com/Kronos-Integration/kronos-service-manager/issues"
   },
   "homepage": "https://github.com/Kronos-Integration/kronos-service-manager#readme",
-  "dependencies": {
-    "kronos-service": "^4.5.4",
-    "kronos-step": "^5.3.8",
-    "model-attributes": "^3.0.10",
-    "registry-mixin": "^2.1.14"
+  "scripts": {
+    "precover": "rollup -c",
+    "cover": "nyc npm test",
+    "pretest": "rollup -c",
+    "test": "mocha tests/*_test.js",
+    "posttest": "markdown-doctest",
+    "prepare": "rollup -c",
+    "docs": "jsdoc2md -l off -t doc/README.hbs -f src/*.js >README.md",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "devDependencies": {
-    "chai": "^4.1.1",
     "jsdoc-to-markdown": "^3.0.0",
-    "kronos-flow": "^2.5.34",
     "markdown-doctest": "^0.9.1",
+    "chai": "^4.1.2",
     "mocha": "^3.5.0",
-    "nyc": "^11.1.0",
+    "nyc": "^11.2.1",
     "rollup": "^0.49.2",
     "semantic-release": "^7.0.2"
   },
+  "engines": {
+    "node": ">=8.4.0"
+  },
+  "version": "0.0.0-semantic-release",
+  "description": "{{description}}",
+  "main": "dist/index.js",
+  "keywords": [
+    "npm-package-template"
+  ],
+  "dependencies": {},
   "contributors": [
-    {
-      "name": "Torsten Link",
-      "email": "torstenlink@gmx.de"
-    },
     {
       "name": "Markus Felten",
       "email": "markus.felten@gmx.de"
     }
   ],
   "license": "BSD-2-Clause",
-  "engines": {
-    "node": ">=8.4.0"
-  },
-  "keywords": [],
   "nyc": {
     "include": [
       "dist/**/*.js"
