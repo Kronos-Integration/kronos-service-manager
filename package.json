@@ -24,7 +24,7 @@
   "homepage": "https://github.com/Kronos-Integration/kronos-service-manager#readme",
   "dependencies": {
     "kronos-service": "^4.8.2",
-    "kronos-step": "^5.3.8",
+    "kronos-step": "^5.4.0",
     "model-attributes": "^3.0.10",
     "registry-mixin": "^2.1.14"
   },
