@@ -6,7 +6,6 @@ export default {
     'kronos-endpoint',
     'kronos-service',
     'model-attributes',
-    'kronos-step',
     'kronos-flow',
     'kronos-service'
   ],
