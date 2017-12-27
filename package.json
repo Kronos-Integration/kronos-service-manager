@@ -5,14 +5,15 @@
   "main": "dist/module.js",
   "module": "src/ServiceManager.js",
   "scripts": {
-    "cover": "nyc --temp-directory build/nyc npm test",
-    "test": "mocha tests/*-test.js",
+    "cover": "nyc --temp-directory build/nyc ava",
+    "test": "ava",
     "semantic-release": "semantic-release",
-    "docs": "jsdoc2md -l off -t doc/README.hbs -f src/*.js >README.md",
-    "pretest": "rollup -c",
-    "posttest": "markdown-doctest",
-    "precover": "rollup -c",
-    "prepare": "rollup -c"
+    "docs": "documentation readme src/ServiceManager.js --section=API",
+    "pretest": "rollup -c tests/rollup.config.js",
+    "posttest": "npm run prepare && markdown-doctest",
+    "precover": "rollup -c tests/rollup.config.js",
+    "prepare": "rollup -c",
+    "lint": "documentation lint src/ServiceManager.js"
   },
   "repository": {
     "type": "git",
@@ -29,14 +30,16 @@
     "registry-mixin": "^2.1.16"
   },
   "devDependencies": {
-    "chai": "^4.1.2",
     "kronos-flow": "^2.5.39",
-    "jsdoc-to-markdown": "^3.0.3",
     "markdown-doctest": "^0.9.1",
-    "mocha": "^4.0.1",
     "nyc": "^11.4.1",
     "rollup": "^0.53.0",
-    "semantic-release": "^11.1.0"
+    "semantic-release": "^11.1.0",
+    "documentation": "^5.3.5",
+    "ava": "^0.24.0",
+    "rollup-plugin-babel": "^3.0.3",
+    "rollup-plugin-multi-entry": "^2.0.2",
+    "xo": "^0.19.0"
   },
   "contributors": [
     {
@@ -64,10 +67,21 @@
   },
   "template": {
     "repository": {
-      "url": "https://github.com/Kronos-Tools/npm-package-template.git"
+      "url": "https://github.com/arlac77/npm-package-template.git"
     }
   },
   "xo": {
     "space": true
+  },
+  "ava": {
+    "files": [
+      "build/*-test.js"
+    ],
+    "presets": [
+      "env"
+    ],
+    "require": [
+      "babel-register"
+    ]
   }
 }
