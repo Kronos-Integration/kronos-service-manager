@@ -1,41 +1,32 @@
-/* jslint node: true, esnext: true */
-
-'use strict';
-
-import {
-  ServiceProviderMixin, Service
-}
-from 'kronos-service';
-import {
-  createAttributes, mergeAttributes
-}
-from 'model-attributes';
-import {
-  SendEndpoint
-}
-from 'kronos-endpoint';
-import {
-  defineRegistryProperties
-}
-from 'registry-mixin';
+import { ServiceProviderMixin, Service } from 'kronos-service';
+import { createAttributes, mergeAttributes } from 'model-attributes';
+import { SendEndpoint } from 'kronos-endpoint';
+import { defineRegistryProperties } from 'registry-mixin';
 
 import FlowSupportMixin from './FlowSupportMixin';
 
-class ServiceManager extends FlowSupportMixin(ServiceProviderMixin(Service)) {
-
+export class ServiceManager extends FlowSupportMixin(
+  ServiceProviderMixin(Service)
+) {
+  /**
+   * @return {string} 'kronos'
+   */
   static get name() {
     return 'kronos';
   }
 
   static get configurationAttributes() {
-    return mergeAttributes(createAttributes({
-      id: {
-        description: 'node id in the cluster',
-        type: 'string',
-        default: 'kronos',
-        needsRestart: true
-      }
-    }), Service.configurationAttributes);
+    return mergeAttributes(
+      createAttributes({
+        id: {
+          description: 'node id in the cluster',
+          type: 'string',
+          default: 'kronos',
+          needsRestart: true
+        }
+      }),
+      Service.configurationAttributes
+    );
   }
 
   constructor(config) {
@@ -56,12 +47,13 @@ class ServiceManager extends FlowSupportMixin(ServiceProviderMixin(Service)) {
       withEvents: true,
       factoryType: 'object',
       factoryMethod: 'createInstance'
-        // todo pass 'registry' as 2nd. argument
+      // todo pass 'registry' as 2nd. argument
     });
 
     defineRegistryProperties(this, 'flow', {
       withEvents: true,
-      hasBeenRegistered: flow => flow.autostart ? flow.start() : Promise.resolve(),
+      hasBeenRegistered: flow =>
+        flow.autostart ? flow.start() : Promise.resolve(),
 
       /**
        * Deletes a flow from the stored flow definitions. If the flow
@@ -75,8 +67,9 @@ class ServiceManager extends FlowSupportMixin(ServiceProviderMixin(Service)) {
 
     const manager = this;
 
-    this.addEndpoint(new SendEndpoint('stepState', this, {
-      hasBeenOpened() {
+    this.addEndpoint(
+      new SendEndpoint('stepState', this, {
+        hasBeenOpened() {
           manager._stepStateChangedListener = (step, oldState, newState) => {
             this.receive({
               type: 'stepStateChanged',
@@ -85,12 +78,19 @@ class ServiceManager extends FlowSupportMixin(ServiceProviderMixin(Service)) {
               newState: newState
             });
           };
-          manager.addListener('stepStateChanged', manager._stepStateChangedListener);
+          manager.addListener(
+            'stepStateChanged',
+            manager._stepStateChangedListener
+          );
         },
         willBeClosed() {
-          manager.removeListener('stepStateChanged', manager._stepStateChangedListener);
+          manager.removeListener(
+            'stepStateChanged',
+            manager._stepStateChangedListener
+          );
         }
-    }));
+      })
+    );
   }
 
   /**
@@ -100,7 +100,9 @@ class ServiceManager extends FlowSupportMixin(ServiceProviderMixin(Service)) {
    * @return {Promise} that fullfills when the manager has stopped
    */
   _stop() {
-    return Promise.all(Object.keys(this.flows).map(name => this.flows[name].stop())).then(super._stop());
+    return Promise.all(
+      Object.keys(this.flows).map(name => this.flows[name].stop())
+    ).then(super._stop());
   }
 }
 
@@ -110,13 +112,9 @@ class ServiceManager extends FlowSupportMixin(ServiceProviderMixin(Service)) {
  * @param {string[]} [modules] modules to register with registerWithManager
  * @return {Promise} a promise with the service manager as its value
  */
-function manager(config, modules = []) {
+export function manager(config, modules = []) {
   const sm = new ServiceManager(config);
-  return Promise.all(modules.map(m => m.registerWithManager(sm)))
-    .then(() => sm.start().then(() => Promise.resolve(sm)));
+  return Promise.all(modules.map(m => m.registerWithManager(sm))).then(() =>
+    sm.start().then(() => Promise.resolve(sm))
+  );
 }
-
-export {
-  ServiceManager,
-  manager
-};
