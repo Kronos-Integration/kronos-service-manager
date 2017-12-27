@@ -17,15 +17,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Kronos-Integration/kronos-service-manager.git"
+    "url":
+      "git+https://github.com/Kronos-Integration/kronos-service-manager.git"
   },
   "bugs": {
     "url": "https://github.com/Kronos-Integration/kronos-service-manager/issues"
   },
-  "homepage": "https://github.com/Kronos-Integration/kronos-service-manager#readme",
+  "homepage":
+    "https://github.com/Kronos-Integration/kronos-service-manager#readme",
   "dependencies": {
-    "kronos-step": "^5.6.4",
-    "kronos-flow": "^2.5.40",
+    "kronos-flow": "^2.5.39",
     "kronos-service": "^4.13.3",
     "model-attributes": "^3.0.10"
   },
@@ -64,21 +65,12 @@
     "space": true
   },
   "nyc": {
-    "include": [
-      "build/*-test.js",
-      "src/**/*.js"
-    ],
-    "reporter": [
-      "lcov"
-    ],
+    "include": ["build/*-test.js", "src/**/*.js"],
+    "reporter": ["lcov"],
     "report-dir": "./build/coverage"
   },
   "ava": {
-    "files": [
-      "build/*-test.js"
-    ],
-    "require": [
-      "babel-register"
-    ]
+    "files": ["build/*-test.js"],
+    "require": ["babel-register"]
   }
 }

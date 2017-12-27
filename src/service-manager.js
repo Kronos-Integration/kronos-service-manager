@@ -1,19 +1,15 @@
-import {
-  ServiceProviderMixin,
-  InterceptorProviderMixin,
-  Service
-} from 'kronos-service';
-import { StepProviderMixin } from 'kronos-step';
+import { ServiceProviderMixin, Service } from 'kronos-service';
 import { FlowProviderMixin } from 'kronos-flow';
 import { createAttributes, mergeAttributes } from 'model-attributes';
 import { SendEndpoint } from 'kronos-endpoint';
 
 import FlowSupportMixin from './flow-support-mixin';
 
+/**
+ * Convenianve class ass aggregation of Service Step Flow Interceptor provider
+ */
 export class ServiceManager extends FlowSupportMixin(
-  ServiceProviderMixin(
-    FlowProviderMixin(StepProviderMixin(InterceptorProviderMixin(Service)))
-  )
+  ServiceProviderMixin(FlowProviderMixin(Service))
 ) {
   /**
    * @return {string} 'kronos'
@@ -38,11 +34,6 @@ export class ServiceManager extends FlowSupportMixin(
 
   constructor(config) {
     super(config);
-
-    defineRegistryProperties(this, 'interceptor', {
-      withCreateInstance: true,
-      factoryType: 'new'
-    });
 
     const manager = this;
 
@@ -71,23 +62,11 @@ export class ServiceManager extends FlowSupportMixin(
       })
     );
   }
-
-  /**
-   * Stops execution and frees all used resources.
-   * It will stop each flow.
-   * Then stop all services
-   * @return {Promise} that fullfills when the manager has stopped
-   */
-  _stop() {
-    return Promise.all(
-      Object.keys(this.flows).map(name => this.flows[name].stop())
-    ).then(super._stop());
-  }
 }
 
 /**
  * creates a kronos service manager.
- * @param {object[]} config separated for each service
+ * @param {Object[]} config separated for each service
  * @param {string[]} [modules] modules to register with registerWithManager
  * @return {Promise} a promise with the service manager as its value
  */
