@@ -23,20 +23,20 @@
   },
   "homepage": "https://github.com/Kronos-Integration/kronos-service-manager#readme",
   "dependencies": {
-    "kronos-service": "^4.13.1",
     "kronos-step": "^5.6.4",
+    "kronos-service": "^4.13.3",
     "model-attributes": "^3.0.10",
     "registry-mixin": "^2.1.16"
   },
   "devDependencies": {
     "chai": "^4.1.2",
-    "jsdoc-to-markdown": "^3.0.2",
-    "kronos-flow": "^2.5.34",
+    "kronos-flow": "^2.5.39",
+    "jsdoc-to-markdown": "^3.0.3",
     "markdown-doctest": "^0.9.1",
     "mocha": "^4.0.1",
-    "nyc": "^11.4.0",
-    "rollup": "^0.52.1",
-    "semantic-release": "^10.0.1"
+    "nyc": "^11.4.1",
+    "rollup": "^0.53.0",
+    "semantic-release": "^11.1.0"
   },
   "contributors": [
     {
