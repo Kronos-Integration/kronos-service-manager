@@ -2,18 +2,18 @@
   "name": "kronos-service-manager",
   "version": "0.0.0-semantic-release",
   "description": "kronos service manger",
-  "main": "dist/module.js",
-  "module": "src/ServiceManager.js",
+  "main": "dist/service-manager.js",
+  "module": "src/service-manager.js",
   "scripts": {
     "cover": "nyc --temp-directory build/nyc ava",
     "test": "ava",
     "semantic-release": "semantic-release",
-    "docs": "documentation readme src/ServiceManager.js --section=API",
+    "docs": "documentation readme src/service-manager.js --section=API",
     "pretest": "rollup -c tests/rollup.config.js",
     "posttest": "npm run prepare && markdown-doctest",
     "precover": "rollup -c tests/rollup.config.js",
     "prepare": "rollup -c",
-    "lint": "documentation lint src/ServiceManager.js"
+    "lint": "documentation lint src/service-manager.js"
   },
   "repository": {
     "type": "git",
@@ -25,12 +25,11 @@
   "homepage": "https://github.com/Kronos-Integration/kronos-service-manager#readme",
   "dependencies": {
     "kronos-step": "^5.6.4",
+    "kronos-flow": "^2.5.39",
     "kronos-service": "^4.13.3",
-    "model-attributes": "^3.0.10",
-    "registry-mixin": "^2.1.16"
+    "model-attributes": "^3.0.10"
   },
   "devDependencies": {
-    "kronos-flow": "^2.5.39",
     "markdown-doctest": "^0.9.1",
     "nyc": "^11.4.1",
     "rollup": "^0.53.0",
@@ -56,15 +55,6 @@
     "node": ">=8.9.3"
   },
   "keywords": [],
-  "nyc": {
-    "include": [
-      "dist/**/*.js"
-    ],
-    "reporter": [
-      "lcov"
-    ],
-    "report-dir": "./coverage"
-  },
   "template": {
     "repository": {
       "url": "https://github.com/arlac77/npm-package-template.git"
@@ -73,12 +63,19 @@
   "xo": {
     "space": true
   },
+  "nyc": {
+    "include": [
+      "build/*-test.js",
+      "src/**/*.js"
+    ],
+    "reporter": [
+      "lcov"
+    ],
+    "report-dir": "./build/coverage"
+  },
   "ava": {
     "files": [
       "build/*-test.js"
-    ],
-    "presets": [
-      "env"
     ],
     "require": [
       "babel-register"
