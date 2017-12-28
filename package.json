@@ -1,9 +1,21 @@
 {
   "name": "kronos-service-manager",
   "version": "0.0.0-semantic-release",
-  "description": "kronos service manger",
   "main": "dist/service-manager.js",
   "module": "src/service-manager.js",
+  "description": "kronos service manger",
+  "keywords": [],
+  "contributors": [
+    {
+      "name": "Torsten Link",
+      "email": "torstenlink@gmx.de"
+    },
+    {
+      "name": "Markus Felten",
+      "email": "markus.felten@gmx.de"
+    }
+  ],
+  "license": "BSD-2-Clause",
   "scripts": {
     "cover": "nyc --temp-directory build/nyc ava",
     "test": "ava",
@@ -15,14 +27,6 @@
     "prepare": "rollup -c",
     "lint": "documentation lint src/service-manager.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Kronos-Integration/kronos-service-manager.git"
-  },
-  "bugs": {
-    "url": "https://github.com/Kronos-Integration/kronos-service-manager/issues"
-  },
-  "homepage": "https://github.com/Kronos-Integration/kronos-service-manager#readme",
   "dependencies": {
     "kronos-flow": "^2.5.39",
     "kronos-service": "^4.13.3",
@@ -38,28 +42,24 @@
     "rollup-plugin-multi-entry": "^2.0.2",
     "xo": "^0.19.0"
   },
-  "contributors": [
-    {
-      "name": "Torsten Link",
-      "email": "torstenlink@gmx.de"
-    },
-    {
-      "name": "Markus Felten",
-      "email": "markus.felten@gmx.de"
-    }
-  ],
-  "license": "BSD-2-Clause",
   "engines": {
     "node": ">=8.9.3"
   },
-  "keywords": [],
-  "template": {
-    "repository": {
-      "url": "https://github.com/arlac77/npm-package-template.git"
-    }
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kronos-Integration/kronos-service-manager.git"
   },
-  "xo": {
-    "space": true
+  "bugs": {
+    "url": "https://github.com/Kronos-Integration/kronos-service-manager/issues"
+  },
+  "homepage": "https://github.com/Kronos-Integration/kronos-service-manager#readme",
+  "ava": {
+    "files": [
+      "build/*-test.js"
+    ],
+    "require": [
+      "babel-register"
+    ]
   },
   "nyc": {
     "include": [
@@ -71,12 +71,12 @@
     ],
     "report-dir": "./build/coverage"
   },
-  "ava": {
-    "files": [
-      "build/*-test.js"
-    ],
-    "require": [
-      "babel-register"
-    ]
+  "xo": {
+    "space": true
+  },
+  "template": {
+    "repository": {
+      "url": "https://github.com/arlac77/npm-package-template.git"
+    }
   }
 }
