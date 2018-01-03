@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "kronos-flow": "^2.5.39",
-    "kronos-service": "^4.16.0",
+    "kronos-service": "^4.16.1",
     "model-attributes": "^3.0.10"
   },
   "devDependencies": {
