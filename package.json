@@ -1,6 +1,9 @@
 {
   "name": "kronos-service-manager",
   "version": "0.0.0-semantic-release",
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "dist/service-manager.js",
   "module": "src/service-manager.js",
   "description": "kronos service manger",
