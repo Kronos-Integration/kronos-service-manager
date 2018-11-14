@@ -62,7 +62,8 @@
   "homepage": "https://github.com/Kronos-Integration/kronos-service-manager#readme",
   "ava": {
     "files": [
-      "tests/*-test.js"
+      "tests/*-test.js",
+      "tests/*-test.mjs"
     ],
     "require": [
       "esm"
