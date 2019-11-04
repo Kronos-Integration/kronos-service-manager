@@ -30,7 +30,7 @@
   "dependencies": {
     "kronos-flow": "^2.5.39",
     "kronos-service": "^4.17.2",
-    "model-attributes": "^4.0.1"
+    "model-attributes": "^4.1.0"
   },
   "devDependencies": {
     "ava": "^2.4.0",
